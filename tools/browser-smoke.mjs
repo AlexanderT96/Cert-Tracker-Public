@@ -19,6 +19,7 @@ async function open(options){
   await page.locator('[data-market-dashboard]').waitFor({timeout:60000});
   await page.locator('[data-career-advisor]').waitFor({timeout:60000});
   await page.locator('[data-career-mentor]').waitFor({timeout:60000});
+  await page.locator('[data-weekly-coach]').waitFor({timeout:60000});
   return{context,page};
 }
 async function navigationInViewport(page){
@@ -128,10 +129,16 @@ try{
   assert.equal(await mentor.locator('.ct-mentor-scoreboard > div').count(),4,'Mentor must expose mastery, project, vacancy and application evidence');
   assert.equal(await mentor.locator('[data-knowledge-form] input[type="radio"]').count(),4,'Knowledge check must provide four automatically marked choices');
   assert.equal(await mentor.locator('[data-mentor-assessment] [data-assessment-criterion]').count(),5,'Adaptive assessment must use the complete applied-answer rubric');
-  assert.equal(await mentor.locator('[data-mentor-project] input[type="checkbox"]').count(),6,'Project review must expose every acceptance criterion');
+  assert.equal(await mentor.locator('[data-mentor-project] input[type="checkbox"]').count(),7,'Project review must expose every role-specific acceptance criterion');
   assert.ok(await mentor.locator('[data-project-export]').count(),'Project evidence must be exportable');
   assert.ok(await mentor.locator('[data-vacancy-form]').count(),'Manual vacancy evidence must remain available without a provider account');
   assert.ok(await mentor.locator('[data-vacancy-import]').count(),'Vacancy CSV import must remain available without a provider account');
+  const coach=desktop.page.locator('[data-weekly-coach]');
+  assert.equal(await coach.locator('[data-weekly-start]').count(),1,'Weekly coach must begin with one explicit commitment action');
+  await coach.locator('[data-weekly-start]').click();
+  await desktop.page.locator('[data-weekly-review]').waitFor();
+  assert.equal(await desktop.page.locator('[data-weekly-coach]').count(),1,'Weekly coach must not duplicate after state changes');
+  assert.ok((await desktop.page.locator('[data-weekly-coach]').textContent()).includes('Definition of done'),'Weekly commitment must expose a proof condition');
   const marketProfile=desktop.page.locator('[data-market-profile]');
   await marketProfile.waitFor();
   await marketProfile.locator('[data-market-role-title]').fill('Fictional Infrastructure Analyst');

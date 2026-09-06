@@ -16,7 +16,7 @@ const alignmentCss=read('platform-alignment.css');
 function require(condition,message){if(!condition)errors.push(message);}
 require(!/loadState\(\);\s*renderApp\(\);\s*$/.test(renderer),'Initial render must wait for the complete workspace shell, not flash three legacy tabs.');
 
-for(const asset of ['responsive-layout.css','src/responsive-layout.js','mobile-navigation.css','platform-alignment.css']){
+for(const asset of ['responsive-layout.css','src/responsive-layout.js','mobile-navigation.css','platform-alignment.css','weekly-coach.css']){
   require(index.includes(asset),`index.html is missing responsive asset ${asset}`);
   require(sw.includes(`./${asset}`),`service worker is missing responsive asset ${asset}`);
 }
@@ -52,6 +52,7 @@ require(personalization.includes('[data-workspace-tab=')&&personalization.includ
 for(const mode of ['mobile','tablet','desktop'])require(alignmentCss.includes(`data-layout=\"${mode}\"`),`Missing independent ${mode} emblem alignment rules.`);
 require(alignmentCss.includes('grid-template-columns:42px minmax(0,1fr) auto auto'),'Banner icons, text and actions must occupy separate grid columns.');
 require(alignmentCss.includes('.banner>.ct-line-icon')&&alignmentCss.includes('position:static!important'),'Banner icons must stay in layout flow instead of overlaying text.');
+const weeklyCss=read('weekly-coach.css');for(const token of ['@media(max-width:620px)','.ct-weekly-review-grid,.ct-weekly-start{grid-template-columns:1fr}','.ct-weekly button{width:100%}'])require(weeklyCss.includes(token),`Weekly coach mobile layout is missing ${token}.`);
 
 if(errors.length){console.error(`Responsive gate failed (${errors.length}):`);errors.forEach(e=>console.error(`- ${e}`));process.exit(1);}
 console.log('Responsive device-layout, compact mobile navigation and duplicate-menu checks passed.');

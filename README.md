@@ -21,6 +21,7 @@ Cert Tracker is a local-first certification, readiness and career-planning appli
 - Persistent project rubrics, evidence notes, portfolio links and redaction-aware Markdown evidence export
 - User-owned vacancy samples, duplicate-safe CSV intake, salary observations and application-funnel analytics
 - Circumstance-aware recalculation and calendar review reminders
+- A weekly execution coach with one active commitment, proof-of-completion requirements, blocker diagnosis, bounded carry-forward and explicit plan deltas
 - Resource-quality feedback that changes later study recommendations
 - Directional market-access modelling kept separate from job-performance evidence
 - Portfolio and experience evidence tracking
@@ -130,6 +131,7 @@ The application remains framework-free and build-free. Domain logic is separated
 | `src/career-advisor.js` | Decisive next move, route comparison, study schedule and review history |
 | `src/assessment-bank.js` | Original objective question bank, context matching and validation |
 | `src/career-mentor.js` | Adaptive assessment, project evidence, vacancy intake and outcome analytics |
+| `src/weekly-coach.js` | Weekly commitments, honest execution reviews and deterministic replanning |
 | `src/exports.js` | Export handling |
 | `src/notifications.js` | Renewal notification checks |
 | `src/sync.js` | Encrypted vault, revisions, hashes and WebDAV concurrency control |

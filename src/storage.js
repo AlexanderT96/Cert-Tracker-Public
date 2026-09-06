@@ -123,11 +123,46 @@
         if(isObj(mentor.resourceFeedback)){const rows=Object.entries(mentor.resourceFeedback);if(rows.length>1000)errors.push('Too many resource feedback records.');for(const [url,row]of rows)if(!/^https:\/\//i.test(url)||!isObj(row)||!['useful','weak','outdated'].includes(row.status)||String(row.note||'').length>500)errors.push('Invalid resource feedback record.');}
       }
     }
+    const coach=value.weeklyCoach;
+    if(coach!=null){
+      if(!isObj(coach))errors.push('weeklyCoach must be an object.');
+      else{
+        const roleIds=CT.careerOptions?.ROLES?new Set(CT.careerOptions.ROLES.map(r=>r.id)):null,outcomes=new Set(['complete','partial','blocked','deferred']),blockers=new Set(['','time','prerequisite','material','assessment','access','health','other']);
+        const validateCommitment=(row,label)=>{
+          if(!isObj(row)){errors.push(`${label} must be an object.`);return;}
+          if(typeof row.id!=='string'||row.id.length<5||row.id.length>120)errors.push(`${label}.id is invalid.`);
+          if(roleIds&&!roleIds.has(row.roleId))errors.push(`${label}.roleId is invalid.`);
+          if(typeof row.primaryId!=='string'||!row.primaryId||row.primaryId.length>120)errors.push(`${label}.primaryId is invalid.`);
+          if(!['primary','runner-up'].includes(row.selection))errors.push(`${label}.selection is invalid.`);
+          for(const field of ['primaryTitle','outcome','definitionOfDone','createdReason'])if(typeof row[field]!=='string'||!row[field]||row[field].length>1000)errors.push(`${label}.${field} is invalid.`);
+          if(!CT.util.validIsoDate(row.weekStart))errors.push(`${label}.weekStart is invalid.`);
+          if(!Number.isFinite(Date.parse(row.createdAt))||!Number.isFinite(Date.parse(row.updatedAt)))errors.push(`${label} timestamps are invalid.`);
+          if(!Number.isFinite(Number(row.plannedHours))||Number(row.plannedHours)<.5||Number(row.plannedHours)>168)errors.push(`${label}.plannedHours is invalid.`);
+          if(!Number.isFinite(Number(row.primaryHours))||Number(row.primaryHours)<.5||Number(row.primaryHours)>Number(row.plannedHours))errors.push(`${label}.primaryHours is invalid.`);
+          if(!Number.isInteger(Number(row.scheduleIndex))||Number(row.scheduleIndex)<0||Number(row.scheduleIndex)>200)errors.push(`${label}.scheduleIndex is invalid.`);
+          if(!Number.isInteger(Number(row.carryCount))||Number(row.carryCount)<0||Number(row.carryCount)>52)errors.push(`${label}.carryCount is invalid.`);
+          if(row.status!=='active'||typeof row.adviceSignature!=='string'||row.adviceSignature.length>25000)errors.push(`${label} status or signature is invalid.`);
+          if(!isObj(row.source)||!['study-deliverable','project-criterion','move-gate','advisor-move'].includes(row.source.kind)||typeof row.source.id!=='string'||typeof row.source.label!=='string')errors.push(`${label}.source is invalid.`);
+          if(row.resource!=null&&(!isObj(row.resource)||typeof row.resource.title!=='string'||!/^https:\/\//i.test(String(row.resource.url||''))||row.resource.url.length>500))errors.push(`${label}.resource is invalid.`);
+          if(row.parallelTask!=null&&(!isObj(row.parallelTask)||typeof row.parallelTask.title!=='string'||typeof row.parallelTask.outcome!=='string'||!Number.isFinite(Number(row.parallelTask.hours))||Number(row.parallelTask.hours)<0||Number(row.parallelTask.hours)>168||Number(row.primaryHours)+Number(row.parallelTask.hours)>Number(row.plannedHours)))errors.push(`${label}.parallelTask is invalid.`);
+        };
+        if(coach.active!=null)validateCommitment(coach.active,'weeklyCoach.active');
+        if(coach.reviews!=null){
+          if(!Array.isArray(coach.reviews)||coach.reviews.length>52)errors.push('weeklyCoach.reviews must contain at most 52 records.');
+          else for(const [index,row]of coach.reviews.entries()){
+            const label=`weeklyCoach.reviews[${index}]`;
+            if(!isObj(row)||typeof row.id!=='string'||typeof row.commitmentId!=='string'||!Number.isFinite(Date.parse(row.reviewedAt))||!CT.util.validIsoDate(row.weekStart)||roleIds&&!roleIds.has(row.roleId)||typeof row.primaryId!=='string'||typeof row.primaryTitle!=='string'||!outcomes.has(row.outcome)||!Number.isFinite(Number(row.completionPercent))||Number(row.completionPercent)<0||Number(row.completionPercent)>100||row.outcome==='complete'&&Number(row.completionPercent)!==100||row.outcome==='partial'&&(Number(row.completionPercent)<=0||Number(row.completionPercent)>=100)||['blocked','deferred'].includes(row.outcome)&&Number(row.completionPercent)>=100||!Number.isFinite(Number(row.plannedHours))||Number(row.plannedHours)<.5||Number(row.plannedHours)>168||!Number.isFinite(Number(row.actualHours))||Number(row.actualHours)<0||Number(row.actualHours)>168||!blockers.has(String(row.blocker||''))||row.outcome==='blocked'&&!row.blocker||row.outcome!=='blocked'&&row.blocker||Number(row.completionPercent)>0&&String(row.evidenceNote||'').trim().length<10||String(row.evidenceNote||'').length>2000||(row.evidenceUrl&&!/^https:\/\//i.test(row.evidenceUrl))||String(row.evidenceUrl||'').length>500||!Number.isFinite(Number(row.confidence))||Number(row.confidence)<1||Number(row.confidence)>5||typeof row.adviceSignature!=='string'||row.adviceSignature.length>25000)errors.push(`${label} is invalid.`);
+          }
+        }
+        if(coach.blockedResources!=null){if(!isObj(coach.blockedResources)||Object.keys(coach.blockedResources).length>1000)errors.push('weeklyCoach.blockedResources is invalid.');else for(const [url,row]of Object.entries(coach.blockedResources))if(!/^https:\/\//i.test(url)||!isObj(row)||!Number.isFinite(Date.parse(row.at))||String(row.reason||'').length>2000)errors.push('Invalid weeklyCoach blocked resource.');}
+      }
+    }
     return errors;
   }
 
   function validateBackup(data){
     const errors=[];if(!isObj(data))return {ok:false,errors:['Backup root must be an object.']};
+    try{if(JSON.stringify(data).length>8_000_000)errors.push('Backup exceeds the supported 8 MB validation limit.');}catch{errors.push('Backup cannot be serialized safely.');}
     const version=Number(data.version);if(!Number.isInteger(version)||version<1)errors.push('Missing or invalid backup version.');else if(version>CT.version.backup)errors.push(`Backup version ${version} is newer than this app supports (${CT.version.backup}).`);
     errors.push(...validateCertKeyObject(data.passes,'passes',{dateValues:true}),...validateCertKeyObject(data.exams,'exams',{dateValues:true}),...validateCertKeyObject(data.skipped,'skipped',{dateValues:true}),...validateCertKeyObject(data.myPath,'myPath',{boolValues:true}),...validateCertKeyObject(data.objectiveProgress,'objectiveProgress',{numberRange:[0,100]}));
     for(const field of ['notes','artifacts','partners','certOrder','phaseOverrides','gates','competencyEvidence','plannerSettings'])if(data[field]!=null&&!isObj(data[field]))errors.push(`${field} must be an object.`);

@@ -1,4 +1,18 @@
-# Audit remediation — v4.15.0
+# Audit remediation — v4.16.0
+
+## v4.16 adversarial follow-up
+
+| Layer challenged | Improvement |
+|---|---|
+| Recommendation to execution | Adds one durable weekly commitment with an explicit definition of done. The primary or a same-stage runner-up can be chosen; a second active commitment cannot be created and unfinished work cannot silently disappear. |
+| Honest progress | Complete and partial outcomes require a concrete observation or correction. Blocked and deferred work never becomes certification or capability progress. |
+| Adaptive follow-through | Partial work carries once; repeated partial progress becomes a smaller diagnostic checkpoint. Time, prerequisite, material and assessment blockers generate bounded, explainable recovery work. |
+| Recommendation churn | Active work is preserved when role, evidence or constraints change. The user must explicitly record and replace it, with the old commitment retained in review history. |
+| Persistence | Weekly state is deeply validated, capped at 52 reviews and included in existing backup, undo and encrypted-sync state. Personalisation resets preserve substantive execution history. |
+| Assessment integrity | Marked questions can no longer be attached to unrelated certification subjects through the API. |
+| Market evidence integrity | Vacancy edits now pass the same full validation and duplicate checks as new records; impossible and future observation dates are rejected; even-sized salary samples use a true median. |
+| Date boundaries | Review and commitment dates use the user's local calendar day rather than UTC rollover. |
+| Offline and mobile | The execution coach is service-worker cached, touch-sized and collapses to a single-column mobile review flow. |
 
 ## Pre-deployment development beyond v4.14
 

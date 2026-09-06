@@ -5,13 +5,13 @@
   const CT = global.CertTrackerV3 = global.CertTrackerV3 || {};
 
   CT.version = Object.freeze({
-    app: '4.15.0',
+    app: '4.16.0',
     data: 65,
-    storage: 11,
-    backup: 10,
+    storage: 12,
+    backup: 11,
     sync: 2,
     market: 3,
-    intelligence: 9
+    intelligence: 10
   });
 
   CT.config = Object.freeze({
@@ -93,6 +93,20 @@
         : 0;
     },
     nowIso() { return new Date().toISOString(); },
+    localDateStamp(value = new Date()) {
+      const d = value instanceof Date ? value : new Date(value);
+      if (!Number.isFinite(d.getTime())) return '';
+      const offset = d.getTimezoneOffset() * 60000;
+      return new Date(d.getTime() - offset).toISOString().slice(0, 10);
+    },
+    addCalendarDays(value, days) {
+      const raw = typeof value === 'string' ? `${value}T12:00:00` : value;
+      const d = raw instanceof Date ? new Date(raw) : new Date(raw);
+      if (!Number.isFinite(d.getTime())) return '';
+      d.setDate(d.getDate() + Number(days || 0));
+      const offset = d.getTimezoneOffset() * 60000;
+      return new Date(d.getTime() - offset).toISOString().slice(0, 10);
+    },
     validIsoDate(value) {
       if (typeof value !== 'string' || !/^\d{4}-\d{2}-\d{2}$/.test(value)) return false;
       const d = new Date(`${value}T12:00:00Z`);
