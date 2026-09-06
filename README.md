@@ -21,7 +21,7 @@ Cert Tracker is a local-first certification, readiness and career-planning appli
 - Persistent project rubrics, evidence notes, portfolio links and redaction-aware Markdown evidence export
 - User-owned vacancy samples, duplicate-safe CSV intake, salary observations and application-funnel analytics
 - Circumstance-aware recalculation and calendar review reminders
-- A weekly execution coach with one active commitment, proof-of-completion requirements, blocker diagnosis, bounded carry-forward and explicit plan deltas
+- A weekly execution coach with one active commitment, a same-stage runner-up choice, proof-of-completion requirements, blocker diagnosis, bounded carry-forward and explicit plan deltas
 - Resource-quality feedback that changes later study recommendations
 - Directional market-access modelling kept separate from job-performance evidence
 - Portfolio and experience evidence tracking
