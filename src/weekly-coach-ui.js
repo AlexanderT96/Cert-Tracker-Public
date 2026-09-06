@@ -27,5 +27,5 @@
     root.querySelector('[data-weekly-replace]')?.addEventListener('click',()=>{try{CT.weeklyCoach.replace(advice,`Recommendation changed: ${CT.weeklyCoach.activeState(advice).reasons.join(' ')}`);toast('Changed commitment recorded and replaced.');render();}catch(error){toast(error.message);}});
     root.querySelector('[data-weekly-calendar]')?.addEventListener('click',()=>download(CT.weeklyCoach.calendar(),'cert-tracker-weekly-commitment.ics','text/calendar'));
   }
-  global.addEventListener('certtracker:workspace-rendered',()=>requestAnimationFrame(render));CT.events?.on?.('weekly-coach-changed',render);CT.events?.on?.('career-advisor-changed',render);CT.weeklyCoachUI=Object.freeze({render});
+  global.addEventListener('certtracker:workspace-rendered',()=>setTimeout(render,200));CT.events?.on?.('weekly-coach-changed',render);CT.events?.on?.('career-advisor-changed',render);CT.weeklyCoachUI=Object.freeze({render});
 })(window);
