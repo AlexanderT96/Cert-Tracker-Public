@@ -1,7 +1,7 @@
 import assert from 'node:assert/strict';
 import fs from 'node:fs';
 import vm from 'node:vm';
-const state={customization:{},passes:{},capabilityEvidence:{}},CT={careerFramework:{context:()=>({current:'test'}),ROLE_PROFILES:{test:{label:'Test background',weights:{networking:1}}}},events:{emit(){}}};
+const state={customization:{},passes:{},capabilityEvidence:{}},CT={careerFramework:{context:()=>({current:'test'}),ROLE_PROFILES:{test:{label:'Test background',weights:{networking:1}}}},events:{emit(){}},util:{clamp:(n,min,max)=>Math.min(max,Math.max(min,Number(n)||0))}};
 let saves=0;
 const catalogue={};vm.createContext(catalogue);vm.runInContext(['certs.js','src/cert-extensions.js','src/catalogue-currentness.js','src/catalogue-policy-normalize.js'].map(f=>fs.readFileSync(f,'utf8')).join('\n')+'\nglobalThis.catalogue=CERTS;',catalogue);
 const registry={window:{CertTrackerV3:{}}};vm.createContext(registry);vm.runInContext(['src/source-registry.js','src/source-registry-current.js'].map(f=>fs.readFileSync(f,'utf8')).join('\n'),registry);
@@ -11,6 +11,7 @@ CT.credentials={
   active(cert){return Boolean(state.passes?.[cert?.id]);}
 };
 const sandbox={CertTrackerV3:CT,state,save:{customization(){saves++;}},CERTS:catalogue.catalogue,console};sandbox.window=sandbox;
+vm.runInNewContext(['src/learning-resources.js','src/learning-resources-normalize.js'].map(f=>fs.readFileSync(f,'utf8')).join('\n'),sandbox);
 vm.runInNewContext(fs.readFileSync('src/career-options.js','utf8'),sandbox);
 const m=CT.careerOptions;
 assert.equal(Object.keys(m.FAMILIES).length,14);
@@ -32,8 +33,10 @@ for(const role of m.ROLES){
   for(const stage of pathway.stages){
     assert.ok(stage.certIds.length,`${role.id}: ${stage.key} has no certification`);
     assert.ok(stage.plan?.objective&&stage.plan?.practice&&stage.plan?.evidence&&stage.plan?.exit,`${role.id}: ${stage.key} has no attached plan`);
+    assert.ok(stage.curriculum?.subjects>=stage.certifications.length,`${role.id}: ${stage.key} lacks a canonical subject curriculum`);
+    assert.equal(stage.curriculum.sequence.length,5,`${role.id}: ${stage.key} lacks a complete learn-to-evidence sequence`);
     assert.ok(stage.relevance,`${role.id}: ${stage.key} has no credential relevance rationale`);
-    for(const cert of stage.certifications){assert.equal(CT.credentials.availability(cert).eligible,true,`${role.id}: ${cert.id} is not available and must not be recommended`);assert.ok(cert.studyMaterials,`${role.id}: ${cert.id} has no attached study materials`);assert.ok(cert.subjects?.length,`${role.id}: ${cert.id} has no mapped subjects`);}
+    for(const cert of stage.certifications){assert.equal(CT.credentials.availability(cert).eligible,true,`${role.id}: ${cert.id} is not available and must not be recommended`);assert.ok(cert.studyMaterials,`${role.id}: ${cert.id} has no attached study materials`);assert.ok(cert.subjects?.length,`${role.id}: ${cert.id} has no mapped subjects`);const item=stage.studyMaterials.find(row=>row.id===cert.id);assert.ok(item?.resources.length,`${role.id}: ${cert.id} has no recommended resource stack`);assert.ok(item.subjects.every(subject=>subject.tutor?.stage&&subject.tutor?.trigger&&subject.tutor?.sessionGoal&&subject.tutor?.exit),`${role.id}: ${cert.id} lacks subject-level tutor decisions`);}
     for(const id of stage.certIds)assert.ok(sandbox.CERTS.some(c=>c.id===id),`${role.id}: pathway references unknown credential ${id}`);
   }
 }

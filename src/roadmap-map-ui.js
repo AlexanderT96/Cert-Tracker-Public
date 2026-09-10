@@ -46,13 +46,7 @@
     return'Core Domain';
   }
   function tutorAdvice(cert,row){
-    if(state.passes?.[cert.id])return null;
-    const readiness=Number(CT.competency?.readiness?.(cert)?.score||0),topic=String(row.topic||'');
-    const bottleneck=/\b(BGP|OSPF|PKI|certificate|PLC|SCADA|SIL|SIS|control logic|architecture|risk assessment|identity|KQL|packet|troubleshoot|API|object-oriented|automation|segmentation|routing)\b/i.test(topic);
-    if(row.depth>=5&&readiness<80)return{level:'strong',label:'Tutor checkpoint',reason:`D5 expert-depth topic while overall exam readiness is ${readiness}%. Use tutor review to challenge reasoning, troubleshooting and design judgement.`};
-    if(row.depth>=4&&bottleneck&&readiness<65)return{level:'recommended',label:'Tutor useful',reason:`Likely bottleneck at D${row.depth}. Self-study first, then use a tutor if explanation-to-implementation does not become reliable.`};
-    if(row.depth>=4&&bottleneck)return{level:'watch',label:'Tutor if stalled',reason:`High-complexity D${row.depth} subject. Escalate to tutor-led diagnosis if repeated labs or practice questions expose the same misconception.`};
-    return null;
+    const plan=row.tutor;if(!plan||plan.recommendation==='SELF_STUDY')return null;const readiness=Number(CT.competency?.readiness?.(cert)?.score||0),done=!!state.passes?.[cert.id],level=plan.recommendation==='CHECKPOINT'&&!done&&readiness<80?'strong':plan.recommendation==='RECOMMENDED'&&!done&&readiness<65?'recommended':'watch',label=plan.recommendation==='CHECKPOINT'?'Tutor checkpoint':plan.recommendation==='RECOMMENDED'?'Tutor recommended':'Tutor if stalled';return{level,label,reason:`${plan.bottleneck} · ${String(plan.stage).replaceAll('_',' ').toLowerCase()}. ${plan.trigger} Exit when: ${plan.exit}`};
   }
   function resourceLinks(row){return (row.resources||[]).slice(0,3).map(r=>`<a href="${esc(r.url)}" target="_blank" rel="noopener noreferrer" title="${esc(r.purpose||'Open learning resource')}">${esc(r.label)} ↗</a>`).join('');}
   function subjectBranch(cert,row){

@@ -14,6 +14,7 @@
     return `<div class="ct-depth-gauge" role="meter" aria-valuemin="1" aria-valuemax="5" aria-valuenow="${depth}" aria-label="Required exam depth ${depth} of 5">${[1,2,3,4,5].map(i=>`<i class="${i<=depth?'on':''}"></i>`).join('')}</div>`;
   }
   function subject(row,index){
+    const tutor=row.tutor||{},tutorLabel=String(tutor.recommendation||'SELF_STUDY').replaceAll('_',' ');
     return `<details class="ct-subject-item" ${index===0?'open':''}>
       <summary>
         <div class="ct-subject-title"><strong>${esc(row.topic)}</strong><span>${esc(row.emphasis)} exam emphasis</span></div>
@@ -25,6 +26,9 @@
         <p><strong>Outcomes:</strong> ${esc(row.studyBrief.outcomes.join(' '))}</p>
         <ol>${row.studyBrief.lab.map(step=>`<li>${esc(step)}</li>`).join('')}</ol>
         <p><strong>Proof checks:</strong> ${esc(row.studyBrief.checks.join(' '))}</p>
+        <div class="ct-topic-resource-label">Tutor decision · ${esc(tutorLabel)} · ${esc(String(tutor.stage||'').replaceAll('_',' '))}</div>
+        <p><strong>${esc(tutor.bottleneck||'No predictable bottleneck')}:</strong> ${esc(tutor.trigger||'Use independent study first.')}</p>
+        <p><strong>Session goal:</strong> ${esc(tutor.sessionGoal||'')} <strong>Bring:</strong> ${esc((tutor.bring||[]).join(' · '))} <strong>Exit:</strong> ${esc(tutor.exit||'')}</p>
         <div class="ct-topic-resource-label">External material · ${row.resourceIntegrity.reviewed} reviewed · ${row.resourceIntegrity.substantive} substantive candidate${row.resourceIntegrity.substantive===1?'':'s'}</div>
         <div class="ct-resource-grid">${row.resources.map(resource).join('')}</div>
       </div>

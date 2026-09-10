@@ -1,4 +1,13 @@
-# Audit remediation — v4.17.0
+# Audit remediation — v4.18.0
+
+## v4.18 curriculum-integrity closure
+
+- All 70 role ladders now consume the same normalized certification curriculum used by the certification and roadmap views.
+- Every real mapped subject has an ordered study brief and an explicit tutor decision: self-study, conditional escalation, recommended intervention or D5 challenge checkpoint.
+- Tutor decisions include the intervention stage, concrete trigger, session goal, evidence to bring and exit condition; credential-level tutor notes remain visible as policy context.
+- Negative catalogue labels such as “No scripting required” are no longer presented or counted as learning subjects.
+- Career-pathway stages expose subject totals, selective tutor checkpoints and honest reviewed/candidate resource counts instead of raw study prose alone.
+- Automated gates now fail if any active route stage lacks its canonical learn → lab → retrieval → tutor escalation → evidence sequence, resource stack or subject-level tutor decision.
 
 ## v4.17 evidence-integrity closure
 
