@@ -1,4 +1,17 @@
-# Audit remediation — v4.16.0
+# Audit remediation — v4.17.0
+
+## v4.17 evidence-integrity closure
+
+- Separates credential references, discovery searches, external candidates and reviewed teaching resources; none are allowed to impersonate another category.
+- Gives all 790 subjects an executable local study brief while keeping derived blueprint mappings visibly provisional.
+- Removes unrelated quiz fallback behaviour and raises learning-evidence thresholds; the tracker never labels its internal score as exam readiness.
+- Makes workplace evidence, portfolio gaps and urgent market sampling capable of outranking another certification.
+- Versions project briefs, retires stale criterion checkmarks and adds environment, effort, budget, starter and validation detail.
+- Expands route comparison to five selected alternatives with estimated hours, fees and renewal burden.
+- Extends providerless vacancy evidence with work mode, contract type, pay basis, currency and recurring-skill frequency; dependable sampling now requires ten vacancies and five comparable salary observations.
+- Adds recurring calendar alarms and notification checks for weekly commitments and career reviews.
+- Corrects SC-500 positioning, repairs the BriefCam source route and hardens the official-source checker against HEAD-only false failures.
+- Adds a dependency-free npm lockfile and regression coverage for the new integrity boundaries.
 
 ## v4.16 adversarial follow-up
 

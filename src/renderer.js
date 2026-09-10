@@ -624,7 +624,7 @@ function renderDashboard() {
 
   const notifyBanner = shouldShowNotifyBanner() ? `
     <div class="notify-banner">
-      <span>Enable notifications for expiry alerts</span>
+      <span>Enable tracker reminders</span>
       <button onclick="requestNotifications()">Enable</button>
     </div>` : '';
 

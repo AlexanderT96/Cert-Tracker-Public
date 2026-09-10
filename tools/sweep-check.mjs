@@ -27,24 +27,24 @@ for(const role of CT.careerOptions.ROLES){
     if(unavailable.has(cert.id))routeUnavailable.push({role:role.id,cert:cert.id,status:unavailable.get(cert.id)});
   }
 }
-const discovery=/youtube\.com\/results|udemy\.com\/courses\/search/;
-let subjects=0,resources=0,direct=0,discoveryCount=0,subjectsWithoutDirect=0;
+let subjects=0,resources=0,references=0,discoveryCount=0,externalCandidates=0,reviewed=0,subjectsWithoutStudyBrief=0;
 for(const cert of certs){
   const profile=CT.learningResources.profile(cert);
   for(const subject of profile.subjects){
     subjects++;
     const rows=subject.resources||[];
     resources+=rows.length;
-    const directRows=rows.filter(row=>!discovery.test(row.url));
-    direct+=directRows.length;
-    discoveryCount+=rows.length-directRows.length;
-    if(!directRows.length)subjectsWithoutDirect++;
+    references+=rows.filter(row=>row.coverage==='REFERENCE').length;
+    discoveryCount+=rows.filter(row=>row.coverage==='DISCOVERY').length;
+    externalCandidates+=rows.filter(row=>row.coverage==='CANDIDATE').length;
+    reviewed+=rows.filter(row=>row.coverage==='REVIEWED').length;
+    if(!subject.studyBrief?.outcomes?.length||!subject.studyBrief?.lab?.length)subjectsWithoutStudyBrief++;
   }
 }
 const defaultUnavailable=(sandbox.CERT_TRACKER_FOCUSED_ROUTE?.ids||[]).filter(id=>unavailable.has(id)).map(id=>({id,status:unavailable.get(id)}));
-console.log(JSON.stringify({certifications:certs.length,roles:CT.careerOptions.ROLES.length,unavailable:Object.fromEntries(unavailable),routeUnavailable,defaultUnavailable,subjects,resources,direct,discovery:discoveryCount,subjectsWithoutDirect},null,2));
+console.log(JSON.stringify({certifications:certs.length,roles:CT.careerOptions.ROLES.length,unavailable:Object.fromEntries(unavailable),routeUnavailable,defaultUnavailable,subjects,resources,references,discovery:discoveryCount,externalCandidates,reviewed,subjectsWithoutStudyBrief},null,2));
 assert.equal(new Set(certs.map(cert=>cert.id)).size,certs.length,'Certification IDs must be unique');
 assert.equal(CT.careerOptions.ROLES.length,70,'The career catalogue must retain all 70 roles');
 assert.equal(routeUnavailable.length,0,'Unavailable credentials must not appear in active career pathways');
 assert.equal(defaultUnavailable.length,0,'Unavailable credentials must not appear in the focused My Path route');
-assert.equal(subjectsWithoutDirect,0,'Every mapped subject needs at least one direct source, not only discovery searches');
+assert.equal(subjectsWithoutStudyBrief,0,'Every mapped subject needs an executable local study brief; links alone are not learning coverage');

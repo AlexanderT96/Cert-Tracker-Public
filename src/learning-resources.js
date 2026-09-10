@@ -86,6 +86,22 @@
   function dedupe(rows){const seen=new Set();return rows.filter(row=>{if(!row?.url||seen.has(row.url))return false;seen.add(row.url);return true;});}
 
   const STACK_OVERRIDES=Object.freeze({
+    acp:Object.freeze([
+      link('Axis Learning','https://www.axis.com/learning','Official Axis learning catalogue, training paths and practical course access','course',null),
+      link('Axis Certification Program','https://www.axis.com/learning/certification-program','Current ACP scope, preparation route and exam administration','official',true)
+    ]),
+    mcie:Object.freeze([
+      link('Milestone Learning and Performance','https://www.milestonesys.com/learn-and-support/learning-and-performance/','Official XProtect technical learning and certification route','course',null),
+      link('Milestone documentation','https://doc.milestonesys.com/','Current product documentation for build, validation and troubleshooting practice','reference',true)
+    ]),
+    'crowdstrike-ccfa':Object.freeze([
+      link('CrowdStrike University','https://www.crowdstrike.com/en-us/services/training-and-certification/crowdstrike-university/','Official Falcon administrator training route','course',null),
+      link('CCFA certification guide','https://www.crowdstrike.com/content/dam/crowdstrike/marketing/en-us/documents/pdfs/crowdstrike-university/ccfa-certification-guide.pdf','Official audience, domains and preparation requirements','official',true)
+    ]),
+    'sc-500':Object.freeze([
+      link('Microsoft SC-500 study guide','https://learn.microsoft.com/en-us/credentials/certifications/resources/study-guides/sc-500','Official skills measured, domain changes and preparation resources','course',true),
+      link('Microsoft Learn training','https://learn.microsoft.com/en-us/training/','Official modules and sandbox-supported learning; select SC-500 modules from the current credential page','course',true)
+    ]),
     'security-plus':Object.freeze([
       link('Professor Messer SY0-701 course','https://www.professormesser.com/security-plus/sy0-701/sy0-701-video/sy0-701-comptia-security-plus-course/','Best free full-course spine','video',true),
       link('Professor Messer Security+ study resources','https://www.professormesser.com/sy0-701-certification-course/','Revision, study groups and objective-by-objective reinforcement','review',true)

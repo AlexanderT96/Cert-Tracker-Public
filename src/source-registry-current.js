@@ -899,7 +899,7 @@
       "sourceAudited": false
     },
     "briefcam-tech": {
-      "url": "https://www.milestonesys.com/solutions/platform/video-analytics/briefcam/",
+      "url": "https://www.milestonesys.com/products/software/briefcam/",
       "level": "VENDOR",
       "sourceCheckedAt": null,
       "note": "Official BriefCam product-family source, not evidence of a standalone certification. Training access requires confirmation.",
