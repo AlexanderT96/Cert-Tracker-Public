@@ -1,4 +1,12 @@
-# Audit remediation — v4.19.0
+# Audit remediation — v4.20.0
+
+## v4.20 Boson NetSim classification
+
+- Adds Boson NetSim as its own paid browser-lab platform rather than hiding it behind a generic Boson practice-exam link.
+- Maps NetSim only to D3+ Cisco configuration and troubleshooting subjects such as addressing, routing, switching, VLANs, ACLs, NAT, dynamic routing, wireless and network automation.
+- Identifies desktop and tablet browser access, guided lab grading and topology design while retaining explicit limits around physical equipment and production experience.
+- Keeps NetSim lab evidence separate from Boson ExSim exam diagnostics; neither is allowed to impersonate the other.
+- Adds regression gates that require CCNA to expose NetSim and prevent it from leaking into D1/D2 conceptual subjects.
 
 ## v4.19 dedicated-platform coverage
 

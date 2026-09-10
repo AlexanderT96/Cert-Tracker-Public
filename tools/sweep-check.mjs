@@ -62,5 +62,7 @@ assert.ok(['portswigger','htb'].every(id=>platformIds('bscp').has(id)),'Advanced
 assert.ok(platformIds('cka').has('kodekloud'),'Kubernetes subjects must expose a dedicated platform lab route');
 assert.ok(platformIds('az-104').has('microsoftLearn'),'Microsoft subjects must expose Microsoft Learn');
 assert.ok(platformIds('ccna').has('ciscoNetAcad'),'Cisco networking subjects must expose Cisco learning labs');
+assert.ok(platformIds('ccna').has('bosonNetSim'),'Applied Cisco networking subjects must expose Boson NetSim as a distinct platform');
+for(const subject of CT.learningResources.profile(certs.find(cert=>cert.id==='ccna')).subjects){for(const resource of subject.resources.filter(row=>row.platformId==='bosonNetSim'))assert.ok(subject.depth>=3,'Boson NetSim must remain restricted to D3+ applied subjects');}
 assert.ok(CT.learningResources.PLATFORMS.mimo.modes.some(mode=>/iOS/.test(mode))&&CT.learningResources.PLATFORMS.sololearn.modes.some(mode=>/iOS/.test(mode)),'The platform registry must include explicit mobile study routes');
 assert.ok(CT.learningResources.PLATFORMS.htb.modes.some(mode=>/Desktop/.test(mode))&&CT.learningResources.PLATFORMS.kodekloud.modes.some(mode=>/Desktop/.test(mode)),'The platform registry must include explicit desktop lab routes');

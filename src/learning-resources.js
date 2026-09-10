@@ -93,10 +93,24 @@
     mimo:Object.freeze({name:'Mimo',url:'https://mimo.org/',modes:Object.freeze(['iOS / Android app','Desktop web']),free:null,use:'Mobile-friendly, bite-sized Python, JavaScript, TypeScript, SQL and web-development practice.',limit:'Strong for habit and syntax practice; move to a real editor and project before claiming applied competence.'}),
     sololearn:Object.freeze({name:'Sololearn',url:'https://www.sololearn.com/en/',modes:Object.freeze(['iOS / Android app','Desktop web']),free:true,use:'Bite-sized programming courses, quizzes and code practice across Python, JavaScript, SQL, C#, C++ and web topics.',limit:'Useful for retrieval and repetition; not a substitute for debugging and building a complete project.'}),
     microsoftLearn:Object.freeze({name:'Microsoft Learn',url:'https://learn.microsoft.com/en-us/training/',modes:Object.freeze(['Desktop web','Mobile browser']),free:true,use:'Official Microsoft modules, learning paths and selected interactive exercises.',limit:'Use the current credential study guide to select modules; the full catalogue is broader than any one exam.'}),
-    ciscoNetAcad:Object.freeze({name:'Cisco Networking Academy / Skills for All',url:'https://www.netacad.com/courses/networking',modes:Object.freeze(['Desktop web']),free:null,use:'Structured networking foundations and Cisco-aligned learning with Packet Tracer routes.',limit:'Use a desktop for Packet Tracer labs and validate the current exam blueprint before booking.'})
+    ciscoNetAcad:Object.freeze({name:'Cisco Networking Academy / Skills for All',url:'https://www.netacad.com/courses/networking',modes:Object.freeze(['Desktop web']),free:null,use:'Structured networking foundations and Cisco-aligned learning with Packet Tracer routes.',limit:'Use a desktop for Packet Tracer labs and validate the current exam blueprint before booking.'}),
+    bosonNetSim:Object.freeze({name:'Boson NetSim',url:'https://boson.com/netsim-cisco-network-simulator/',modes:Object.freeze(['Desktop browser','Tablet browser']),free:false,use:'Guided Cisco configuration, topology and troubleshooting labs with automated grading and a network designer.',limit:'Use for D3+ applied Cisco networking; it is paid, does not replace physical equipment or production experience, and is separate from Boson ExSim exam practice.'})
   });
   function platformLink(id,reason){const p=PLATFORMS[id];return link(`${p.name} · ${p.modes.join(' + ')}`,p.url,`${reason} ${p.use} Limitation: ${p.limit}`,'platform',p.free,{coverage:'PLATFORM',platformId:id,modes:p.modes,use:p.use,limit:p.limit,reviewedAt:'2026-09-10'});}
-  function platformRecommendations(cert,topic){const text=`${cert.name||''} ${cert.code||''} ${cert.vendor||''} ${topic||''}`.toLowerCase(),depth=subjectDepth(cert,topic,0),rows=[];if(/python|javascript|typescript|sql|html|css|react|programming|coding|software development|object-oriented|node\.?js|c#|c\+\+/.test(text)){rows.push(platformLink('mimo','Use for short mobile practice and continuity between full study sessions.'));rows.push(platformLink('sololearn','Use for mobile or desktop retrieval drills and language reinforcement.'));}if(/web security|web app|application security|appsec|burp|injection|xss|csrf|api security|pentest/.test(text))rows.unshift(platformLink('portswigger','Use as the dedicated legal web-security lab route.'));if(/cyber|soc|siem|incident|forensic|threat detection|pentest|active directory|security operations|vulnerability|malware|network security/.test(text))rows.push(platformLink('tryhackme','Use for guided practical context and an accessible first lab cycle.'));if(depth>=3&&/cyber|soc|incident|forensic|threat|pentest|active directory|network traffic|vulnerability|linux|windows|powershell/.test(text))rows.push(platformLink('htb','Use after foundations when a deeper desktop lab is justified.'));if(/kubernetes|docker|container|devops|linux|cloud|terraform|ansible|infrastructure as code|iac|ci\/cd|yaml|bash/.test(text))rows.push(platformLink('kodekloud','Use for structured desktop labs and role-based platform practice.'));if(vendorKey(cert)==='Microsoft'||/azure|entra|microsoft 365|powershell|defender|sentinel|purview/.test(text))rows.unshift(platformLink('microsoftLearn','Use as the official modular learning spine.'));if(vendorKey(cert)==='Cisco'||/networking fundamental|routing|switching|vlan|packet tracer/.test(text))rows.unshift(platformLink('ciscoNetAcad','Use for structured networking theory and topology practice.'));return Object.freeze(dedupe(rows).slice(0,3));}
+  function platformRecommendations(cert,topic,requiredDepth=null){
+    const text=`${cert.name||''} ${cert.code||''} ${cert.vendor||''} ${topic||''}`.toLowerCase();
+    const depth=requiredDepth==null?subjectDepth(cert,topic,0):CT.util.clamp(Number(requiredDepth)||1,1,5);
+    const cisco=vendorKey(cert)==='Cisco'||/\bcisco\b|ccna|ccnp|ccie|encor|enarsi/.test(text),rows=[];
+    if(/python|javascript|typescript|sql|html|css|react|programming|coding|software development|object-oriented|node\.?js|c#|c\+\+/.test(text)){rows.push(platformLink('mimo','Use for short mobile practice and continuity between full study sessions.'));rows.push(platformLink('sololearn','Use for mobile or desktop retrieval drills and language reinforcement.'));}
+    if(/web security|web app|application security|appsec|burp|injection|xss|csrf|api security|pentest/.test(text))rows.unshift(platformLink('portswigger','Use as the dedicated legal web-security lab route.'));
+    if(/cyber|soc|siem|incident|forensic|threat detection|pentest|active directory|security operations|vulnerability|malware|network security/.test(text))rows.push(platformLink('tryhackme','Use for guided practical context and an accessible first lab cycle.'));
+    if(depth>=3&&/cyber|soc|incident|forensic|threat|pentest|active directory|network traffic|vulnerability|linux|windows|powershell/.test(text))rows.push(platformLink('htb','Use after foundations when a deeper desktop lab is justified.'));
+    if(/kubernetes|docker|container|devops|linux|cloud|terraform|ansible|infrastructure as code|iac|ci\/cd|yaml|bash/.test(text))rows.push(platformLink('kodekloud','Use for structured desktop labs and role-based platform practice.'));
+    if(vendorKey(cert)==='Microsoft'||/azure|entra|microsoft 365|powershell|defender|sentinel|purview/.test(text))rows.unshift(platformLink('microsoftLearn','Use as the official modular learning spine.'));
+    if(cisco&&depth>=3&&/subnet|ipv4|ipv6|routing|switching|vlan|trunk|spanning tree|stp|etherchannel|acl|nat|dhcp|ospf|eigrp|bgp|wireless|network automation|network troubleshoot|device configuration/.test(text))rows.push(platformLink('bosonNetSim','Use after learning the concept to configure, break, diagnose and verify it in a graded topology.'));
+    if(cisco||/networking fundamental|routing|switching|vlan|packet tracer/.test(text))rows.unshift(platformLink('ciscoNetAcad','Use for structured networking theory and topology practice.'));
+    return Object.freeze(dedupe(rows).slice(0,3));
+  }
 
   const STACK_OVERRIDES=Object.freeze({
     acp:Object.freeze([
@@ -400,13 +414,13 @@
     return CT.util.clamp(d,1,5);
   }
   function videoProvider(cert){const p=provider(cert);if(cert.id==='ccna')return"Jeremy's IT Lab";if(cert.id==='ccnp-enterprise'||cert.id==='ccie-enterprise')return'Kevin Wallace OR David Bombal';return p?.video||vendorKey(cert)||'expert tutorial';}
-  function topicResources(cert,topic){
+  function topicResources(cert,topic,requiredDepth=null){
     const p=provider(cert),query=certQuery(cert),subject=String(topic);
     const official=safeUrl(cert.sourceUrl);
     const rows=[];
     if(official)rows.push(link('Official blueprint',official,`Authoritative ${subject} scope and current exam requirements`,'official',true));
     if(p?.training)rows.push(link('Primary course',p.training,`Official/vendor learning for ${subject}`,'course',null));
-    rows.push(...platformRecommendations(cert,subject));
+    rows.push(...platformRecommendations(cert,subject,requiredDepth));
     rows.push(link('Best-fit video',yt(`${videoProvider(cert)} ${query} ${subject}`),`Visual explanation of ${subject} aligned to ${cert.code||cert.name}`,'video',true));
     const vendor=vendorKey(cert);
     if(vendor==='Cisco')rows.push(link('Hands-on lab',cert.id==='ccna'?'https://www.netacad.com/courses/packet-tracer':'https://developer.cisco.com/modeling-labs/',`Configure and break/fix ${subject}`,'lab',cert.id==='ccna'));
@@ -422,7 +436,7 @@
     const curated=SUBJECT_OVERRIDES[cert.id];
     const raw=curated||inferredSubjects(cert).map((topic,index)=>({topic,depth:subjectDepth(cert,topic,index),emphasis:index<2?'High':'Supporting'}));
     return Object.freeze(raw.map(row=>Object.freeze({
-      topic:row.topic,depth:CT.util.clamp(Number(row.depth)||2,1,5),emphasis:row.emphasis||'Supporting',depthInfo:DEPTH[CT.util.clamp(Number(row.depth)||2,1,5)],resources:topicResources(cert,row.topic)
+      topic:row.topic,depth:CT.util.clamp(Number(row.depth)||2,1,5),emphasis:row.emphasis||'Supporting',depthInfo:DEPTH[CT.util.clamp(Number(row.depth)||2,1,5)],resources:topicResources(cert,row.topic,row.depth)
     })));
   }
   function overallStack(cert){
