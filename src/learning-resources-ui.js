@@ -48,7 +48,7 @@
         <div class="ct-learning-resources-summary-meta">${model}<span>${p.subjects.length} subjects</span></div>
       </summary>
       <div class="ct-learning-resources-body">
-        <div class="ct-resource-note">${esc(note)} Coverage status: ${esc(p.integrity.status)}; ${p.integrity.subjectsWithExternal}/${p.integrity.subjects} subjects have an external teaching candidate. Search pages and credential references do not count as teaching coverage.</div>
+        <div class="ct-resource-note">${esc(note)} Coverage status: ${esc(p.integrity.status)}; ${p.integrity.subjectsWithExternal}/${p.integrity.subjects} subjects have an external teaching candidate. PLATFORM means a reviewed platform-to-subject fit, not a reviewed exam cross-walk. Search pages and credential references do not count as teaching coverage.</div>
         <section class="ct-study-stack">
           <div class="ct-study-stack-head"><div><span>Recommended study stack</span><strong>Use each resource for the job it does best</strong></div><small>Official scope → structured teaching → visual reinforcement → labs → practice</small></div>
           <div class="ct-resource-grid ct-resource-grid-primary">${p.stack.map(resource).join('')}</div>

@@ -5,13 +5,13 @@
   const CT = global.CertTrackerV3 = global.CertTrackerV3 || {};
 
   CT.version = Object.freeze({
-    app: '4.18.0',
-    data: 67,
+    app: '4.19.0',
+    data: 68,
     storage: 12,
     backup: 11,
     sync: 2,
     market: 3,
-    intelligence: 12
+    intelligence: 13
   });
 
   CT.config = Object.freeze({

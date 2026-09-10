@@ -82,8 +82,21 @@
   }
   function provider(cert){return PROVIDERS[vendorKey(cert)]||null;}
   function certQuery(cert){return [cert.code,cert.name].filter(Boolean).join(' ');}
-  function link(label,url,purpose,kind='resource',free=null){return Object.freeze({label,url,purpose,kind,free});}
+  function link(label,url,purpose,kind='resource',free=null,meta={}){return Object.freeze({label,url,purpose,kind,free,...meta});}
   function dedupe(rows){const seen=new Set();return rows.filter(row=>{if(!row?.url||seen.has(row.url))return false;seen.add(row.url);return true;});}
+
+  const PLATFORMS=Object.freeze({
+    tryhackme:Object.freeze({name:'TryHackMe',url:'https://tryhackme.com/paths',modes:Object.freeze(['Browser']),free:null,use:'Guided, gamified cyber pathways and browser-based hands-on labs.',limit:'Use for practical reinforcement; it does not replace an issuer blueprint or production experience.'}),
+    htb:Object.freeze({name:'HTB Academy',url:'https://academy.hackthebox.com/',modes:Object.freeze(['Desktop browser','In-browser VM']),free:null,use:'Deeper guided offensive, defensive, networking and systems modules with practical exercises.',limit:'Best on a desktop with enough time for labs; avoid treating completion as exam readiness by itself.'}),
+    portswigger:Object.freeze({name:'PortSwigger Web Security Academy',url:'https://portswigger.net/web-security',modes:Object.freeze(['Desktop browser']),free:true,use:'Dedicated web-application and API security explanations with interactive labs.',limit:'Purpose-built for web security; it is not a general cyber or networking course.'}),
+    kodekloud:Object.freeze({name:'KodeKloud',url:'https://kodekloud.com/learning-paths/',modes:Object.freeze(['Desktop browser']),free:null,use:'Hands-on Linux, cloud, DevOps, Kubernetes, Docker, infrastructure-as-code and CI/CD paths.',limit:'Use the lab environment for applied competence; confirm exact certification objectives separately.'}),
+    mimo:Object.freeze({name:'Mimo',url:'https://mimo.org/',modes:Object.freeze(['iOS / Android app','Desktop web']),free:null,use:'Mobile-friendly, bite-sized Python, JavaScript, TypeScript, SQL and web-development practice.',limit:'Strong for habit and syntax practice; move to a real editor and project before claiming applied competence.'}),
+    sololearn:Object.freeze({name:'Sololearn',url:'https://www.sololearn.com/en/',modes:Object.freeze(['iOS / Android app','Desktop web']),free:true,use:'Bite-sized programming courses, quizzes and code practice across Python, JavaScript, SQL, C#, C++ and web topics.',limit:'Useful for retrieval and repetition; not a substitute for debugging and building a complete project.'}),
+    microsoftLearn:Object.freeze({name:'Microsoft Learn',url:'https://learn.microsoft.com/en-us/training/',modes:Object.freeze(['Desktop web','Mobile browser']),free:true,use:'Official Microsoft modules, learning paths and selected interactive exercises.',limit:'Use the current credential study guide to select modules; the full catalogue is broader than any one exam.'}),
+    ciscoNetAcad:Object.freeze({name:'Cisco Networking Academy / Skills for All',url:'https://www.netacad.com/courses/networking',modes:Object.freeze(['Desktop web']),free:null,use:'Structured networking foundations and Cisco-aligned learning with Packet Tracer routes.',limit:'Use a desktop for Packet Tracer labs and validate the current exam blueprint before booking.'})
+  });
+  function platformLink(id,reason){const p=PLATFORMS[id];return link(`${p.name} · ${p.modes.join(' + ')}`,p.url,`${reason} ${p.use} Limitation: ${p.limit}`,'platform',p.free,{coverage:'PLATFORM',platformId:id,modes:p.modes,use:p.use,limit:p.limit,reviewedAt:'2026-09-10'});}
+  function platformRecommendations(cert,topic){const text=`${cert.name||''} ${cert.code||''} ${cert.vendor||''} ${topic||''}`.toLowerCase(),depth=subjectDepth(cert,topic,0),rows=[];if(/python|javascript|typescript|sql|html|css|react|programming|coding|software development|object-oriented|node\.?js|c#|c\+\+/.test(text)){rows.push(platformLink('mimo','Use for short mobile practice and continuity between full study sessions.'));rows.push(platformLink('sololearn','Use for mobile or desktop retrieval drills and language reinforcement.'));}if(/web security|web app|application security|appsec|burp|injection|xss|csrf|api security|pentest/.test(text))rows.unshift(platformLink('portswigger','Use as the dedicated legal web-security lab route.'));if(/cyber|soc|siem|incident|forensic|threat detection|pentest|active directory|security operations|vulnerability|malware|network security/.test(text))rows.push(platformLink('tryhackme','Use for guided practical context and an accessible first lab cycle.'));if(depth>=3&&/cyber|soc|incident|forensic|threat|pentest|active directory|network traffic|vulnerability|linux|windows|powershell/.test(text))rows.push(platformLink('htb','Use after foundations when a deeper desktop lab is justified.'));if(/kubernetes|docker|container|devops|linux|cloud|terraform|ansible|infrastructure as code|iac|ci\/cd|yaml|bash/.test(text))rows.push(platformLink('kodekloud','Use for structured desktop labs and role-based platform practice.'));if(vendorKey(cert)==='Microsoft'||/azure|entra|microsoft 365|powershell|defender|sentinel|purview/.test(text))rows.unshift(platformLink('microsoftLearn','Use as the official modular learning spine.'));if(vendorKey(cert)==='Cisco'||/networking fundamental|routing|switching|vlan|packet tracer/.test(text))rows.unshift(platformLink('ciscoNetAcad','Use for structured networking theory and topology practice.'));return Object.freeze(dedupe(rows).slice(0,3));}
 
   const STACK_OVERRIDES=Object.freeze({
     acp:Object.freeze([
@@ -393,6 +406,7 @@
     const rows=[];
     if(official)rows.push(link('Official blueprint',official,`Authoritative ${subject} scope and current exam requirements`,'official',true));
     if(p?.training)rows.push(link('Primary course',p.training,`Official/vendor learning for ${subject}`,'course',null));
+    rows.push(...platformRecommendations(cert,subject));
     rows.push(link('Best-fit video',yt(`${videoProvider(cert)} ${query} ${subject}`),`Visual explanation of ${subject} aligned to ${cert.code||cert.name}`,'video',true));
     const vendor=vendorKey(cert);
     if(vendor==='Cisco')rows.push(link('Hands-on lab',cert.id==='ccna'?'https://www.netacad.com/courses/packet-tracer':'https://developer.cisco.com/modeling-labs/',`Configure and break/fix ${subject}`,'lab',cert.id==='ccna'));
@@ -402,7 +416,7 @@
     else if(/ISA|GIAC/.test(vendor))rows.push(link('Scenario / lab search',yt(`${cert.code||cert.name} ${subject} lab industrial control systems`),`Find practical demonstrations for ${subject}`,'lab',true));
     else rows.push(link('Hands-on search',yt(`${query} ${subject} hands-on lab`),`Find a practical exercise for ${subject}`,'lab',true));
     if(p?.practice)rows.push(link('Practice / readiness',p.practice,`Validate exam-level recall and scenario judgement for ${subject}`,'practice',null));
-    return Object.freeze(dedupe(rows).slice(0,5));
+    return Object.freeze(dedupe(rows));
   }
   function subjectCoverage(cert){
     const curated=SUBJECT_OVERRIDES[cert.id];
@@ -416,6 +430,7 @@
     if(official)rows.push(link('Official exam / certification page',official,'Start here: current scope, objectives, prerequisites and policies','official',true));
     if(p?.training)rows.push(link('Primary learning path',p.training,'Main structured course or vendor learning portal','course',null));
     (STACK_OVERRIDES[cert.id]||[]).forEach(row=>rows.push(row));
+    rows.push(...platformRecommendations(cert,inferredSubjects(cert).join(' ')));
     rows.push(link('Best-fit video search',yt(`${videoProvider(cert)} ${query} full course`),'Free visual course/revision option','video',true));
     if(p?.practice)rows.push(link('Practice / readiness',p.practice,'Exam-style practice and gap finding','practice',null));
     if(vendorKey(cert)==='Cisco')rows.push(link('Cisco Press search',`https://www.ciscopress.com/search/index.aspx?query=${encodeURIComponent(cert.code||cert.name)}`,'Deep-reference book / official-cert-guide route','book',false));
@@ -429,5 +444,5 @@
   const discoveryUrl=url=>/youtube\.com\/results|udemy\.com\/courses\/search/.test(url||'');
   function validate(){return CERTS.map(cert=>profile(cert)).every(p=>p.subjects.length&&p.subjects.every(s=>s.depth>=1&&s.depth<=5&&s.resources.length>=3&&s.resources.some(r=>!discoveryUrl(r.url))&&s.resources.every(r=>/^https:\/\//.test(r.url)))&&p.stack.length>=3);}
 
-  CT.learningResources=Object.freeze({DEPTH,PROVIDERS,SUBJECT_OVERRIDES,STACK_OVERRIDES,profile,subjectCoverage,overallStack,topicResources,validate});
+  CT.learningResources=Object.freeze({DEPTH,PROVIDERS,PLATFORMS,SUBJECT_OVERRIDES,STACK_OVERRIDES,profile,subjectCoverage,overallStack,topicResources,platformRecommendations,validate});
 })(window);

@@ -1,4 +1,13 @@
-# Audit remediation — v4.18.0
+# Audit remediation — v4.19.0
+
+## v4.19 dedicated-platform coverage
+
+- Adds subject-fit mappings for TryHackMe, HTB Academy, PortSwigger Web Security Academy, KodeKloud, Mimo, Sololearn, Microsoft Learn and Cisco Networking Academy / Skills for All.
+- Labels access mode in every platform recommendation so learners can distinguish mobile habit-building, desktop learning and full browser-lab work before opening a resource.
+- Keeps the mappings honest: `PLATFORM` means the platform and subject category were reviewed for fit, not that every linked catalogue item was cross-walked to the current exam blueprint.
+- Provides a purpose and limitation for each platform. Mobile coding drills must progress into a real editor and project; lab-platform completion cannot independently establish exam or workplace readiness.
+- Narrows recommendation rules by subject. Coding apps do not appear for generic API-security content, cyber ranges do not appear for generic governance or physical-security material, and deeper HTB work is reserved for D3+ technical subjects.
+- Adds regression gates for mobile coding, guided cyber, advanced web security, Kubernetes, Microsoft and Cisco platform coverage.
 
 ## v4.18 curriculum-integrity closure
 
