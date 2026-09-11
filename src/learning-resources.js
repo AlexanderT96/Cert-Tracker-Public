@@ -19,6 +19,7 @@
     CompTIA:{training:'https://www.comptia.org/training',practice:'https://www.comptia.org/training/certmaster-practice',video:'Professor Messer'},
     Cisco:{training:'https://u.cisco.com/',practice:'https://www.boson.com/practice-exam',video:'Jeremy\'s IT Lab'},
     CWNP:{training:'https://www.cwnp.com/certifications/cwna',practice:'https://www.cwnp.com/buy-products/',video:'CWNP'},
+    CrowdStrike:{training:'https://www.crowdstrike.com/services/training-and-certification/crowdstrike-university/',practice:'https://www.crowdstrike.com/services/training-and-certification/crowdstrike-university/',video:'CrowdStrike'},
     'Nokia Bell Labs':{training:'https://www.nokia.com/networks/training/bell-labs/',practice:'https://www.nokia.com/networks/training/5g/',video:'Nokia Bell Labs'},
     Microsoft:{training:'https://learn.microsoft.com/en-us/training/',practice:'https://learn.microsoft.com/en-us/credentials/certifications/practice-assessments-for-microsoft-certifications',video:'John Savill'},
     AWS:{training:'https://skillbuilder.aws/',practice:'https://portal.tutorialsdojo.com/course-category/aws-practice-exams/',video:'AWS Events'},
@@ -74,6 +75,8 @@
     if(['mcit','mcde','mcie'].includes(id))return'Milestone Systems';
     if(id==='acp')return'Axis';
     if(id==='arcules-csp')return'Arcules';
+    if(['cwna','cwisa','cwap','cwdp','cwsp','cwne'].includes(id))return'CWNP';
+    if(id==='crowdstrike-ccfa')return'CrowdStrike';
     if(/^(az|sc)-/.test(id))return'Microsoft';
     if(/^cc(na|np|ie)/.test(id)||id==='cisco-meraki-solutions')return'Cisco';
     if(['pcep','pcap','pcpp1','pcpp2'].includes(id))return'Python Institute';
