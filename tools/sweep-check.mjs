@@ -46,13 +46,21 @@ for(const cert of certs){
   }
 }
 const defaultUnavailable=(sandbox.CERT_TRACKER_FOCUSED_ROUTE?.ids||[]).filter(id=>unavailable.has(id)).map(id=>({id,status:unavailable.get(id)}));
+const pathwayDefinitionIds=[...new Set([
+  ...Object.values(CT.careerOptions.PATHWAY_TEMPLATES||{}).flat(2),
+  ...Object.values(CT.careerOptions.ROLE_ROUTE_PROFILES||{}).flatMap(profile=>(profile?.stages||[]).flatMap(stage=>stage.certs||[]))
+])];
+const pathwayUnknown=pathwayDefinitionIds.filter(id=>!CERT_BY_ID.has(id));
+const pathwayProfiles=pathwayDefinitionIds.filter(id=>CERT_BY_ID.has(id));
+
 const platformIds=certId=>new Set(CT.learningResources.profile(certs.find(cert=>cert.id===certId)).subjects.flatMap(subject=>subject.resources).map(row=>row.platformId).filter(Boolean));
-for(const id of sandbox.CERT_TRACKER_FOCUSED_ROUTE.ids){const profile=CT.learningResources.profile(certs.find(cert=>cert.id===id));assert.ok(profile.subjects.every(subject=>subject.resourceIntegrity.substantive>0),`${id}: every core subject needs a substantive course, lab or dedicated platform recommendation`);}
-console.log(JSON.stringify({certifications:certs.length,roles:CT.careerOptions.ROLES.length,unavailable:Object.fromEntries(unavailable),routeUnavailable,defaultUnavailable,subjects,resources,references,discovery:discoveryCount,externalCandidates,reviewed,platforms,tutorCheckpoints,subjectsWithoutStudyBrief,subjectsWithoutTutorDecision,nonSubjects},null,2));
+for(const id of pathwayProfiles){const profile=CT.learningResources.profile(certs.find(cert=>cert.id===id));assert.ok(profile.subjects.every(subject=>subject.resourceIntegrity.substantive>0),`${id}: every pathway subject needs a substantive course, lab or dedicated platform recommendation`);}
+console.log(JSON.stringify({certifications:certs.length,roles:CT.careerOptions.ROLES.length,unavailable:Object.fromEntries(unavailable),routeUnavailable,defaultUnavailable,pathwayDefinitions:pathwayDefinitionIds.length,pathwayUnknown,subjects,resources,references,discovery:discoveryCount,externalCandidates,reviewed,platforms,tutorCheckpoints,subjectsWithoutStudyBrief,subjectsWithoutTutorDecision,nonSubjects},null,2));
 assert.equal(new Set(certs.map(cert=>cert.id)).size,certs.length,'Certification IDs must be unique');
 assert.equal(CT.careerOptions.ROLES.length,70,'The career catalogue must retain all 70 roles');
 assert.equal(routeUnavailable.length,0,'Unavailable credentials must not appear in active career pathways');
 assert.equal(defaultUnavailable.length,0,'Unavailable credentials must not appear in the focused My Path route');
+assert.equal(pathwayUnknown.length,0,`All pathway definitions must reference canonical certification IDs: ${pathwayUnknown.join(', ')}`);
 assert.equal(subjectsWithoutStudyBrief,0,'Every mapped subject needs an executable local study brief; links alone are not learning coverage');
 assert.equal(subjectsWithoutTutorDecision,0,'Every mapped subject needs a concrete tutor escalation decision');
 assert.equal(nonSubjects,0,'Negative requirement labels must not be presented as subjects');
