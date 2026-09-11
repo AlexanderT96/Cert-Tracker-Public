@@ -1,4 +1,15 @@
-# Audit remediation — v4.20.0
+# Audit remediation — v4.21.0
+
+## v4.21 blueprint cross-walk phase one
+
+- Adds a certification-level blueprint and resource-validation ledger covering all 25 focused-route milestones; missing work is now explicit rather than inferred from link presence.
+- Cross-walks nine public official blueprints: CCNA, AZ-900, AZ-104, AZ-700, SC-300, SC-500, AZ-305, PCEP and PCAP.
+- Replaces the derived AZ-700 topic list with the current five issuer domains and removes SC-500's invented fifth domain: current AI security objectives sit inside Secure compute.
+- Separates blueprint state (`VERIFIED`, `SOURCE_IDENTIFIED`, `ACCESS_RESTRICTED`, `QUEUED`) from resource state (`BLUEPRINT_ALIGNED`, `VERSION_MATCH`, `ISSUER_RECOMMENDED`, `BLUEPRINT`).
+- Validates four exact-version resources: Cisco U CCNA, Boson NetSim 200-301, Python Essentials 1 for PCEP-30-02 and Python Essentials 2 for PCAP-31-03.
+- Displays the official cross-walk, version/effective date, weights and outstanding access constraint inside each certification's learning panel.
+- Orders the next audit queue by shared-route impact: Network+ (49 routes), Security+ (42), then A+ (36), followed by the remaining focused-route credentials.
+- CI now fails if focused-route audit coverage disappears, a verified domain diverges from the displayed curriculum, an unaudited mapping claims domains, or exact-version resources lose their reviewed classification.
 
 ## v4.20 Boson NetSim classification
 

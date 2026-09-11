@@ -13,6 +13,7 @@
   function gauge(depth){
     return `<div class="ct-depth-gauge" role="meter" aria-valuemin="1" aria-valuemax="5" aria-valuenow="${depth}" aria-label="Required exam depth ${depth} of 5">${[1,2,3,4,5].map(i=>`<i class="${i<=depth?'on':''}"></i>`).join('')}</div>`;
   }
+  function auditBlock(p){const a=p.audit;if(!a)return'';const status=String(a.status||'QUEUED').replaceAll('_',' '),verified=a.status==='VERIFIED';const domains=verified?a.domains.map(row=>`<li><strong>${esc(row.subject)}</strong><span>${esc(row.objective)}${row.weight?` · ${row.weight[0]}${row.weight[1]!==row.weight[0]?`–${row.weight[1]}`:''}%`:''}</span></li>`).join(''):'';return `<section class="ct-blueprint-audit ${verified?'verified':'pending'}"><div class="ct-blueprint-audit-head"><div><span>BLUEPRINT CROSS-WALK</span><strong>${esc(status)}${a.version?` · ${esc(a.version)}`:''}</strong></div><a href="${esc(a.url)}" target="_blank" rel="noopener noreferrer">Official source ↗</a></div><p>${esc(a.note)}${a.checkedAt?` Checked ${esc(a.checkedAt)}.`:''}</p>${domains?`<ol>${domains}</ol>`:''}</section>`;}
   function subject(row,index){
     const tutor=row.tutor||{},tutorLabel=String(tutor.recommendation||'SELF_STUDY').replaceAll('_',' ');
     return `<details class="ct-subject-item" ${index===0?'open':''}>
@@ -49,6 +50,7 @@
       </summary>
       <div class="ct-learning-resources-body">
         <div class="ct-resource-note">${esc(note)} Coverage status: ${esc(p.integrity.status)}; ${p.integrity.subjectsWithExternal}/${p.integrity.subjects} subjects have an external teaching candidate. PLATFORM means a reviewed platform-to-subject fit, not a reviewed exam cross-walk. Search pages and credential references do not count as teaching coverage.</div>
+        ${auditBlock(p)}
         <section class="ct-study-stack">
           <div class="ct-study-stack-head"><div><span>Recommended study stack</span><strong>Use each resource for the job it does best</strong></div><small>Official scope → structured teaching → visual reinforcement → labs → practice</small></div>
           <div class="ct-resource-grid ct-resource-grid-primary">${p.stack.map(resource).join('')}</div>
@@ -79,5 +81,5 @@
   if(app)new MutationObserver(queueMount).observe(app,{childList:true,subtree:true});
   if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',queueMount,{once:true});else queueMount();
 
-  CT.learningResourcesUI=Object.freeze({render,mount,gauge,resource});
+  CT.learningResourcesUI=Object.freeze({render,mount,gauge,resource,auditBlock});
 })(window);

@@ -4,7 +4,7 @@ import vm from 'node:vm';
 
 const files=[
   'certs.js','src/cert-extensions.js','src/catalogue-currentness.js','src/catalogue-policy-normalize.js',
-  'src/path-defaults.js','src/config.js','src/learning-resources.js','src/learning-resources-normalize.js',
+  'src/path-defaults.js','src/config.js','src/curriculum-audit.js','src/learning-resources.js','src/learning-resources-normalize.js',
   'src/source-registry.js','src/source-registry-current.js','src/data-health.js'
 ];
 const sandbox={console,URL,TextEncoder,TextDecoder,crypto,structuredClone};

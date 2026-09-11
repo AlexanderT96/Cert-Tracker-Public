@@ -97,6 +97,7 @@
     bosonNetSim:Object.freeze({name:'Boson NetSim',url:'https://boson.com/netsim-cisco-network-simulator/',modes:Object.freeze(['Desktop browser','Tablet browser']),free:false,use:'Guided Cisco configuration, topology and troubleshooting labs with automated grading and a network designer.',limit:'Use for D3+ applied Cisco networking; it is paid, does not replace physical equipment or production experience, and is separate from Boson ExSim exam practice.'})
   });
   function platformLink(id,reason){const p=PLATFORMS[id];return link(`${p.name} · ${p.modes.join(' + ')}`,p.url,`${reason} ${p.use} Limitation: ${p.limit}`,'platform',p.free,{coverage:'PLATFORM',platformId:id,modes:p.modes,use:p.use,limit:p.limit,reviewedAt:'2026-09-10'});}
+  function auditedLinks(cert){return (CT.curriculumAudit?.validatedResources(cert.id)||[]).map(item=>{const platform=Object.entries(PLATFORMS).find(([,value])=>value.url===item.url);return link(item.label,item.url,item.note,platform?'platform':item.role,item.free,{coverage:'REVIEWED',auditStatus:item.status,reviewedAt:item.checkedAt,...(platform?{platformId:platform[0],modes:platform[1].modes,use:platform[1].use,limit:platform[1].limit}:{})});});}
   function platformRecommendations(cert,topic,requiredDepth=null){
     const text=`${cert.name||''} ${cert.code||''} ${cert.vendor||''} ${topic||''}`.toLowerCase();
     const depth=requiredDepth==null?subjectDepth(cert,topic,0):CT.util.clamp(Number(requiredDepth)||1,1,5);
@@ -229,6 +230,13 @@
       {topic:'Virtual networking',depth:4,emphasis:'Very high'},
       {topic:'Monitoring and maintenance',depth:3,emphasis:'High'}
     ]),
+    'az-700':Object.freeze([
+      {topic:'Core Azure networking infrastructure',depth:4,emphasis:'Very high'},
+      {topic:'Connectivity services',depth:4,emphasis:'High'},
+      {topic:'Application delivery services',depth:4,emphasis:'High'},
+      {topic:'Private access to Azure services',depth:4,emphasis:'High'},
+      {topic:'Azure network security services',depth:4,emphasis:'High'}
+    ]),
     'az-802':Object.freeze([
       {topic:'Active Directory Domain Services and DNS',depth:4,emphasis:'Very high'},
       {topic:'Windows Server security and PKI',depth:4,emphasis:'High'},
@@ -253,8 +261,7 @@
       {topic:'Cloud identity and governance security',depth:4,emphasis:'High'},
       {topic:'Network, storage and database security',depth:4,emphasis:'Very high'},
       {topic:'Compute and workload security',depth:4,emphasis:'High'},
-      {topic:'Security posture and Defender capabilities',depth:4,emphasis:'High'},
-      {topic:'AI workload and data security',depth:4,emphasis:'High'}
+      {topic:'Security posture and Defender capabilities',depth:4,emphasis:'High'}
     ]),
     'sc-100':Object.freeze([
       {topic:'Security strategy and architecture',depth:5,emphasis:'Very high'},
@@ -420,6 +427,7 @@
     const rows=[];
     if(official)rows.push(link('Official blueprint',official,`Authoritative ${subject} scope and current exam requirements`,'official',true));
     if(p?.training)rows.push(link('Primary course',p.training,`Official/vendor learning for ${subject}`,'course',null));
+    rows.push(...auditedLinks(cert));
     rows.push(...platformRecommendations(cert,subject,requiredDepth));
     rows.push(link('Best-fit video',yt(`${videoProvider(cert)} ${query} ${subject}`),`Visual explanation of ${subject} aligned to ${cert.code||cert.name}`,'video',true));
     const vendor=vendorKey(cert);
@@ -443,6 +451,7 @@
     const p=provider(cert),query=certQuery(cert),official=safeUrl(cert.sourceUrl),rows=[];
     if(official)rows.push(link('Official exam / certification page',official,'Start here: current scope, objectives, prerequisites and policies','official',true));
     if(p?.training)rows.push(link('Primary learning path',p.training,'Main structured course or vendor learning portal','course',null));
+    rows.push(...auditedLinks(cert));
     (STACK_OVERRIDES[cert.id]||[]).forEach(row=>rows.push(row));
     rows.push(...platformRecommendations(cert,inferredSubjects(cert).join(' ')));
     rows.push(link('Best-fit video search',yt(`${videoProvider(cert)} ${query} full course`),'Free visual course/revision option','video',true));
@@ -458,5 +467,5 @@
   const discoveryUrl=url=>/youtube\.com\/results|udemy\.com\/courses\/search/.test(url||'');
   function validate(){return CERTS.map(cert=>profile(cert)).every(p=>p.subjects.length&&p.subjects.every(s=>s.depth>=1&&s.depth<=5&&s.resources.length>=3&&s.resources.some(r=>!discoveryUrl(r.url))&&s.resources.every(r=>/^https:\/\//.test(r.url)))&&p.stack.length>=3);}
 
-  CT.learningResources=Object.freeze({DEPTH,PROVIDERS,PLATFORMS,SUBJECT_OVERRIDES,STACK_OVERRIDES,profile,subjectCoverage,overallStack,topicResources,platformRecommendations,validate});
+  CT.learningResources=Object.freeze({DEPTH,PROVIDERS,PLATFORMS,SUBJECT_OVERRIDES,STACK_OVERRIDES,profile,subjectCoverage,overallStack,topicResources,platformRecommendations,auditedLinks,validate});
 })(window);

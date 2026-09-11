@@ -8,7 +8,7 @@ import {pathToFileURL} from 'node:url';
 const FIELDS=['identity','availability','eligibility','blueprint','renewal','price'];
 export function catalogue(){
   const s={console};s.window=s;vm.createContext(s);
-  for(const f of ['certs.js','src/cert-extensions.js','src/catalogue-currentness.js','src/catalogue-policy-normalize.js','src/config.js','src/source-registry.js','src/source-registry-current.js','src/learning-resources.js','src/learning-resources-normalize.js'])vm.runInContext(fs.readFileSync(f,'utf8'),s,{timeout:10000});
+  for(const f of ['certs.js','src/cert-extensions.js','src/catalogue-currentness.js','src/catalogue-policy-normalize.js','src/config.js','src/source-registry.js','src/source-registry-current.js','src/curriculum-audit.js','src/learning-resources.js','src/learning-resources-normalize.js'])vm.runInContext(fs.readFileSync(f,'utf8'),s,{timeout:10000});
   s.CertTrackerV3.careerFramework={};vm.runInContext(fs.readFileSync('src/career-options.js','utf8'),s);
   return {certs:vm.runInContext('CERTS',s),CT:s.CertTrackerV3};
 }

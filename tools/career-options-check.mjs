@@ -11,7 +11,7 @@ CT.credentials={
   active(cert){return Boolean(state.passes?.[cert?.id]);}
 };
 const sandbox={CertTrackerV3:CT,state,save:{customization(){saves++;}},CERTS:catalogue.catalogue,console};sandbox.window=sandbox;
-vm.runInNewContext(['src/learning-resources.js','src/learning-resources-normalize.js'].map(f=>fs.readFileSync(f,'utf8')).join('\n'),sandbox);
+vm.runInNewContext(['src/curriculum-audit.js','src/learning-resources.js','src/learning-resources-normalize.js'].map(f=>fs.readFileSync(f,'utf8')).join('\n'),sandbox);
 vm.runInNewContext(fs.readFileSync('src/career-options.js','utf8'),sandbox);
 const m=CT.careerOptions;
 assert.equal(Object.keys(m.FAMILIES).length,14);
