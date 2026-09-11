@@ -4494,7 +4494,8 @@ const MY_PATH_METADATA = {
 CERTS.forEach(cert => {
   const meta = MY_PATH_METADATA[cert.id];
   if (meta) { Object.assign(cert, meta); cert.sourceUrl = meta.officialUrl; }
-  if (cert.officialUrl) cert.sourceUrl = cert.officialUrl;\n  if (Array.isArray(cert.subjects) && !Array.isArray(cert.tutorBottlenecks)) cert.tutorBottlenecks = cert.subjects.slice(0, 3).map(subject => ({ subject, reason: "Tutor checkpoint: explain, apply and troubleshoot this subject before advancing." }));
+  if (cert.officialUrl) cert.sourceUrl = cert.officialUrl;
+  if (Array.isArray(cert.subjects) && !Array.isArray(cert.tutorBottlenecks)) cert.tutorBottlenecks = cert.subjects.slice(0, 3).map(subject => ({ subject, reason: "Tutor checkpoint: explain, apply and troubleshoot this subject before advancing." }));
 });
 
 // ═══════════════════════════════════════════════════════════════════════════
