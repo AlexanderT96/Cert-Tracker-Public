@@ -224,7 +224,7 @@ const CERTS = [
     tutorFlag: null,
     subjects: ["AI fundamentals", "ML basics", "Azure OpenAI overview", "No scripting required"],
     tracks: ["A"],
-    id: "ai-901", name: "Azure AI Fundamentals", code: "AI-900",
+    id: "ai-901", name: "Azure AI Fundamentals", code: "AI-901",
     phase: 1, track: "OPTIONAL", gateway: false, tier: "D",
     validity: 0, cost: "~£74 ($99 USD)", costNum: 74, cvValue: 800, verifiedAt: "2026-06", employer: false, free: false,
     cpe: 0, cpePeriod: 0, difficulty: 2, roi: 3, hours: [3, 10],
@@ -243,7 +243,7 @@ const CERTS = [
     tracks: ["A","C"],
     id: "pcep", name: "PCEP (Python Entry)", code: "PCEP-30-02",
     phase: 2, track: "OPTIONAL", gateway: false, tier: "C",
-    validity: 0, cost: "~£55", costNum: 55, cvValue: 800, verifiedAt: "2026-06", marketNote: "FREEHOLD WINDOW: pass PCEP-30-02 before 31 Aug 2026 and the cert is LIFETIME - the replacement (30-03) expires after 8 years. 30Q/40min, online on-demand, ~£55.", employer: false, free: false,
+    validity: 0, cost: "~£55", costNum: 55, cvValue: 800, verifiedAt: "2026-06", marketNote: "PCEP-30-02 remains the active exam version; PCEP-30-03 is in development for Q3 2026. Credential validity is five years; confirm current UK voucher pricing before booking.", employer: false, free: false,
     cpe: 0, cpePeriod: 0, difficulty: 2, roi: 4, hours: [15, 25],
     skills: ["Python basics", "Variables, loops, functions"],
     examFormat: "Multiple choice + single-select + drag-drop + code gap-fill. 30 Qs, 40 min, passing 70%. Online proctored.",
@@ -3926,7 +3926,7 @@ const RENEWAL_CHAINS = {
 
 // Critical personal deadlines — drive banner warnings
 const MARKET_EVENTS = [
-  { id: "python-lifetime", date: "2026-08-31", label: "PCEP/PCAP current versions retire - pass before this date for LIFETIME certs (replacements expire in 7-8yr)", severity: "warn", certId: "pcep" },
+  { id: "python-versions", date: "2026-09-30", label: "PCEP-30-03 and PCAP-31-04 are in development for Q3 2026; verify the live version before booking.", severity: "info", certId: "pcep" },
   { id: "secplus-801", date: "2026-10-20", label: "Security+ SY0-801 previews - NOT yet held: sit SY0-701 before ~mid-2027 retirement while materials are mature", severity: "info", certId: "security-plus" },
   { id: "ccna-v2", date: "2027-02-10", label: "CCNA: DECIDE BY ~DEC 2026 - sit v1.1 on mature materials before 10 Feb 2027, or commit to v2.0 mid-2027 (same certificate either way)", severity: "info", certId: "ccna" },
 ];
