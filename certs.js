@@ -660,7 +660,7 @@ const CERTS = [
     tracks: ["A","B","C"],
     id: "pcap", name: "PCAP (Python Associate)", code: "PCAP-31-03",
     phase: 2, track: "OPTIONAL", gateway: false, tier: "C",
-    validity: 0, cost: "~£150", costNum: 150, cvValue: 2000, verifiedAt: "2026-06", marketNote: "Pass PCAP-31-03 before 31 Aug 2026 for LIFETIME validity - the replacement (31-04) expires after 7 years. Only if capacity allows; PCEP is the priority.", employer: false, free: false,
+    validity: 0, cost: "~£150", costNum: 150, cvValue: 2000, verifiedAt: "2026-06", marketNote: "PCAP-31-03 remains the active exam version; PCAP-31-04 is in development for Q3 2026. Credential validity is five years; confirm current UK voucher pricing before booking.", employer: false, free: false,
     cpe: 0, cpePeriod: 0, difficulty: 4, roi: 4, hours: [30, 50],
     skills: ["Python OOP", "Modules", "Standard library"],
     examFormat: "Multiple choice + code gap-fill. 40 Qs, 65 min, passing 70%. Online proctored.",
