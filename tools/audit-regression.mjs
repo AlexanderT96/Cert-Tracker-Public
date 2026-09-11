@@ -76,7 +76,7 @@ old.schemaVersion=3;old.status='degraded';old.providerCoverage={successes:0,fail
 await vm.runInContext(`(async()=>{${producer}})()`,context);
 assert.equal(written.lastSuccessfulFetchAt,null,'Legacy failed attempts are not verified successful fetches');assert.equal(written.fetchedAt,null);
 // Focused route is a generic preset, never a public record of a user's completions.
-const expected=['a-plus','network-plus','mcit','mcde','arcules-csp','mcie','acp','ccna','security-plus','pcep','az-900','pcap','linux-plus','az-802','az-104','az-700','sc-300','crowdstrike-ccfa','sc-500','ccnp-enterprise','ai-901','ai-103','pcpp1','az-305','ccie-enterprise'];
+const expected=['a-plus','network-plus','mcit','mcde','arcules-csp','mcie','acp','ccna','cwna','cisco-meraki-solutions','security-plus','pcep','az-900','pcap','linux-plus','az-802','az-104','az-700','sc-300','crowdstrike-ccfa','sc-500','ccnp-enterprise','ai-901','ai-103','pcpp1','az-305','ccie-enterprise'];
 assert.deepEqual(Array.from(CT.focusedRoute.definition.ids),expected);
 assert.equal(cert('ai-901').code,'AI-901');assert.equal(cert('pcep').validity,60);assert.equal(cert('pcap').validity,60);
 assert.equal(cert('ccna').costNum,0);assert.ok(!/825|pass rate|DEC 2026/.test(cert('ccna').note+cert('ccna').examFormat));
@@ -109,21 +109,22 @@ state.passes=Object.fromEntries(expected.map(id=>[id,'2026-01-01']));assert.equa
 for(let i=0;i<expected.length;i++)for(const dep of cert(expected[i]).deps||[])assert.ok(expected.indexOf(dep)>=0&&expected.indexOf(dep)<i,expected[i]+' dependency '+dep);
 for(const file of ['src/topic-engine.js','src/career-advisor.js','src/assessment-bank.js','src/career-mentor.js','src/weekly-coach.js','src/learning-path-ui.js'])vm.runInContext(fs.readFileSync(file,'utf8'),s,{filename:file});
 const learning=CT.learningPath.render();assert.ok(!learning.includes('OT + convergence engineering'));assert.ok(learning.includes('LOCKED MILESTONE'));
+assert.ok(learning.includes('Parallel depth tracks')&&learning.includes('CWAP-405')&&learning.includes('Nokia Bell Labs 5G')&&learning.includes('Cloudflare edge'),'Wireless, cellular and Cloudflare depth must remain visibly separate from core milestones');
 assert.ok(!CT.topicEngine.forPhase(4).some(r=>/PLC|SCADA|ISA-95/.test(r.topic.title)));
 const previous=Array.from(CT.focusedRoute.definition.previousIds);
-assert.equal(previous.length,24);assert.equal(expected.length,25);
+assert.equal(previous.length,25);assert.equal(expected.length,27);
 state.myPath=Object.fromEntries(previous.map(id=>[id,true]));state.passes={mcie:'2026-01-01'};state.notes={mcie:{text:'Keep migration note'}};
 CT.storage.persistAll();CT.store.load();assert.equal(CT.focusedRoute.enabled(),true);
 assert.equal(state.passes.mcie,'2026-01-01');assert.equal(state.notes.mcie.text,'Keep migration note');
 assert.ok(previous.every(id=>state.myPath[id]),'No existing milestones removed');
-CT.storage.undoLastChange();CT.store.load();assert.equal(Object.keys(state.myPath).length,24,'Undo must survive reload');
-CT.focusedRoute.apply();state.passes=Object.fromEntries(expected.slice(0,12).map(id=>[id,'2026-01-01']));
+CT.storage.undoLastChange();CT.store.load();assert.equal(Object.keys(state.myPath).length,25,'Undo must survive reload');
+CT.focusedRoute.apply();state.passes=Object.fromEntries(expected.slice(0,14).map(id=>[id,'2026-01-01']));
 assert.equal(CT.recommendations.recommend()[0].id,'linux-plus');
 assert.ok(CT.topicEngine.recommend({cert:cert('linux-plus')}).some(r=>r.topic.id==='focused-linux-administration'));
 state.passes['linux-plus']='2026-01-01';
 assert.equal(CT.recommendations.recommend()[0].id,'az-802');state.passes['az-802']='2026-01-01';assert.equal(CT.recommendations.recommend()[0].id,'az-104');state.passes['az-104']='2026-01-01';assert.equal(CT.recommendations.recommend()[0].id,'az-700');
 localStorage.removeItem('ct-focused-route-upgrade-'+CT.focusedRoute.definition.id);
-state.myPath=Object.fromEntries(CT.focusedRoute.definition.previousPaths[1].map(id=>[id,true]));
+state.myPath=Object.fromEntries(CT.focusedRoute.definition.previousPaths[2].map(id=>[id,true]));
 CT.storage.persistAll();CT.store.load();assert.equal(CT.focusedRoute.enabled(),true,'Older 22-milestone preset also upgrades');
 // Adaptive mentor evidence remains local, bounded and changes recommendations only from recorded evidence.
 state.myPath={ccna:true};state.passes={'network-plus':'2026-01-01'};state.customization={careerAdvisor:{targetRole:'career-network'}};state.capabilityEvidence={};

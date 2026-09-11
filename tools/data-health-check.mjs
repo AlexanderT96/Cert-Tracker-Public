@@ -7,10 +7,10 @@ class AuditDate extends Date { static now(){return Date.parse('2026-09-02T16:00:
 const s={console,Date:AuditDate};s.window=s;vm.createContext(s);
 for(const file of ['certs.js','src/cert-extensions.js','src/catalogue-currentness.js','src/catalogue-policy-normalize.js','src/config.js','src/source-registry.js','src/source-registry-current.js','src/data-health.js'])vm.runInContext(fs.readFileSync(file,'utf8'),s,{filename:file});
 const CT=s.CertTrackerV3,health=CT.dataHealth,certs=vm.runInContext('CERTS',s),summary=health.summary();
-assert.equal(summary.total,187);
+assert.equal(summary.total,200);
 assert.equal(summary.missingSources,0);
 assert.equal(summary.sourceCoverage,100);
-assert.equal(summary.exactSources,117);
+assert.equal(summary.exactSources,130);
 assert.equal(summary.vendorSources,70);
 assert.equal(summary.averageConfidence,Math.round(summary.verifiedFacts/summary.totalFacts*100));
 assert.equal(summary.priceVerified,0);

@@ -1,4 +1,16 @@
-# Audit remediation — v4.21.0
+# Audit remediation — v4.22.0
+
+## v4.22 complete My Path audit and wireless/cellular depth
+
+- Cross-walks every publicly inspectable core My Path credential to the current issuer scope. The only non-verified core records are five physical-security programmes whose exact curricula remain behind partner learning access.
+- Replaces the compressed AZ-802 representation with all seven live weighted Microsoft domains: AD DS, hybrid management, virtual machines, networking, storage/file services, infrastructure security, and monitoring/troubleshooting.
+- Adds CWNA and Cisco Meraki Solutions Specialist to the 27-milestone core because multi-vendor Wi-Fi and Meraki operations are current-role requirements, not speculative interests.
+- Adds the complete enterprise Wi-Fi depth route: CWNA → CWAP/CWDP/CWSP → CWNE. CWISA is shown only as the issuer-required CWNE gate; CWSS, retired CWTS and instructor credentials are excluded.
+- Adds a five-stage cellular capability progression from router/APN/failover operations through radio diagnostics, carrier/private-5G architecture, security/resilience and a multi-site expert capstone.
+- Adds the official Nokia Bell Labs vendor-agnostic 5G Associate and Professional domains as a parallel focus route. Nokia RAN specialisation is referenced by the official portfolio but is not forced into My Path.
+- Keeps Palo Alto as a visible optional focus route and adds Cloudflare as an evidence-led edge/Zero Trust capability route; no public Cloudflare exam ladder is claimed.
+- Keeps professional wireless, cellular, Palo Alto and Cloudflare depth visible in a separate parallel section without allowing optional branches to inflate core completion or block automatic next actions.
+- Adds source, blueprint, subject-name, migration and resource-integrity gates. Every core subject must now expose at least one substantive course, lab or dedicated-platform recommendation.
 
 ## v4.21 blueprint cross-walk phase one
 

@@ -5,13 +5,13 @@
   const CT = global.CertTrackerV3 = global.CertTrackerV3 || {};
 
   CT.version = Object.freeze({
-    app: '4.21.0',
-    data: 70,
+    app: '4.22.0',
+    data: 71,
     storage: 12,
     backup: 11,
     sync: 2,
     market: 3,
-    intelligence: 15
+    intelligence: 16
   });
 
   CT.config = Object.freeze({
@@ -35,7 +35,7 @@
     syncCommonHashKey: 'ct4-sync-common-hash',
     syncEtagKey: 'ct4-sync-etag',
     freshness: Object.freeze({ freshDays: 180, reviewDays: 365 }),
-    allowedTracks: Object.freeze(['CORE', 'FOUNDATION', 'CONDITIONAL', 'OPTIONAL', 'ROLE-DRIVEN', 'ARCHITECT', 'IDENTITY-SEC', 'POST-PLAN'])
+    allowedTracks: Object.freeze(['CORE', 'FOUNDATION', 'CONDITIONAL', 'OPTIONAL', 'ROLE-DRIVEN', 'ARCHITECT', 'IDENTITY-SEC', 'POST-PLAN', 'WIRELESS', 'PREREQUISITE-ONLY', 'EXPERIENCE-GATED', 'CELLULAR-FOCUS'])
   });
 
   CT.vendorSources = Object.freeze({

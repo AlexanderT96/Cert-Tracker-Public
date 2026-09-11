@@ -18,6 +18,8 @@
   const PROVIDERS=Object.freeze({
     CompTIA:{training:'https://www.comptia.org/training',practice:'https://www.comptia.org/training/certmaster-practice',video:'Professor Messer'},
     Cisco:{training:'https://u.cisco.com/',practice:'https://www.boson.com/practice-exam',video:'Jeremy\'s IT Lab'},
+    CWNP:{training:'https://www.cwnp.com/certifications/cwna',practice:'https://www.cwnp.com/buy-products/',video:'CWNP'},
+    'Nokia Bell Labs':{training:'https://www.nokia.com/networks/training/bell-labs/',practice:'https://www.nokia.com/networks/training/5g/',video:'Nokia Bell Labs'},
     Microsoft:{training:'https://learn.microsoft.com/en-us/training/',practice:'https://learn.microsoft.com/en-us/credentials/certifications/practice-assessments-for-microsoft-certifications',video:'John Savill'},
     AWS:{training:'https://skillbuilder.aws/',practice:'https://portal.tutorialsdojo.com/course-category/aws-practice-exams/',video:'AWS Events'},
     'Amazon Web Services':{training:'https://skillbuilder.aws/',practice:'https://portal.tutorialsdojo.com/course-category/aws-practice-exams/',video:'AWS Events'},
@@ -59,6 +61,7 @@
     LenelS2:{training:'https://www.lenels2.com/en/training/',practice:'https://www.lenels2.com/en/training/',video:'LenelS2'},
     Honeywell:{training:'https://buildings.honeywell.com/us/en/support/training',practice:'https://buildings.honeywell.com/us/en/support/training',video:'Honeywell Buildings'},
     Paxton:{training:'https://www.paxton-access.com/training/',practice:'https://www.paxton-access.com/training/',video:'Paxton Access'}
+    ,Arcules:{training:'https://arcules.com/support/',practice:'https://arcules.com/partners/',video:'Arcules'}
   });
 
   function yt(query){return `https://www.youtube.com/results?search_query=${encodeURIComponent(query)}`;}
@@ -66,6 +69,14 @@
   function safeUrl(value){return /^https:\/\//i.test(String(value||''))?String(value):'';}
   function vendorKey(cert){
     const v=String(cert?.vendor||'').trim();
+    const id=String(cert?.id||'');
+    if(['a-plus','network-plus','security-plus','linux-plus'].includes(id))return'CompTIA';
+    if(['mcit','mcde','mcie'].includes(id))return'Milestone Systems';
+    if(id==='acp')return'Axis';
+    if(id==='arcules-csp')return'Arcules';
+    if(/^(az|sc)-/.test(id))return'Microsoft';
+    if(/^cc(na|np|ie)/.test(id)||id==='cisco-meraki-solutions')return'Cisco';
+    if(['pcep','pcap','pcpp1','pcpp2'].includes(id))return'Python Institute';
     if(PROVIDERS[v])return v;
     if(/^Microsoft/i.test(v))return'Microsoft';
     if(/^Cisco/i.test(v))return'Cisco';
@@ -166,6 +177,15 @@
   });
 
   const SUBJECT_OVERRIDES=Object.freeze({
+    'a-plus':Object.freeze([
+      {topic:'Core 1: Mobile devices',depth:3,emphasis:'Moderate'},{topic:'Core 1: Networking',depth:3,emphasis:'High'},{topic:'Core 1: Hardware',depth:3,emphasis:'High'},{topic:'Core 1: Virtualisation and cloud computing',depth:2,emphasis:'Moderate'},{topic:'Core 1: Hardware and network troubleshooting',depth:4,emphasis:'Very high'},{topic:'Core 2: Operating systems',depth:3,emphasis:'Very high'},{topic:'Core 2: Security',depth:3,emphasis:'High'},{topic:'Core 2: Software troubleshooting',depth:4,emphasis:'Very high'},{topic:'Core 2: Operational procedures',depth:3,emphasis:'High'}
+    ]),
+    'linux-plus':Object.freeze([
+      {topic:'System management',depth:4,emphasis:'High'},{topic:'Services and user management',depth:4,emphasis:'High'},{topic:'Security',depth:4,emphasis:'High'},{topic:'Automation, orchestration and scripting',depth:4,emphasis:'Very high'},{topic:'Troubleshooting',depth:4,emphasis:'Very high'}
+    ]),
+    'crowdstrike-ccfa':Object.freeze([
+      {topic:'User management',depth:4,emphasis:'High'},{topic:'Sensor deployment',depth:4,emphasis:'Very high'},{topic:'Host management and setup',depth:4,emphasis:'Very high'},{topic:'Group creation',depth:4,emphasis:'High'},{topic:'Policy application',depth:4,emphasis:'Very high'},{topic:'Rules configuration',depth:4,emphasis:'High'},{topic:'Dashboards and reports',depth:4,emphasis:'High'},{topic:'Workflows',depth:4,emphasis:'High'}
+    ]),
     'security-plus':Object.freeze([
       {topic:'General security concepts',depth:3,emphasis:'Moderate'},
       {topic:'Threats, vulnerabilities and mitigations',depth:4,emphasis:'High'},
@@ -174,7 +194,7 @@
       {topic:'Security program management and oversight',depth:3,emphasis:'High'}
     ]),
     'network-plus':Object.freeze([
-      {topic:'Networking concepts and protocols',depth:3,emphasis:'High'},
+      {topic:'Networking concepts',depth:3,emphasis:'High'},
       {topic:'Network implementation',depth:3,emphasis:'High'},
       {topic:'Network operations',depth:3,emphasis:'High'},
       {topic:'Network security',depth:3,emphasis:'Moderate'},
@@ -188,22 +208,32 @@
       {topic:'Security fundamentals',depth:3,emphasis:'High'},
       {topic:'Automation and programmability',depth:3,emphasis:'Moderate'}
     ]),
+    cwna:Object.freeze([
+      {topic:'RF technologies',depth:4,emphasis:'Very high'},{topic:'Antennas and WLAN hardware',depth:4,emphasis:'High'},{topic:'802.11 architecture and protocols',depth:4,emphasis:'Very high'},{topic:'WLAN security',depth:4,emphasis:'High'},{topic:'Site surveys and implementation',depth:4,emphasis:'Very high'},{topic:'WLAN management and troubleshooting',depth:4,emphasis:'Very high'}
+    ]),
+    'cisco-meraki-solutions':Object.freeze([
+      {topic:'Cloud and network management',depth:4,emphasis:'High'},{topic:'Meraki solution design',depth:4,emphasis:'High'},{topic:'Meraki implementation',depth:4,emphasis:'Very high'},{topic:'Monitoring and troubleshooting',depth:4,emphasis:'Very high'},{topic:'Security and policies',depth:4,emphasis:'High'}
+    ]),
+    cwap:Object.freeze([
+      {topic:'PHY behaviour',depth:5,emphasis:'Very high'},{topic:'MAC operations',depth:5,emphasis:'Very high'},{topic:'802.11 frame exchanges',depth:5,emphasis:'Very high'},{topic:'Spectrum analysis',depth:5,emphasis:'Very high'},{topic:'Protocol analysis and troubleshooting',depth:5,emphasis:'Very high'}
+    ]),
+    cwdp:Object.freeze([
+      {topic:'WLAN design methodology',depth:5,emphasis:'Very high'},{topic:'Architecture and protocols',depth:5,emphasis:'High'},{topic:'Site survey planning',depth:5,emphasis:'Very high'},{topic:'Security design',depth:5,emphasis:'High'},{topic:'Design validation and optimisation',depth:5,emphasis:'Very high'}
+    ]),
+    cwsp:Object.freeze([
+      {topic:'WLAN discovery and attacks',depth:5,emphasis:'High'},{topic:'Security protocol analysis',depth:5,emphasis:'Very high'},{topic:'Secure WLAN design',depth:5,emphasis:'Very high'},{topic:'Authentication and key management',depth:5,emphasis:'Very high'},{topic:'802.1X, EAP and roaming',depth:5,emphasis:'Very high'},{topic:'WIPS, monitoring and policy',depth:5,emphasis:'High'}
+    ]),
+    cwisa:Object.freeze([
+      {topic:'Wireless IoT foundations',depth:2,emphasis:'Prerequisite only'},{topic:'Short-range wireless protocols',depth:2,emphasis:'Prerequisite only'},{topic:'LPWAN technologies',depth:2,emphasis:'Prerequisite only'},{topic:'Location services',depth:2,emphasis:'Prerequisite only'},{topic:'Supporting networks and APIs',depth:2,emphasis:'Prerequisite only'},{topic:'IoT operations and project fundamentals',depth:2,emphasis:'Prerequisite only'}
+    ]),
+    cwne:Object.freeze([
+      {topic:'Current CWNA/CWAP/CWDP/CWSP',depth:5,emphasis:'Required'},{topic:'Commercial WLAN deployment evidence',depth:5,emphasis:'Required'},{topic:'External networking credential',depth:5,emphasis:'Required'},{topic:'Recommendations and peer review',depth:5,emphasis:'Required'},{topic:'Continuing education',depth:5,emphasis:'Required'}
+    ]),
     'ccnp-enterprise':Object.freeze([
-      {topic:'Enterprise architecture and design',depth:4,emphasis:'High'},
-      {topic:'Advanced routing: OSPF, BGP and route control',depth:5,emphasis:'Very high'},
-      {topic:'Enterprise infrastructure and services',depth:4,emphasis:'Very high'},
-      {topic:'VPN and transport technologies',depth:4,emphasis:'High'},
-      {topic:'Network assurance and troubleshooting',depth:5,emphasis:'Very high'},
-      {topic:'Infrastructure security',depth:4,emphasis:'High'},
-      {topic:'Automation and programmability',depth:4,emphasis:'High'}
+      {topic:'Enterprise architecture and virtualisation',depth:4,emphasis:'High'},{topic:'Enterprise infrastructure',depth:4,emphasis:'Very high'},{topic:'Network assurance',depth:5,emphasis:'Very high'},{topic:'Infrastructure security',depth:4,emphasis:'High'},{topic:'Automation and programmability',depth:4,emphasis:'High'},{topic:'Advanced routing and VPN services',depth:5,emphasis:'Very high'},{topic:'Infrastructure services and troubleshooting',depth:5,emphasis:'Very high'}
     ]),
     'ccie-enterprise':Object.freeze([
-      {topic:'Expert routing, transport and path control',depth:5,emphasis:'Very high'},
-      {topic:'Enterprise design and architecture trade-offs',depth:5,emphasis:'Very high'},
-      {topic:'Software-defined infrastructure',depth:5,emphasis:'High'},
-      {topic:'Infrastructure security and services',depth:5,emphasis:'High'},
-      {topic:'Automation, APIs and programmability',depth:5,emphasis:'High'},
-      {topic:'Timed fault isolation, optimisation and validation',depth:5,emphasis:'Very high'}
+      {topic:'Network infrastructure design',depth:5,emphasis:'Very high'},{topic:'Software-defined infrastructure',depth:5,emphasis:'High'},{topic:'Transport technologies',depth:5,emphasis:'Very high'},{topic:'Infrastructure security and services',depth:5,emphasis:'High'},{topic:'Automation and programmability',depth:5,emphasis:'High'},{topic:'Operate and optimise',depth:5,emphasis:'Very high'}
     ]),
     'az-900':Object.freeze([
       {topic:'Cloud concepts',depth:2,emphasis:'High'},
@@ -217,11 +247,10 @@
       {topic:'Microsoft compliance solutions',depth:2,emphasis:'High'}
     ]),
     'ai-901':Object.freeze([
-      {topic:'AI concepts and responsible AI',depth:2,emphasis:'High'},
-      {topic:'Machine learning and model concepts',depth:2,emphasis:'High'},
-      {topic:'Computer vision',depth:2,emphasis:'Moderate'},
-      {topic:'Natural language processing and generative AI',depth:2,emphasis:'High'},
-      {topic:'Microsoft Foundry implementation concepts',depth:2,emphasis:'High'}
+      {topic:'AI concepts and capabilities',depth:2,emphasis:'High'},{topic:'Microsoft Foundry AI solutions',depth:2,emphasis:'Very high'}
+    ]),
+    'ai-103':Object.freeze([
+      {topic:'Plan and manage an Azure AI solution',depth:4,emphasis:'High'},{topic:'Generative AI and agents',depth:4,emphasis:'Very high'},{topic:'Computer vision',depth:4,emphasis:'Moderate'},{topic:'Text analysis',depth:4,emphasis:'Moderate'},{topic:'Information extraction',depth:4,emphasis:'Moderate'}
     ]),
     'az-104':Object.freeze([
       {topic:'Azure identities and governance',depth:4,emphasis:'High'},
@@ -238,12 +267,7 @@
       {topic:'Azure network security services',depth:4,emphasis:'High'}
     ]),
     'az-802':Object.freeze([
-      {topic:'Active Directory Domain Services and DNS',depth:4,emphasis:'Very high'},
-      {topic:'Windows Server security and PKI',depth:4,emphasis:'High'},
-      {topic:'Hyper-V and virtualization',depth:4,emphasis:'High'},
-      {topic:'Windows Server networking',depth:4,emphasis:'High'},
-      {topic:'Storage and file services',depth:4,emphasis:'High'},
-      {topic:'Monitoring, troubleshooting and recovery',depth:4,emphasis:'Very high'}
+      {topic:'Active Directory Domain Services',depth:4,emphasis:'Very high'},{topic:'Hybrid Windows Server management',depth:4,emphasis:'High'},{topic:'Windows Server virtual machines',depth:4,emphasis:'High'},{topic:'On-premises and hybrid networking',depth:4,emphasis:'High'},{topic:'Storage and file services',depth:4,emphasis:'High'},{topic:'Windows Server infrastructure security',depth:4,emphasis:'Very high'},{topic:'Monitoring and troubleshooting',depth:4,emphasis:'Very high'}
     ]),
     'sc-200':Object.freeze([
       {topic:'Microsoft Sentinel and SIEM operations',depth:4,emphasis:'Very high'},
@@ -288,10 +312,7 @@
       {topic:'Exceptions, generators and file processing',depth:4,emphasis:'High'}
     ]),
     pcpp1:Object.freeze([
-      {topic:'Advanced object-oriented Python',depth:5,emphasis:'Very high'},
-      {topic:'Network programming and APIs',depth:4,emphasis:'High'},
-      {topic:'GUI, files and data processing',depth:4,emphasis:'High'},
-      {topic:'Advanced language features and patterns',depth:5,emphasis:'High'}
+      {topic:'Advanced object-oriented programming',depth:5,emphasis:'Very high'},{topic:'Coding conventions and documentation',depth:4,emphasis:'High'},{topic:'GUI programming',depth:4,emphasis:'Moderate'},{topic:'Network programming and APIs',depth:5,emphasis:'Very high'},{topic:'File, data and environment modules',depth:4,emphasis:'High'}
     ]),
     'iec-62443-cfs':Object.freeze([
       {topic:'Industrial automation and control-system security concepts',depth:3,emphasis:'Very high'},
@@ -426,9 +447,9 @@
     const official=safeUrl(cert.sourceUrl);
     const rows=[];
     if(official)rows.push(link('Official blueprint',official,`Authoritative ${subject} scope and current exam requirements`,'official',true));
-    if(p?.training)rows.push(link('Primary course',p.training,`Official/vendor learning for ${subject}`,'course',null));
     rows.push(...auditedLinks(cert));
     rows.push(...platformRecommendations(cert,subject,requiredDepth));
+    if(p?.training)rows.push(link('Primary course',p.training,`Official/vendor learning for ${subject}`,'course',null));
     rows.push(link('Best-fit video',yt(`${videoProvider(cert)} ${query} ${subject}`),`Visual explanation of ${subject} aligned to ${cert.code||cert.name}`,'video',true));
     const vendor=vendorKey(cert);
     if(vendor==='Cisco')rows.push(link('Hands-on lab',cert.id==='ccna'?'https://www.netacad.com/courses/packet-tracer':'https://developer.cisco.com/modeling-labs/',`Configure and break/fix ${subject}`,'lab',cert.id==='ccna'));
@@ -450,10 +471,10 @@
   function overallStack(cert){
     const p=provider(cert),query=certQuery(cert),official=safeUrl(cert.sourceUrl),rows=[];
     if(official)rows.push(link('Official exam / certification page',official,'Start here: current scope, objectives, prerequisites and policies','official',true));
-    if(p?.training)rows.push(link('Primary learning path',p.training,'Main structured course or vendor learning portal','course',null));
     rows.push(...auditedLinks(cert));
     (STACK_OVERRIDES[cert.id]||[]).forEach(row=>rows.push(row));
     rows.push(...platformRecommendations(cert,inferredSubjects(cert).join(' ')));
+    if(p?.training)rows.push(link('Primary learning path',p.training,'Main structured course or vendor learning portal','course',null));
     rows.push(link('Best-fit video search',yt(`${videoProvider(cert)} ${query} full course`),'Free visual course/revision option','video',true));
     if(p?.practice)rows.push(link('Practice / readiness',p.practice,'Exam-style practice and gap finding','practice',null));
     if(vendorKey(cert)==='Cisco')rows.push(link('Cisco Press search',`https://www.ciscopress.com/search/index.aspx?query=${encodeURIComponent(cert.code||cert.name)}`,'Deep-reference book / official-cert-guide route','book',false));

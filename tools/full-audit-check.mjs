@@ -3,7 +3,7 @@ import fs from 'node:fs';
 import vm from 'node:vm';
 import {catalogue,inventory,publicAddress,robotsAllowed,comparePage} from './full-audit.mjs';
 const model=catalogue(),urls=inventory(model);
-assert.equal(model.certs.length,187);assert.equal(model.CT.careerOptions.ROLES.length,70);
+assert.equal(model.certs.length,200);assert.equal(model.CT.careerOptions.ROLES.length,70);
 for(const cert of model.certs)assert.ok(urls.some(r=>r.refs.includes('cert:'+cert.id)),cert.id);
 assert.ok(urls.some(r=>r.refs.some(v=>v.startsWith('learning:'))));assert.ok(urls.some(r=>r.refs.some(v=>v.startsWith('role:'))));
 for(const ip of ['127.0.0.1','10.1.2.3','169.254.169.254','172.16.0.1','192.168.0.1','::1','fc00::1','::ffff:127.0.0.1'])assert.equal(publicAddress(ip),false);

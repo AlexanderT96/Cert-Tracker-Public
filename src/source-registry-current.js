@@ -4,6 +4,19 @@
   const CT=global.CertTrackerV3;if(!CT?.sourceRegistry)return;
   const VERIFIED='2026-09-02';
   const extra={
+    cwna:{level:'CERT',verifiedAt:'2026-09-11',url:'https://www.cwnp.com/certifications/cwna',note:'Official CWNP CWNA page; current CWNA-109 and CWNA-110 transition are disclosed.'},
+    'cisco-meraki-solutions':{level:'CERT',verifiedAt:'2026-09-11',url:'https://learningnetwork.cisco.com/s/ecms-exam-topics',note:'Official Cisco Learning Network 500-220 ECMS exam topics.'},
+    cwap:{level:'CERT',verifiedAt:'2026-09-11',url:'https://www.cwnp.com/certifications/cwap',note:'Official CWNP CWAP page.'},
+    cwdp:{level:'CERT',verifiedAt:'2026-09-11',url:'https://www.cwnp.com/certifications/cwdp',note:'Official CWNP CWDP page.'},
+    cwsp:{level:'CERT',verifiedAt:'2026-09-11',url:'https://www.cwnp.com/certifications/cwsp',note:'Official CWNP CWSP page.'},
+    cwisa:{level:'CERT',verifiedAt:'2026-09-11',url:'https://www.cwnp.com/certifications/cwisa',note:'Official CWNP CWISA page; represented only because it is a current CWNE requirement.'},
+    cwne:{level:'CERT',verifiedAt:'2026-09-11',url:'https://www.cwnp.com/certifications/cwne',note:'Official CWNP expert application and experience requirements.'},
+    'nokia-5g-associate':{level:'CERT',verifiedAt:'2026-09-11',url:'https://www.nokia.com/networks/training/bell-labs/',note:'Official Nokia Bell Labs vendor-agnostic 5G certification programme overview.'},
+    'nokia-5g-networking':{level:'CERT',verifiedAt:'2026-09-11',url:'https://www.nokia.com/networks/training/bell-labs/',note:'Official programme lists 5G Networking as a Professional certification domain.'},
+    'nokia-5g-slicing':{level:'CERT',verifiedAt:'2026-09-11',url:'https://www.nokia.com/networks/training/bell-labs/',note:'Official programme lists 5G Network Slicing as a Professional certification domain.'},
+    'nokia-5g-security':{level:'CERT',verifiedAt:'2026-09-11',url:'https://www.nokia.com/networks/training/bell-labs/',note:'Official programme lists 5G Secured Networks as a Professional certification domain.'},
+    'nokia-5g-cloud':{level:'CERT',verifiedAt:'2026-09-11',url:'https://www.nokia.com/networks/training/bell-labs/',note:'Official programme lists Distributed Cloud Networks as a Professional certification domain.'},
+    'nokia-5g-industrial':{level:'CERT',verifiedAt:'2026-09-11',url:'https://www.nokia.com/networks/training/bell-labs/',note:'Official programme lists Industrial Automation Networks as a Professional certification domain.'},
     'pan-netsec-pro':{level:'CERT',verifiedAt:VERIFIED,url:'https://www.paloaltonetworks.com/services/education/palo-alto-networks-netsec-professional',note:'Official Palo Alto Networks Network Security Professional certification page; current Professional-level Network Security credential.'},
     'pan-ngfw-eng':{level:'CERT',verifiedAt:VERIFIED,url:'https://www.paloaltonetworks.com/services/education/palo-alto-networks-ngfw-engineer',note:'Official Palo Alto Networks Next-Generation Firewall Engineer certification page; current Specialist-level NGFW engineering credential.'},
     'pan-sse-eng':{level:'CERT',verifiedAt:VERIFIED,url:'https://www.paloaltonetworks.com/services/education/palo-alto-networks-sse-engineer',note:'Official Palo Alto Networks Security Service Edge Engineer certification page; current Specialist-level SSE credential.'},
