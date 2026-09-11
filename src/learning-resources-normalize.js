@@ -28,6 +28,7 @@
     let url=null,label='Official/provider learning route';
     if(['server-plus','cysa-plus','secai-plus','autoops-plus'].includes(id))url='https://www.comptia.org/training';
     else if(['cissp','issap'].includes(id))url='https://www.isc2.org/training/online-self-paced';
+    else if(id==='btl1')url='https://www.securityblue.team/academy';
     else if(['cismp','bcs-esa'].includes(id))url='https://www.bcs.org/qualifications-and-certifications/';
     else if(id==='iso-27001-li')url='https://pecb.com/en/education-and-certification-for-individuals';
     else if(['crisc','cisa','cdpse','cism'].includes(id))url='https://www.isaca.org/education';
@@ -49,6 +50,7 @@
     else if(id.startsWith('pragmatic-'))url='https://www.pragmaticinstitute.com/';
     else if(id==='sabsa-found')url='https://sabsa.org/training/';
     if(!url)return null;
+    url += '#cert-tracker-'+id+'-'+String(topic).toLowerCase().replace(/[^a-z0-9]+/g,'-');
     return row(label,url,'Use the issuer/provider learning route as the structured spine for '+topic+'. Confirm the live syllabus, version and access terms before relying on it.','course',null);
   }
   function completeResources(cert,topic,resources){const q=[cert.code,cert.name,topic].filter(Boolean).join(' '),rows=[official(cert),providerCourse(cert,topic),...(resources||[]),row('Video deep-dive search',yt(`${q} tutorial`),'','video',true),row('Structured course search',udemy(`${cert.code||cert.name} ${topic}`),'','course',false),row('Hands-on walkthrough search',yt(`${q} hands-on lab`),'','lab',true)].filter(Boolean).map(r=>classify(r,cert));return Object.freeze(dedupe(rows));}
