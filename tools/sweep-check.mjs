@@ -46,6 +46,7 @@ for(const cert of certs){
   }
 }
 const defaultUnavailable=(sandbox.CERT_TRACKER_FOCUSED_ROUTE?.ids||[]).filter(id=>unavailable.has(id)).map(id=>({id,status:unavailable.get(id)}));
+const CERT_BY_ID=new Map(certs.map(cert=>[cert.id,cert]));
 const pathwayDefinitionIds=[...new Set([
   ...Object.values(CT.careerOptions.PATHWAY_TEMPLATES||{}).flat(2),
   ...Object.values(CT.careerOptions.ROLE_ROUTE_PROFILES||{}).flatMap(profile=>(profile?.stages||[]).flatMap(stage=>stage.certs||[]))
