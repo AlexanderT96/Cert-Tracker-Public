@@ -26,7 +26,7 @@ for (const id of routeIds) {
   assert.ok(Number.isFinite(cert.validity), `${id} needs an explicit validity value in months`);
   assert.ok(cert.renewalRule, `${id} needs a renewal rule`);
   assert.ok(cert.costStatus, `${id} needs a cost status`);
-  assert.ok(/^\\d{4}-\\d{2}(?:-\\d{2})?$/.test(cert.verifiedAt || ''), `${id} needs a dated verifiedAt value`);
+  assert.ok(/^\d{4}-\d{2}(?:-\d{2})?$/.test(cert.verifiedAt || ''), `${id} needs a dated verifiedAt value`);
   assert.ok(Array.isArray(cert.tutorBottlenecks) && cert.tutorBottlenecks.length > 0, `${id} needs subject-level tutor bottlenecks`);
 }
 
