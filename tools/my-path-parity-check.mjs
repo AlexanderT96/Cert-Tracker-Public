@@ -33,7 +33,7 @@ for (const id of routeIds) {
 const az802 = byId.get('az-802');
 assert.equal(az802.catalogueStatus, 'PENDING_BLUEPRINT');
 assert.equal(az802.active, false);
-assert.ok(Array.isArray(byId.get('cwne').experienceGate?.enterpriseProjects) && byId.get('cwne').experienceGate.enterpriseProjects >= 3);
+assert.ok(Number.isFinite(byId.get('cwne').experienceGate?.enterpriseProjects) && byId.get('cwne').experienceGate.enterpriseProjects >= 3);
 assert.deepEqual(byId.get('cwap').deps, ['cwna']);
 assert.deepEqual(byId.get('cwdp').deps, ['cwna']);
 assert.deepEqual(byId.get('cwsp').deps, ['cwna']);
