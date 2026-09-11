@@ -110,6 +110,8 @@
   }
 
   function tierFromCertRow(row){
+    const fixed=row.dataset?.m;
+    if(TIERS.includes(fixed))return fixed;
     for(const [rank,tier] of Object.entries(RANK_TO_TIER))if(row.querySelector(`.signature-tier-${rank}`))return tier;
     return 'bronze';
   }
