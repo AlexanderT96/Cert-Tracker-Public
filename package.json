@@ -1,27 +1,29 @@
 {
-  "name":"cert-tracker",
-  "version":"4.22.0",
-  "private":true,
-  "type":"module",
-  "scripts":{
-    "pretest":"node tools/full-audit-check.mjs && node tools/data-health-check.mjs && node tools/curriculum-audit-check.mjs && node tools/career-options-check.mjs && node tools/sweep-check.mjs && node tools/audit-regression.mjs",
-    "pretest:quality":"node tools/full-audit-check.mjs && node tools/data-health-check.mjs && node tools/curriculum-audit-check.mjs && node tools/career-options-check.mjs",
-    "test:data-health":"node tools/data-health-check.mjs",
-    "test":"node tools/quality-check.mjs && node tools/filter-model-check.mjs && node tools/dual-pillar-depth-check.mjs && node tools/market-readiness-check.mjs && node tools/role-readiness-check.mjs && node tools/ui-lifecycle-check.mjs && node tools/formatting-check.mjs && node tools/responsive-check.mjs && node tools/privacy-check.mjs && node tools/security-check.mjs && node tools/browser-compat-check.mjs",
-    "test:quality":"node tools/quality-check.mjs && node tools/filter-model-check.mjs && node tools/dual-pillar-depth-check.mjs && node tools/market-readiness-check.mjs && node tools/role-readiness-check.mjs && node tools/ui-lifecycle-check.mjs && node tools/formatting-check.mjs && node tools/responsive-check.mjs && node tools/security-check.mjs && node tools/browser-compat-check.mjs",
-    "test:lifecycle":"node tools/ui-lifecycle-check.mjs",
-    "test:filters":"node tools/filter-model-check.mjs",
-    "test:depth":"node tools/dual-pillar-depth-check.mjs",
-    "test:market":"node tools/market-readiness-check.mjs",
-    "test:roles":"node tools/role-readiness-check.mjs",
-    "test:formatting":"node tools/formatting-check.mjs",
-    "test:responsive":"node tools/responsive-check.mjs",
-    "test:privacy":"node tools/privacy-check.mjs",
-    "test:security":"node tools/security-check.mjs",
-    "test:compat":"node tools/browser-compat-check.mjs",
-    "test:freshness":"node tools/quality-check.mjs --freshness",
-    "test:sources":"node tools/source-check.mjs",
-    "market:refresh":"node tools/refresh-job-market.mjs"
+  "name": "cert-tracker",
+  "version": "4.22.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "pretest": "node tools/my-path-parity-check.mjs && node tools/full-audit-check.mjs && node tools/data-health-check.mjs && node tools/curriculum-audit-check.mjs && node tools/career-options-check.mjs && node tools/sweep-check.mjs && node tools/audit-regression.mjs",
+    "pretest:quality": "node tools/my-path-parity-check.mjs && node tools/full-audit-check.mjs && node tools/data-health-check.mjs && node tools/curriculum-audit-check.mjs && node tools/career-options-check.mjs",
+    "test:data-health": "node tools/data-health-check.mjs",
+    "test": "node tools/quality-check.mjs && node tools/filter-model-check.mjs && node tools/dual-pillar-depth-check.mjs && node tools/market-readiness-check.mjs && node tools/role-readiness-check.mjs && node tools/ui-lifecycle-check.mjs && node tools/formatting-check.mjs && node tools/responsive-check.mjs && node tools/privacy-check.mjs && node tools/security-check.mjs && node tools/browser-compat-check.mjs",
+    "test:quality": "node tools/quality-check.mjs && node tools/filter-model-check.mjs && node tools/dual-pillar-depth-check.mjs && node tools/market-readiness-check.mjs && node tools/role-readiness-check.mjs && node tools/ui-lifecycle-check.mjs && node tools/formatting-check.mjs && node tools/responsive-check.mjs && node tools/security-check.mjs && node tools/browser-compat-check.mjs",
+    "test:lifecycle": "node tools/ui-lifecycle-check.mjs",
+    "test:filters": "node tools/filter-model-check.mjs",
+    "test:depth": "node tools/dual-pillar-depth-check.mjs",
+    "test:market": "node tools/market-readiness-check.mjs",
+    "test:roles": "node tools/role-readiness-check.mjs",
+    "test:formatting": "node tools/formatting-check.mjs",
+    "test:responsive": "node tools/responsive-check.mjs",
+    "test:privacy": "node tools/privacy-check.mjs",
+    "test:security": "node tools/security-check.mjs",
+    "test:compat": "node tools/browser-compat-check.mjs",
+    "test:freshness": "node tools/quality-check.mjs --freshness",
+    "test:sources": "node tools/source-check.mjs",
+    "market:refresh": "node tools/refresh-job-market.mjs"
   },
-  "engines":{"node":">=20"}
+  "engines": {
+    "node": ">=20"
+  }
 }
