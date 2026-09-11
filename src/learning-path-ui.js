@@ -15,7 +15,7 @@
   function pathCerts(phase){
     const rows=CERTS.filter(c=>CT.store.effectivePhase(c)===phase&&state.myPath?.[c.id]);
     const routeRows=CT.focusedRoute?.enabled()?CT.focusedRoute.ordered(rows):rows;
-    const next=CT.recommendations.recommend({limit:1,horizon:'now'})[0]?.id;
+    const next=CT.recommendations?.recommend?.({limit:1,horizon:'now'})?.[0]?.id;
     const ordered=[...routeRows].sort((a,b)=>(state.passes?.[a.id]?1:0)-(state.passes?.[b.id]?1:0));
     return next&&ordered.some(c=>c.id===next)?[ordered.find(c=>c.id===next),...ordered.filter(c=>c.id!==next)]:ordered;
   }

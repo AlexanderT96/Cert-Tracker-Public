@@ -15,6 +15,9 @@
         // The legacy renderer runs before the workspace shell. Finish that existing render once.
         else CT.workspaceShell?.decorate();
       }catch(error){console.error('[CertTracker] initial render failed',error);}
+      if(!app.childNodes.length){
+        app.innerHTML='<main class="ct3-card" role="alert" style="margin:16px;padding:20px"><h1>Cert Tracker could not start</h1><p>The saved workspace is still intact. Reload once; if the problem persists, clear this site\'s cached data and reopen it.</p><button class="ct3-btn" type="button" onclick="location.reload()">Reload tracker</button></main>';
+      }
       const content=document.getElementById('tab-content');
       if(content)new MutationObserver(postRender).observe(content,{childList:true,subtree:false});
     }
