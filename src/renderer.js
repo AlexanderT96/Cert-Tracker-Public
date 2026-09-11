@@ -2187,7 +2187,7 @@ function renderCertRow(cert, isNext = false) {
           ${isNext ? `<span class="badge badge-next">▶ NEXT UP</span>` : ''}
           <span class="cert-name ${pd ? 'passed' : ''}">${escape(cert.name)}</span>
           ${cert.code ? `<span class="cert-code">${escape(cert.code)}</span>` : ''}
-          <button class="mypath-star${state.myPath && state.myPath[cert.id] ? ' active' : ''}" onclick="event.stopPropagation(); toggleMyPath('${cert.id}')" title="${state.myPath && state.myPath[cert.id] ? 'Remove from My Path' : 'Add to My Path'}">${state.myPath && state.myPath[cert.id] ? '★' : '☆'}</button>
+          ${state.filter === 'my-path' ? '' : `<button class="mypath-star${state.myPath?.[cert.id] ? ' active' : ''}" onclick="event.stopPropagation(); toggleMyPath('${cert.id}')" title="${state.myPath?.[cert.id] ? 'Remove from My Path' : 'Add to My Path'}" aria-pressed="${state.myPath?.[cert.id] ? 'true' : 'false'}">${state.myPath?.[cert.id] ? 'PATH −' : 'PATH +'}</button>`}
         </div>
         <div class="cert-meta-row">
           ${pd ? `<span class="badge badge-held">✓ HELD${state.passes[cert.id] ? ' · ' + formatPassDate(state.passes[cert.id]) : ''}</span>` : ''}
