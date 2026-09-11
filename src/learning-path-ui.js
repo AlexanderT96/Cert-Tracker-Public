@@ -14,17 +14,16 @@
 
   function pathCerts(phase){
     const rows=CERTS.filter(c=>CT.store.effectivePhase(c)===phase&&state.myPath?.[c.id]);
-    if(CT.focusedRoute?.enabled())return CT.focusedRoute.ordered(rows);
-    const passed=rows.filter(c=>state.passes?.[c.id]);
-    const pending=rows.filter(c=>!state.passes?.[c.id]);
-    const ranked=CT.filterIntelligence?.rankRows?CT.filterIntelligence.rankRows(pending,{filterId:'my-path',label:'My Path',horizon:'now'}).map(x=>x.cert):pending;
-    return [...passed,...ranked];
+    const routeRows=CT.focusedRoute?.enabled()?CT.focusedRoute.ordered(rows):rows;
+    const next=CT.recommendations.recommend({limit:1,horizon:'now'})[0]?.id;
+    const ordered=[...routeRows].sort((a,b)=>(state.passes?.[a.id]?1:0)-(state.passes?.[b.id]?1:0));
+    return next&&ordered.some(c=>c.id===next)?[ordered.find(c=>c.id===next),...ordered.filter(c=>c.id!==next)]:ordered;
   }
   function certItem(cert,nextId){
     const card=CT.careerFramework.scoreCard(cert),tandem=CT.recommendations.tandemProfile(card),cls=CT.focusedRoute?.enabled()?'LOCKED MILESTONE':CT.capabilityGates.portfolioClass(cert,card),done=!!state.passes?.[cert.id],blocked=(cert.deps||[]).filter(id=>!state.passes?.[id]),dot=done?'done':cert.id===nextId?'now':'';
     const depth=CT.dualPillarDepth?.certProfile?.(cert)?.depth;
     const detail=done?`Completed · ${cls}`:blocked.length?`Blocked by ${blocked.map(id=>CERTS.find(c=>c.id===id)?.code||id).join(', ')} · M${card.M}/K${card.K}`:`${cls} · M${card.M} market · K${card.K} capability · floor ${tandem.weaker}/10 · ${card.T}`;
-    return `<div class="ct-learning-item"><span class="ct-learning-dot ${dot}"></span><div><strong>${esc(cert.name)}</strong><small>${esc(detail)}${depth?` · ${depth.subjects} subjects / ${depth.deepCount} D4-D5`:''}</small></div></div>`;
+    return `<div class="ct-learning-item${dot==='now'?' now':''}"><span class="ct-learning-dot ${dot}"></span><div><strong>${esc(cert.name)}</strong><small>${esc(detail)}${depth?` · ${depth.subjects} subjects / ${depth.deepCount} D4-D5`:''}</small></div></div>`;
   }
   function topicItem(row,nextTopicId){const now=row.topic.id===nextTopicId;return `<div class="ct-learning-item"><span class="ct-learning-dot ${now?'now':''}"></span><div><strong>${esc(row.topic.title)}</strong><small>${row.mastery}% evidenced · ${esc(row.reasons.slice(0,2).join(' · ')||row.topic.why)}</small></div></div>`;}
   function gateHtml(phase){if(CT.focusedRoute?.enabled())return '';const key=GATE_AFTER[phase],gate=key?CT.capabilityGates.roleGateStatus(key):null;if(!gate)return'';return `<div class="ct-learning-gate"><div><strong>ROLE GATE · ${esc(gate.label)}</strong><span>${esc(gate.ready?'Market/capability transition gate met':'Practical evidence must catch up before treating this role transition as ready')}</span></div><div><strong>${gate.score}%${gate.ready?' ✓':''}</strong><span>${esc(gate.ready?'Gate met':gate.blockers.slice(0,1).join(''))}</span></div></div>`;}

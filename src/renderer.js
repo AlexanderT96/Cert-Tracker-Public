@@ -1,4 +1,4 @@
-Warning: truncated output (original token count: 73257)
+Warning: truncated output (original token count: 73263)
 Total output lines: 3157
 
 // ═══════════════════════════════════════════════════════════════════════════
@@ -824,7 +824,7 @@ function renderDashboard() {
     const passedAtLvl = certsAtLvl.filter(c => state.passes[c.id]).length;
     const pct = certsAtLvl.length > 0 ? Math.round(passedAtLvl / certsAtLvl.length * 100) : 0;
     const barColor = lvl === 5 ? 'var(--red)' : lvl === 4 ? 'var(--amber)' : lvl === 3 ? 'var(--blue)' : 'var(--slate)';
-    return `…43257 tokens truncated…mail outreach script</div>
+    return `…43263 tokens truncated…mail outreach script</div>
         <div class="appguide-quote">${escape(g.referees.outreachTemplate)}</div>` : ''}
     </div>` : '';
 

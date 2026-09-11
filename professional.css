@@ -16,6 +16,8 @@
   --ct-header-height:58px;--ct-card-padding:14px;--ct-row-padding:12px;--ct-gap:12px;
   --ct-font-family:Inter,-apple-system,BlinkMacSystemFont,"Segoe UI",system-ui,sans-serif;
 }
+
+.ct-learning-item.now{margin-inline:-6px;padding-inline:8px;border:1px solid color-mix(in srgb,var(--blue) 68%,var(--border));border-radius:8px;background:linear-gradient(90deg,color-mix(in srgb,var(--blue) 16%,transparent),transparent 78%);box-shadow:0 0 14px color-mix(in srgb,var(--blue) 22%,transparent),inset 0 0 12px color-mix(in srgb,var(--blue) 8%,transparent)}
 html,body{font-family:var(--ct-font-family);font-size:calc(14px * var(--ct-font-scale));background:var(--bg);}
 body{
   background-image:
