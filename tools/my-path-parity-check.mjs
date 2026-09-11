@@ -8,15 +8,16 @@ vm.runInContext(fs.readFileSync('certs.js', 'utf8'), sandbox, { filename: 'certs
 vm.runInContext(fs.readFileSync('src/path-defaults.js', 'utf8'), sandbox, { filename: 'src/path-defaults.js' });
 
 const route = sandbox.window.CERT_TRACKER_FOCUSED_ROUTE;
-const certs = sandbox.window.CERTS;
+const routeIds = Array.from(route.ids || []);
+const certs = Array.from(sandbox.window.CERTS || []);
 const byId = new Map(certs.map(cert => [cert.id, cert]));
-assert.ok(route && Array.isArray(route.ids), 'focused My Path route must be present');
-assert.equal(new Set(route.ids).size, route.ids.length, 'My Path must not contain duplicate route IDs');
+assert.ok(route && routeIds.length, 'focused My Path route must be present');
+assert.equal(new Set(routeIds).size, routeIds.length, 'My Path must not contain duplicate route IDs');
 
-const unknown = route.ids.filter(id => !byId.has(id));
+const unknown = routeIds.filter(id => !byId.has(id));
 assert.deepEqual(unknown, [], 'My Path references unknown canonical certification IDs');
 
-for (const id of route.ids) {
+for (const id of routeIds) {
   const cert = byId.get(id);
   assert.ok(cert.officialUrl && /^https:\/\//.test(cert.officialUrl), `${id} needs an official source URL`);
   assert.ok(cert.sourceUrl === cert.officialUrl, `${id} sourceUrl must match officialUrl`);
@@ -40,4 +41,4 @@ assert.equal(byId.get('ai-901').code, 'AI-901');
 assert.match(byId.get('pcep').marketNote, /five years/i);
 assert.match(byId.get('pcap').marketNote, /five years/i);
 
-console.log(`My Path parity OK: ${route.ids.length} route IDs, ${certs.length} total catalogue records`);
+console.log(`My Path parity OK: ${routeIds.length} route IDs, ${certs.length} total catalogue records`);
