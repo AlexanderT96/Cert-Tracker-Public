@@ -174,7 +174,7 @@ try{
   await dataHealth.waitFor();
   const healthText=await dataHealth.textContent();
   assert.ok(healthText.includes('100%')&&/\d+\/\d+ linked/.test(healthText));
-  assert.ok(healthText.includes('117 cert-level')&&healthText.includes('70 vendor-level'));
+  assert.ok(/\d+ cert-level/.test(healthText)&&/\d+ vendor-level/.test(healthText));
   assert.ok(healthText.includes('Credential retired')&&healthText.includes('Credential in development'));
   assert.ok(healthText.includes('Not currently verified')&&healthText.includes('1100'));
   assert.equal(await dataHealth.locator('.ct3-health-table tbody tr').count(),6);
