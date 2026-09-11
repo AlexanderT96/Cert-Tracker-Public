@@ -3841,7 +3841,661 @@ const CERTS = [
     note: "The architect-level capstone of the AI-security ladder — the higher tier above SecAI+. GIAC = premium, performance-based (CyberLive). GA 28 Jul 2026, available well within the timeline. Positions the applicant toward Lead AI Security Architect-adjacent work and future-proofs the convergence thesis as AI permeates OT.",
     deps: ["caisp"]
   },
+  {
+    "id": "cwna",
+    "name": "CWNA — Certified Wireless Network Administrator",
+    "code": "CWNA-109",
+    "phase": 2,
+    "track": "CORE",
+    "gateway": true,
+    "tier": "S",
+    "validity": 36,
+    "cost": "$274.99 USD; UK price varies",
+    "costNum": 220,
+    "cvValue": 4500,
+    "verifiedAt": "2026-09-11",
+    "employer": false,
+    "free": false,
+    "difficulty": 6,
+    "roi": 9,
+    "hours": [
+      80,
+      120
+    ],
+    "skills": [
+      "RF technologies",
+      "802.11 architecture",
+      "WLAN security",
+      "site surveys",
+      "wireless troubleshooting"
+    ],
+    "subjects": [
+      "RF fundamentals",
+      "802.11 architecture",
+      "WLAN security",
+      "site surveys",
+      "wireless troubleshooting"
+    ],
+    "examFormat": "60 multiple-choice/multiple-answer questions; 90 minutes; 70% pass mark.",
+    "projectRec": "Design and validate a multi-AP enterprise WLAN with channel plan, VLAN/security plan and troubleshooting runbook.",
+    "note": "Mandatory vendor-neutral enterprise Wi-Fi milestone. CWNA-109 is available until 31 Dec 2026; recheck CWNA-110 status before booking.",
+    "deps": [],
+    "officialUrl": "https://www.cwnp.com/certifications/cwna",
+    "provider": "CWNP",
+    "renewalRule": "Valid three years; retake CWNA or pass CWAP, CWDP or CWSP before expiry.",
+    "costStatus": "REGION_VARIABLE",
+    "active": true,
+    "catalogueStatus": "ACTIVE",
+    "tutorBottlenecks": [
+      "RF fundamentals",
+      "802.11 frame behaviour",
+      "site-survey interpretation"
+    ]
+  },
+  {
+    "id": "cwisa",
+    "name": "CWISA — Certified Wireless IoT Solutions Administrator",
+    "code": "CWISA-103",
+    "phase": 2,
+    "track": "CORE",
+    "gateway": false,
+    "tier": "A",
+    "validity": 36,
+    "cost": "CWNP voucher; UK price varies",
+    "costNum": 220,
+    "cvValue": 3500,
+    "verifiedAt": "2026-09-11",
+    "employer": false,
+    "free": false,
+    "difficulty": 6,
+    "roi": 8,
+    "hours": [
+      60,
+      100
+    ],
+    "skills": [
+      "IoT wireless",
+      "BLE",
+      "Zigbee",
+      "LoRaWAN",
+      "location services"
+    ],
+    "subjects": [
+      "IoT wireless foundations",
+      "short-range protocols",
+      "LPWAN",
+      "location services",
+      "wired-side integration"
+    ],
+    "examFormat": "CWNP remote-proctored exam; current version CWISA-103.",
+    "projectRec": "Produce a vendor-neutral wireless IoT selection and integration brief.",
+    "note": "Visible core wireless-IoT milestone. CWISA-103 released November 2025.",
+    "deps": [],
+    "officialUrl": "https://www.cwnp.com/certifications/cwisa",
+    "provider": "CWNP",
+    "renewalRule": "Valid three years; verify current CWNP recertification policy.",
+    "costStatus": "REGION_VARIABLE",
+    "active": true,
+    "catalogueStatus": "ACTIVE",
+    "tutorBottlenecks": [
+      "protocol selection",
+      "wired-side integration",
+      "IoT security boundaries"
+    ]
+  },
+  {
+    "id": "cisco-meraki-solutions",
+    "name": "Cisco Meraki Solutions Specialist",
+    "code": "500-220 ECMS",
+    "phase": 2,
+    "track": "CONDITIONAL",
+    "gateway": false,
+    "tier": "B",
+    "validity": 36,
+    "cost": "Cisco specialist exam; regional price varies",
+    "costNum": 220,
+    "cvValue": 2500,
+    "verifiedAt": "2026-09-11",
+    "employer": false,
+    "free": false,
+    "difficulty": 5,
+    "roi": 7,
+    "hours": [
+      50,
+      90
+    ],
+    "skills": [
+      "Meraki Dashboard",
+      "wireless deployment",
+      "switching",
+      "security appliances"
+    ],
+    "subjects": [
+      "Dashboard policy hierarchy",
+      "wireless deployment",
+      "switching and security",
+      "troubleshooting"
+    ],
+    "examFormat": "Cisco proctored specialist examination; confirm current exam code before booking.",
+    "projectRec": "Build a Meraki branch design with SSIDs, VLANs, templates, alerting and security policies.",
+    "note": "Cisco/Meraki continuity milestone; verify live ECMS exam details before purchase.",
+    "deps": [
+      "ccna"
+    ],
+    "officialUrl": "https://www.cisco.com/site/us/en/learn/training-certifications/certifications/specialist/meraki-solutions-specialist.html",
+    "provider": "Cisco",
+    "renewalRule": "Cisco certifications generally use a three-year recertification framework; confirm specialist policy.",
+    "costStatus": "REGION_VARIABLE",
+    "active": true,
+    "catalogueStatus": "ACTIVE",
+    "tutorBottlenecks": [
+      "Dashboard policy hierarchy",
+      "template inheritance",
+      "Meraki packet-path troubleshooting"
+    ]
+  },
+  {
+    "id": "az-802",
+    "name": "Windows Server Hybrid Administration (AZ-802)",
+    "code": "AZ-802",
+    "phase": 3,
+    "track": "CONDITIONAL",
+    "gateway": false,
+    "tier": "A",
+    "validity": 12,
+    "cost": "Microsoft exam price varies by region",
+    "costNum": 124,
+    "cvValue": 4000,
+    "verifiedAt": "2026-09-11",
+    "employer": false,
+    "free": false,
+    "difficulty": 7,
+    "roi": 8,
+    "hours": [
+      80,
+      140
+    ],
+    "skills": [
+      "Active Directory",
+      "Windows Server",
+      "hybrid management",
+      "virtual machines",
+      "storage",
+      "networking"
+    ],
+    "subjects": [
+      "AD DS and hybrid identity",
+      "Windows Server networking",
+      "storage and compute",
+      "security",
+      "blueprint domain mapping"
+    ],
+    "examFormat": "Blueprint crosswalk pending; do not book or mark active until Microsoft confirms current scope.",
+    "projectRec": "Pending official blueprint: build a Windows Server hybrid lab after domains and weighting are verified.",
+    "note": "Route placeholder retained for Windows Server coverage, explicitly inactive pending Microsoft blueprint crosswalk.",
+    "deps": [
+      "az-900"
+    ],
+    "officialUrl": "https://learn.microsoft.com/en-us/credentials/certifications/exams/az-802/",
+    "provider": "Microsoft",
+    "renewalRule": "Microsoft role-based credentials normally renew annually; confirm live relationship before activation.",
+    "costStatus": "REGION_VARIABLE",
+    "active": false,
+    "catalogueStatus": "PENDING_BLUEPRINT",
+    "tutorBottlenecks": [
+      "AD DS/hybrid identity",
+      "Windows Server networking",
+      "blueprint domain mapping"
+    ]
+  },
+  {
+    "id": "crowdstrike-ccfa",
+    "name": "CrowdStrike Certified Falcon Administrator",
+    "code": "CCFA",
+    "phase": 3,
+    "track": "CONDITIONAL",
+    "gateway": false,
+    "tier": "B",
+    "validity": 24,
+    "cost": "CrowdStrike training/certification pricing not publicly fixed",
+    "costNum": 0,
+    "cvValue": 3500,
+    "verifiedAt": "2026-09-11",
+    "employer": false,
+    "free": false,
+    "difficulty": 6,
+    "roi": 8,
+    "hours": [
+      50,
+      90
+    ],
+    "skills": [
+      "Falcon platform",
+      "endpoint policy",
+      "detections",
+      "investigation"
+    ],
+    "subjects": [
+      "policy design",
+      "detection triage",
+      "investigation",
+      "containment"
+    ],
+    "examFormat": "Provider-controlled certification route; confirm eligibility through CrowdStrike University.",
+    "projectRec": "Create a Falcon policy baseline, detection triage workflow and endpoint containment decision record.",
+    "note": "Cloud endpoint-security complement to Microsoft and infrastructure skills.",
+    "deps": [
+      "security-plus"
+    ],
+    "officialUrl": "https://www.crowdstrike.com/services/training-and-certification/crowdstrike-university/",
+    "provider": "CrowdStrike",
+    "renewalRule": "Provider policy; verify current validity and renewal terms.",
+    "costStatus": "UNPUBLISHED",
+    "active": true,
+    "catalogueStatus": "ACTIVE",
+    "tutorBottlenecks": [
+      "policy design",
+      "detection triage",
+      "containment versus continuity"
+    ]
+  },
+  {
+    "id": "cwap",
+    "name": "CWAP — Certified Wireless Analysis Professional",
+    "code": "CWAP-405",
+    "phase": 3,
+    "track": "CONDITIONAL",
+    "gateway": false,
+    "tier": "A",
+    "validity": 36,
+    "cost": "$349.99 USD; UK price varies",
+    "costNum": 280,
+    "cvValue": 6000,
+    "verifiedAt": "2026-09-11",
+    "employer": false,
+    "free": false,
+    "difficulty": 8,
+    "roi": 9,
+    "hours": [
+      90,
+      140
+    ],
+    "skills": [
+      "PHY/MAC analysis",
+      "frame exchanges",
+      "spectrum analysis",
+      "protocol troubleshooting"
+    ],
+    "subjects": [
+      "PHY and MAC analysis",
+      "frame exchanges",
+      "spectrum analysis",
+      "protocol troubleshooting"
+    ],
+    "examFormat": "60 multiple-choice/multiple-answer questions; 90 minutes; 70% pass mark.",
+    "projectRec": "Capture and diagnose three WLAN faults with evidence, hypotheses, remediation and validation.",
+    "note": "Troubleshooting specialisation; current CWAP-405 released April 2025.",
+    "deps": [
+      "cwna"
+    ],
+    "officialUrl": "https://www.cwnp.com/certifications/cwap",
+    "provider": "CWNP",
+    "renewalRule": "Valid three years; current CWNA required and current CWAP renews both.",
+    "costStatus": "REGION_VARIABLE",
+    "active": true,
+    "catalogueStatus": "ACTIVE",
+    "tutorBottlenecks": [
+      "802.11 MAC state",
+      "spectrum interpretation",
+      "evidence-led fault isolation"
+    ]
+  },
+  {
+    "id": "cwdp",
+    "name": "CWDP — Certified Wireless Design Professional",
+    "code": "CWDP-305",
+    "phase": 3,
+    "track": "CONDITIONAL",
+    "gateway": false,
+    "tier": "A",
+    "validity": 36,
+    "cost": "$349.99 USD; UK price varies",
+    "costNum": 280,
+    "cvValue": 6000,
+    "verifiedAt": "2026-09-11",
+    "employer": false,
+    "free": false,
+    "difficulty": 8,
+    "roi": 9,
+    "hours": [
+      90,
+      140
+    ],
+    "skills": [
+      "WLAN architecture",
+      "site surveys",
+      "capacity design",
+      "security design"
+    ],
+    "subjects": [
+      "WLAN design methodology",
+      "architecture and protocols",
+      "site surveys",
+      "security design",
+      "validation"
+    ],
+    "examFormat": "60 multiple-choice questions; 90 minutes; 70% pass mark.",
+    "projectRec": "Design an enterprise WLAN from requirements through survey plan, RF design, security and acceptance test.",
+    "note": "Architecture-stage qualification; current CWDP-305 released 2024.",
+    "deps": [
+      "cwna"
+    ],
+    "officialUrl": "https://www.cwnp.com/certifications/cwdp",
+    "provider": "CWNP",
+    "renewalRule": "Valid three years; current CWNA required and current CWDP renews both.",
+    "costStatus": "REGION_VARIABLE",
+    "active": true,
+    "catalogueStatus": "ACTIVE",
+    "tutorBottlenecks": [
+      "requirements-to-RF translation",
+      "capacity modelling",
+      "design validation"
+    ]
+  },
+  {
+    "id": "cwsp",
+    "name": "CWSP — Certified Wireless Security Professional",
+    "code": "CWSP-208",
+    "phase": 4,
+    "track": "CONDITIONAL",
+    "gateway": false,
+    "tier": "A",
+    "validity": 36,
+    "cost": "$349.99 USD; UK price varies",
+    "costNum": 280,
+    "cvValue": 6000,
+    "verifiedAt": "2026-09-11",
+    "employer": false,
+    "free": false,
+    "difficulty": 8,
+    "roi": 9,
+    "hours": [
+      90,
+      140
+    ],
+    "skills": [
+      "WLAN attacks",
+      "WIPS",
+      "802.1X/EAP",
+      "key management"
+    ],
+    "subjects": [
+      "WLAN discovery and attacks",
+      "802.1X/EAP",
+      "WIPS",
+      "secure WLAN architecture"
+    ],
+    "examFormat": "60 multiple-choice questions; 90 minutes; 70% pass mark.",
+    "projectRec": "Audit and harden an enterprise WLAN with threat model, 802.1X design, WIPS response and validation.",
+    "note": "Later wireless-security depth stage; current CWSP-208 released December 2025.",
+    "deps": [
+      "cwna"
+    ],
+    "officialUrl": "https://www.cwnp.com/certifications/cwsp",
+    "provider": "CWNP",
+    "renewalRule": "Valid three years; current CWNA required and current CWSP renews both.",
+    "costStatus": "REGION_VARIABLE",
+    "active": true,
+    "catalogueStatus": "ACTIVE",
+    "tutorBottlenecks": [
+      "802.1X/EAP selection",
+      "WIPS interpretation",
+      "security design trade-offs"
+    ]
+  },
+  {
+    "id": "ccnp-enterprise",
+    "name": "Cisco Certified Network Professional Enterprise",
+    "code": "ENCOR + concentration",
+    "phase": 4,
+    "track": "CORE",
+    "gateway": true,
+    "tier": "S",
+    "validity": 36,
+    "cost": "Two Cisco exams; regional price varies",
+    "costNum": 700,
+    "cvValue": 7000,
+    "verifiedAt": "2026-09-11",
+    "employer": false,
+    "free": false,
+    "difficulty": 8,
+    "roi": 9,
+    "hours": [
+      180,
+      300
+    ],
+    "skills": [
+      "enterprise architecture",
+      "advanced routing",
+      "SD-WAN",
+      "wireless",
+      "automation"
+    ],
+    "subjects": [
+      "route-policy reasoning",
+      "failure-domain troubleshooting",
+      "automation and telemetry"
+    ],
+    "examFormat": "ENCOR core exam plus one approved concentration exam.",
+    "projectRec": "Design, implement and troubleshoot a routed enterprise with redundancy, telemetry and automation.",
+    "note": "Professional Cisco depth before CCIE; CCNA is recommended but not a formal prerequisite.",
+    "deps": [
+      "ccna"
+    ],
+    "officialUrl": "https://www.cisco.com/site/us/en/learn/training-certifications/certifications/professional/ccnp-enterprise.html",
+    "provider": "Cisco",
+    "renewalRule": "Cisco professional certifications renew on a three-year cycle via exams or Continuing Education.",
+    "costStatus": "REGION_VARIABLE",
+    "active": true,
+    "catalogueStatus": "ACTIVE",
+    "tutorBottlenecks": [
+      "route-policy reasoning",
+      "failure-domain troubleshooting",
+      "automation and telemetry"
+    ]
+  },
+  {
+    "id": "ai-103",
+    "name": "Azure AI Engineer Associate",
+    "code": "AI-103",
+    "phase": 5,
+    "track": "CONDITIONAL",
+    "gateway": false,
+    "tier": "A",
+    "validity": 12,
+    "cost": "Microsoft exam price varies by region",
+    "costNum": 124,
+    "cvValue": 4500,
+    "verifiedAt": "2026-09-11",
+    "employer": false,
+    "free": false,
+    "difficulty": 8,
+    "roi": 7,
+    "hours": [
+      100,
+      160
+    ],
+    "skills": [
+      "Microsoft Foundry",
+      "generative AI",
+      "agents",
+      "computer vision"
+    ],
+    "subjects": [
+      "grounding and evaluation",
+      "agent safety",
+      "production observability"
+    ],
+    "examFormat": "Confirm current exam scope and credential status on Microsoft Learn before booking.",
+    "projectRec": "Build a grounded support assistant with retrieval, evaluation, access controls and telemetry.",
+    "note": "Conditional until the live AI-103 credential page confirms final exam and certification relationship.",
+    "deps": [
+      "ai-901"
+    ],
+    "officialUrl": "https://learn.microsoft.com/en-us/credentials/certifications/exams/ai-103/",
+    "provider": "Microsoft",
+    "renewalRule": "Microsoft role-based credentials normally renew annually; confirm live credential page.",
+    "costStatus": "REGION_VARIABLE",
+    "active": false,
+    "catalogueStatus": "PENDING_LIVE_PAGE",
+    "tutorBottlenecks": [
+      "grounding and evaluation",
+      "agent safety",
+      "production observability"
+    ]
+  },
+  {
+    "id": "ccie-enterprise",
+    "name": "Cisco Certified Internetwork Expert Enterprise Infrastructure",
+    "code": "ENCOR + CCIE Enterprise Infrastructure lab",
+    "phase": 6,
+    "track": "POST-PLAN",
+    "gateway": false,
+    "tier": "S",
+    "validity": 36,
+    "cost": "Cisco written and lab exams; regional price varies",
+    "costNum": 1800,
+    "cvValue": 12000,
+    "verifiedAt": "2026-09-11",
+    "employer": false,
+    "free": false,
+    "difficulty": 10,
+    "roi": 9,
+    "hours": [
+      300,
+      600
+    ],
+    "skills": [
+      "complex enterprise infrastructure",
+      "advanced troubleshooting",
+      "automation",
+      "design"
+    ],
+    "subjects": [
+      "timed troubleshooting",
+      "design under constraints",
+      "lab change discipline"
+    ],
+    "examFormat": "ENCOR core exam plus eight-hour CCIE Enterprise Infrastructure lab.",
+    "projectRec": "Operate a production-like multi-domain lab with failure injection, telemetry and recovery evidence.",
+    "note": "Expert capstone; pursue only after substantial enterprise networking experience.",
+    "deps": [
+      "ccnp-enterprise"
+    ],
+    "officialUrl": "https://www.cisco.com/site/us/en/learn/training-certifications/certifications/expert/ccie-enterprise-infrastructure.html",
+    "provider": "Cisco",
+    "renewalRule": "Cisco expert certifications renew on a three-year cycle via exam or Continuing Education.",
+    "costStatus": "REGION_VARIABLE",
+    "active": true,
+    "catalogueStatus": "ACTIVE",
+    "tutorBottlenecks": [
+      "timed troubleshooting",
+      "design under constraints",
+      "lab change discipline"
+    ]
+  },
+  {
+    "id": "cwne",
+    "name": "CWNE — Certified Wireless Network Expert",
+    "code": "CWNE application",
+    "phase": 6,
+    "track": "POST-PLAN",
+    "gateway": false,
+    "tier": "S",
+    "validity": 36,
+    "cost": "Application fee and preparation costs vary",
+    "costNum": 0,
+    "cvValue": 12000,
+    "verifiedAt": "2026-09-11",
+    "employer": false,
+    "free": false,
+    "difficulty": 10,
+    "roi": 10,
+    "hours": [
+      250,
+      500
+    ],
+    "skills": [
+      "enterprise Wi-Fi administration",
+      "analysis",
+      "security",
+      "design",
+      "deployment leadership"
+    ],
+    "subjects": [
+      "deployment evidence",
+      "peer-reviewed technical writing",
+      "cross-vendor design authority"
+    ],
+    "examFormat": "Application and peer review; no standalone exam.",
+    "projectRec": "Maintain three documented enterprise Wi-Fi projects with architecture, deployment, troubleshooting and measured outcomes.",
+    "note": "Experience-gated final CWNP stage: current CWNA, CWAP, CWDP, CWSP, CWISA, external networking credential, three recommendations and deployment evidence.",
+    "deps": [
+      "cwna",
+      "cwisa",
+      "cwap",
+      "cwdp",
+      "cwsp",
+      "ccna"
+    ],
+    "officialUrl": "https://www.cwnp.com/certifications/cwne",
+    "provider": "CWNP",
+    "renewalRule": "Renewal requires 60 continuing-education credits; CWISA contributes to renewal.",
+    "costStatus": "UNPUBLISHED",
+    "active": true,
+    "catalogueStatus": "EXPERIENCE_GATED",
+    "experienceGate": {
+      "minYears": 3,
+      "enterpriseProjects": 3,
+      "endorsements": 3,
+      "externalNetworkingCredential": true,
+      "peerReview": true
+    },
+    "tutorBottlenecks": [
+      "deployment evidence",
+      "peer-reviewed technical writing",
+      "cross-vendor design authority"
+    ]
+  }
 ];
+
+const MY_PATH_METADATA = {
+  "a-plus": { officialUrl:"https://www.comptia.org/certifications/a", provider:"CompTIA", renewalRule:"Three-year renewal through CE/CertMaster or higher-certification cascade.", costStatus:"PUBLISHED_WITH_REGION_VARIATION" },
+  "network-plus": { officialUrl:"https://www.comptia.org/certifications/network", provider:"CompTIA", renewalRule:"Three-year renewal through CE/CertMaster or higher certification.", costStatus:"PUBLISHED_WITH_REGION_VARIATION" },
+  "mcit": { officialUrl:"https://www.milestonesys.com/marketplace/training-and-certifications/", provider:"Milestone Systems", renewalRule:"Employer/vendor policy; verify current credential validity.", costStatus:"EMPLOYER_OR_PARTNER_PRICED" },
+  "mcde": { officialUrl:"https://www.milestonesys.com/marketplace/training-and-certifications/", provider:"Milestone Systems", renewalRule:"Employer/vendor policy; verify current credential validity.", costStatus:"EMPLOYER_OR_PARTNER_PRICED" },
+  "arcules-csp": { officialUrl:"https://www.arcules.com/", provider:"Arcules", renewalRule:"Provider policy not publicly fixed; verify with Arcules.", costStatus:"EMPLOYER_OR_PARTNER_PRICED" },
+  "mcie": { officialUrl:"https://www.milestonesys.com/marketplace/training-and-certifications/", provider:"Milestone Systems", renewalRule:"Employer/vendor policy; verify current credential validity.", costStatus:"EMPLOYER_OR_PARTNER_PRICED" },
+  "acp": { officialUrl:"https://www.axis.com/learning/academy/certifications", provider:"Axis Communications", renewalRule:"Three years; retake the current ACP examination.", costStatus:"EMPLOYER_OR_PARTNER_PRICED" },
+  "ccna": { officialUrl:"https://www.cisco.com/site/us/en/learn/training-certifications/certifications/associate/ccna.html", provider:"Cisco", renewalRule:"Three-year Cisco recertification cycle.", costStatus:"PUBLISHED_WITH_REGION_VARIATION" },
+  "security-plus": { officialUrl:"https://www.comptia.org/certifications/security", provider:"CompTIA", renewalRule:"Three-year renewal through CE/CertMaster.", costStatus:"PUBLISHED_WITH_REGION_VARIATION" },
+  "pcep": { officialUrl:"https://pythoninstitute.org/pcep", provider:"Python Institute/OpenEDG", renewalRule:"Five-year credential validity; confirm current renewal policy.", costStatus:"PUBLISHED_USD_REGION_VARIATION" },
+  "az-900": { officialUrl:"https://learn.microsoft.com/en-us/credentials/certifications/azure-fundamentals/", provider:"Microsoft", renewalRule:"No expiry for fundamentals credential.", costStatus:"REGION_VARIABLE" },
+  "pcap": { officialUrl:"https://pythoninstitute.org/pcap", provider:"Python Institute/OpenEDG", renewalRule:"Five-year credential validity; confirm current renewal policy.", costStatus:"PUBLISHED_USD_REGION_VARIATION" },
+  "linux-plus": { officialUrl:"https://www.comptia.org/certifications/linux", provider:"CompTIA", renewalRule:"Three-year renewal through CE/CertMaster.", costStatus:"PUBLISHED_WITH_REGION_VARIATION" },
+  "az-104": { officialUrl:"https://learn.microsoft.com/en-us/credentials/certifications/azure-administrator/", provider:"Microsoft", renewalRule:"Annual renewal via free Microsoft Learn assessment.", costStatus:"REGION_VARIABLE" },
+  "az-700": { officialUrl:"https://learn.microsoft.com/en-us/credentials/certifications/azure-network-engineer/", provider:"Microsoft", renewalRule:"Annual renewal via free Microsoft Learn assessment.", costStatus:"REGION_VARIABLE" },
+  "sc-300": { officialUrl:"https://learn.microsoft.com/en-us/credentials/certifications/identity-and-access-administrator/", provider:"Microsoft", renewalRule:"Annual renewal via free Microsoft Learn assessment.", costStatus:"REGION_VARIABLE" },
+  "sc-500": { officialUrl:"https://learn.microsoft.com/en-us/credentials/certifications/exams/sc-500/", provider:"Microsoft", renewalRule:"Pending live credential confirmation; Microsoft role-based credentials normally renew annually.", costStatus:"REGION_VARIABLE" },
+  "ai-901": { officialUrl:"https://learn.microsoft.com/en-us/credentials/certifications/azure-ai-fundamentals/", provider:"Microsoft", renewalRule:"Fundamentals credential; confirm current Microsoft policy.", costStatus:"REGION_VARIABLE" },
+  "pcpp1": { officialUrl:"https://pythoninstitute.org/pcpp1", provider:"Python Institute/OpenEDG", renewalRule:"Five-year credential validity; confirm current renewal policy.", costStatus:"PUBLISHED_USD_REGION_VARIATION" },
+  "az-305": { officialUrl:"https://learn.microsoft.com/en-us/credentials/certifications/azure-solutions-architect/", provider:"Microsoft", renewalRule:"Annual renewal via free Microsoft Learn assessment.", costStatus:"REGION_VARIABLE" }
+};
+CERTS.forEach(cert => {
+  const meta = MY_PATH_METADATA[cert.id];
+  if (meta) { Object.assign(cert, meta); cert.sourceUrl = meta.officialUrl; }
+  if (Array.isArray(cert.subjects) && !Array.isArray(cert.tutorBottlenecks)) cert.tutorBottlenecks = cert.subjects.slice(0, 3).map(subject => ({ subject, reason: "Tutor checkpoint: explain, apply and troubleshoot this subject before advancing." }));
+});
 
 // ═══════════════════════════════════════════════════════════════════════════
 // PHASES · GATES · RENEWAL CHAINS
