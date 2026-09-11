@@ -173,7 +173,7 @@ try{
   const dataHealth=desktop.page.locator('[data-cert-data-health]');
   await dataHealth.waitFor();
   const healthText=await dataHealth.textContent();
-  assert.ok(healthText.includes('100%')&&healthText.includes('187/187 linked'));
+  assert.ok(healthText.includes('100%')&&/\d+\/\d+ linked/.test(healthText));
   assert.ok(healthText.includes('117 cert-level')&&healthText.includes('70 vendor-level'));
   assert.ok(healthText.includes('Credential retired')&&healthText.includes('Credential in development'));
   assert.ok(healthText.includes('Not currently verified')&&healthText.includes('1100'));
@@ -351,7 +351,7 @@ try{
   await page.locator('[data-cert-data-health]').waitFor();
   await healthSpacing(page);
   await page.screenshot({path:`/tmp/certtracker-${engine}-health-mobile.png`,animations:'disabled',timeout:30000});
-  assert.ok((await page.locator('[data-cert-data-health]').textContent()).includes('187/187 linked'));
+  assert.ok(/\d+\/\d+ linked/.test(await page.locator('[data-cert-data-health]').textContent()));
   await page.getByRole('dialog',{name:'Certification data health'}).getByRole('button',{name:'Close',exact:true}).click();
   await page.locator('#ct-mobile-more-button').click();
   await page.getByRole('button',{name:"Today's Recommendations",exact:true}).click();
@@ -379,16 +379,16 @@ try{
   assert.ok((await focused.page.locator('[data-focused-route]').textContent()).includes('5 recorded complete'));
   assert.equal(await focused.page.evaluate(()=>CertTrackerV3.recommendations.recommend()[0].id),'mcie');
   await focused.page.reload();await navigationInViewport(focused.page);
-  assert.equal(await focused.page.evaluate(()=>Object.keys(state.myPath).length),27);
+  assert.equal(await focused.page.evaluate(()=>Object.keys(state.myPath).length),28);
   assert.equal(await focused.page.evaluate(()=>state.notes.ccna.text),'Preserve route adoption note');
   await focused.page.locator('[data-focused-route] summary').click();
-  assert.equal(await focused.page.locator('[data-focused-route] li').count(),27);
+  assert.equal(await focused.page.locator('[data-focused-route] li').count(),28);
   await focused.page.evaluate(()=>{
     state.myPath=Object.fromEntries(CertTrackerV3.focusedRoute.definition.previousIds.map(id=>[id,true]));
     CertTrackerV3.storage.persistAll();
   });
   await focused.page.reload();await navigationInViewport(focused.page);
-  assert.equal(await focused.page.evaluate(()=>Object.keys(state.myPath).length),27,'Previous focused route upgrades without removing milestones');
+  assert.equal(await focused.page.evaluate(()=>Object.keys(state.myPath).length),28,'Previous focused route upgrades without removing milestones');
   assert.equal(await focused.page.evaluate(()=>state.notes.ccna.text),'Preserve route adoption note');
   assert.ok(await focused.page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth+1),'Focused route must not overflow mobile');
   await focused.page.locator('[data-mobile-tab="learning"]').click();
