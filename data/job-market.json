@@ -1,6 +1,6 @@
 {
   "schemaVersion": 4,
-  "lastAttemptAt": "2026-09-12T17:00:46.640Z",
+  "lastAttemptAt": "2026-09-12T19:12:37.450Z",
   "lastSuccessfulFetchAt": null,
   "fetchedAt": null,
   "status": "degraded",
@@ -10,7 +10,7 @@
   "location": "United Kingdom",
   "refreshTargetMinutes": 60,
   "requestBudget": {
-    "hour": "2026-09-12T17",
+    "hour": "2026-09-12T19",
     "day": "2026-09-12",
     "month": "2026-09",
     "hourCount": 0,
