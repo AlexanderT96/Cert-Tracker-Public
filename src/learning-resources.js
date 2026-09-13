@@ -291,10 +291,10 @@
       {topic:'Security posture and Defender capabilities',depth:4,emphasis:'High'}
     ]),
     'sc-100':Object.freeze([
-      {topic:'Security strategy and architecture',depth:5,emphasis:'Very high'},
-      {topic:'Zero Trust and identity architecture',depth:5,emphasis:'High'},
-      {topic:'Security operations architecture',depth:4,emphasis:'High'},
-      {topic:'Infrastructure and application security architecture',depth:5,emphasis:'Very high'}
+      {topic:'Security best practices and priorities',depth:5,emphasis:'Very high'},
+      {topic:'Security operations, identity and compliance architecture',depth:5,emphasis:'Very high'},
+      {topic:'Infrastructure security architecture',depth:5,emphasis:'Very high'},
+      {topic:'Application and data security architecture',depth:5,emphasis:'Very high'}
     ]),
     'az-305':Object.freeze([
       {topic:'Identity, governance and monitoring design',depth:4,emphasis:'High'},

@@ -339,13 +339,13 @@ const CERTS = [
     subjects: ["AI security fundamentals","ML threat modeling","AI governance basics","No scripting required"],
     tracks: ["A","C"],
     id: "secai-plus", name: "CompTIA SecAI+", code: "CY0-001",
-    phase: 2, track: "CORE", gateway: false, tier: "B",
+    phase: 2, track: "OPTIONAL", gateway: false, tier: "B",
     validity: 36, cost: "~£319 ($425 USD)", costNum: 319, cvValue: 2500, verifiedAt: "2026-06", marketNote: "LIVE since 17 Feb 2026 - 60Q/60min incl. performance-based, pass 600/900, 3yr validity. Sits after Security+ as the AI-security specialism.", employer: false, free: false,
     cpe: 30, cpePeriod: 36, difficulty: 4, roi: 7, hours: [25, 40],
     skills: ["OWASP LLM Top 10", "MITRE ATLAS", "NIST AI RMF", "Prompt injection"],
     examFormat: "Multiple choice + scenario-based. New cert (launched 2025) — format still stabilising. Expect similar CompTIA pattern: ~90 Qs, 90 min, PBQs likely.",
     projectRec: "PyRIT basic probe against an Azure OpenAI endpoint in a lab sandbox. Document 3 findings + mitigations. This is rare evidence at Phase 2.",
-    note: "Sit immediately after Security+. Zero UK employer recognition yet (March 2026) — value is knowledge + forward-looking CV signal. Auto-renews within Security+ CE cascade. Study: OWASP LLM Top 10 + MITRE ATLAS + NIST AI RMF (all free).",
+    note: "Optional AI-security depth after Security+ and AI-901. Activate when AI-system threat modelling, adversarial testing, governance or a target vacancy makes the knowledge useful; do not displace the core infrastructure sequence for the badge alone. Study: OWASP Top 10 for LLM Applications, MITRE ATLAS and NIST AI RMF.",
     deps: ["security-plus"]
   },
   {
@@ -1319,7 +1319,7 @@ const CERTS = [
     deps: ["pentest-plus"]
   },
   {
-    coverage: "Eight domains (ISC2 2024 CBK, in effect through 2027-2028): (1) Security and Risk Management 15% — governance, risk frameworks, threat modelling, BCP, compliance, ethics. (2) Asset Security 10% — data classification, retention, privacy controls, data lifecycle. (3) Security Architecture and Engineering 13% — security models (Bell-LaPadula, Biba), cryptography fundamentals, secure design principles, vulnerability assessment, cloud security. (4) Communication and Network Security 13% — network architecture, secure network components, secure communication channels. (5) Identity and Access Management 13% — access control models, identity lifecycle, federation, authentication mechanisms. (6) Security Assessment and Testing 12% — test strategies, security audit, vulnerability assessment, penetration testing. (7) Security Operations 13% — investigations, logging/monitoring, incident management, disaster recovery, change management. (8) Software Development Security 11% — SDLC security, application security controls, secure coding. Depth: BREADTH NOT DEPTH. The exam tests a manager-level perspective — not 'how do I configure a firewall' but 'what is the organisational impact of this firewall decision'. the applicant WILL encounter topics the applicant has never worked with professionally (SCADA, industrial control systems, maritime law implications). Answer selection requires the 'manager mindset': risk-based reasoning, policy-before-technology, business-alignment-first.",
+    coverage: "Eight domains from the ISC2 exam outline effective 15 April 2024: (1) Security and Risk Management 16%. (2) Asset Security 10%. (3) Security Architecture and Engineering 13%. (4) Communication and Network Security 13%. (5) Identity and Access Management 13%. (6) Security Assessment and Testing 12%. (7) Security Operations 13%. (8) Software Development Security 10%. Depth is broad, risk-led professional judgement rather than product configuration.",
     prerequisites: "5 years of cumulative paid full-time experience in 2+ of the 8 CBK domains (does NOT meet this at exam time — will become CISSP Associate until experience accrues). A four-year degree OR one additional ISC2/approved cert waives 1 year. Realistic skills: understand risk management terminology fluently, can articulate why controls exist not just what they do, comfortable switching between technical and governance vocabulary. Warning: technical seniority does not translate automatically to CISSP readiness — many senior engineers fail because they answer from a technician's perspective rather than a manager's.",
     studyMaterials: "PRIMARY: Destination Certification Mind Map (FREE, learn.destcert.com) + Master Class (~£500 — BEST-IN-CLASS for CISSP, widely rated above all alternatives). SECONDARY: Pluralsight CISSP path for video complement. AUTHORITATIVE: ISC2 Official Study Guide (Sybex, ~£40) + ISC2 Practice Tests book (~£25). AMBIENT: Pocket Prep CISSP daily — strong CISSP coverage. EXAM-READY: Boson ExSim CISSP (~£90 — closest match to real exam style). FALLBACK: ChatGPT/Claude for risk management nuance, then 2-hour Codementor session if hitting walls. EXAM: ~£595.",
     tutorFlag: "STRONG TUTORING CASE for the manager-mindset pivot. Most self-study CISSP failures happen because the applicant can't consistently pick the 'manager answer' under pressure. A 4-6 hour session bundle with a CISSP-certified mentor reviewing practice test misses and explaining ISC2's answer reasoning is high-value. Codementor CISSP mentors £60-100/hr; 6 hours = £360-600. Worth doing 2-3 weeks before exam date when Boson scores plateau at 70-75%. Alternative: ISC2 Official Instructor-Led Training 5-day bootcamp (£2,500-3,500) — only worth it if employer funds or the applicant has failed once.",
@@ -1328,13 +1328,14 @@ const CERTS = [
     id: "cissp", name: "CISSP", code: "CISSP",
     phase: 5, track: "CORE", gateway: true, tier: "S",
     applicationBased: true,
+    experienceGate: { minYears: 5, domainsRequired: 2, maxWaiverYears: 1, endorsementRequired: true, associateRoute: true, associateExperienceWindowYears: 6 },
     validity: 36, cost: "~£561 ($749 USD)", costNum: 561, cvValue: 12000, verifiedAt: "2026-06", expReq: "5 yrs cumulative paid security work across 2+ domains (4 yrs with degree/approved cert waiver)", roles: ["Security Architect","Senior Security Engineer","Security Consultant"], employer: false, free: false,
     cpe: 120, cpePeriod: 36, difficulty: 8, roi: 10, hours: [250, 300],
     skills: ["8 domains", "Managerial mindset", "Risk-based decisions"],
     examFormat: "Computerized Adaptive Test (CAT). 100-150 Qs, 3 hours. Multiple choice + innovative items. Exam ends when 95% confidence reached on pass/fail. No going back to prior Qs.",
     projectRec: "Threat-model write-up of a sanitised a representative organisation regulated or critical-infrastructure-style scenario, mapped to CISSP domains 1/3/4/7. CNI exposure is rare among CISSP candidates — this is the differentiator that gets the applicant past 200-applicant filters. Doubles as endorsement evidence.",
     note: "🎓 TIMING: at P5 the applicant is likely to have ~3yr direct security experience → sit the exam and hold ASSOCIATE OF ISC2 until the 5yr endorsement clears; pre-check whether MSP years part-qualify under ISC2 domains (many do). 🔑 GATEWAY CERT — biggest single salary step-change. 676 UK listings (Apr 2026, +14% YoY). UK median £80k · UK market benchmark (up +24% YoY) · 90th %ile £119,600 · London £87.5k. RQF Level 7. Associate of ISC2 likely given experience timeline. 40 CPE/yr + ~£100/yr AMF. Suspend ALL conditional work during CISSP prep.",
-    deps: ["cysa-plus"],
+    deps: [],
     applicationGuide: {
           "verified": "2026-05-02",
           "verifyAt": "isc2.org/certifications/cissp/cissp-experience-requirements",
@@ -1567,21 +1568,22 @@ const CERTS = [
     deps: ["cissp"]
   },
   {
-    coverage: "Microsoft Cybersecurity Architect Expert. Four domains: (1) Design solutions that align with security best practices and priorities 20-25% — Microsoft Cybersecurity Reference Architectures (MCRA), Microsoft Cloud Security Benchmark, Zero Trust strategy (identity, devices, network, applications, data), ransomware strategy, enterprise security architecture. (2) Design security operations, identity, and compliance capabilities 30-35% — SecOps strategy design (SOC, hunt teams, threat intelligence integration), identity architecture (Entra ID, hybrid, B2B/B2C, PIM design, passwordless strategy), regulatory compliance strategy, data classification/protection strategy. (3) Design security solutions for infrastructure 20-25% — security for hybrid/multicloud, IaaS/PaaS/SaaS security baselines, specialized workloads (AI/ML, OT, IoT, Azure VMware, SAP). (4) Design security solutions for applications and data 20-25% — DevSecOps strategy, API security, data discovery/classification/protection across M365 and Azure, CI/CD security. Depth: EXPERT-LEVEL ARCHITECTURAL REASONING. This is Microsoft's highest-tier security cert. Tests ability to architect end-to-end security programmes, not implement individual controls. Case studies dominate. Pair with CISSP for full expert credibility. 40-60 questions, 120 minutes, passing 700/1000.",
-    prerequisites: "To earn the credential, candidate must also hold ONE of: SC-200 (Security Operations), SC-300 (Identity & Access), or SC-500 (replaces AZ-500 retiring 31 Aug 2026; MS-500 was retired 2023 and no longer counts). Plan sequences SC-300 → SC-200 → SC-500 → SC-100, so prerequisite is natural. Realistic skills: 5+ years in hybrid/cloud security, comfortable architecting across identity/network/compute/data/applications, can read and critique MCRA diagrams, fluent in Zero Trust terminology at design level, can weigh trade-offs across security + cost + operations + compliance simultaneously.",
+    coverage: "Microsoft Cybersecurity Architect Expert blueprint measured from 28 July 2026: (1) security best practices and priorities 20-25%; (2) security operations, identity and compliance capabilities 25-30%; (3) infrastructure security 25-30%; and (4) application and data security 20-25%. The assessment expects architecture-level decisions across hybrid and multicloud security, Zero Trust, resilience, operations, identity, compliance, applications and data.",
+    prerequisites: "To earn the Microsoft Cybersecurity Architect Expert credential, pass SC-100 and hold at least one of Microsoft Cybersecurity Operations Analyst Associate (SC-200), Identity and Access Administrator Associate (SC-300), or Cloud and AI Security Engineer Associate (SC-500). The tracker places SC-300 and SC-500 earlier, but they are not both formal requirements.",
     studyMaterials: "PRIMARY: Pluralsight SC-100 path. SECONDARY: John Savill's SC-100 YouTube series (FREE). SUPPLEMENT: Microsoft Learn SC-100 path + Microsoft Cybersecurity Reference Architectures (MCRA, free). LAB: existing Azure + M365 lab. AMBIENT: Pocket Prep. EXAM-READY: MeasureUp SC-100. EXAM: ~£136. Prereq: 4+ years cybersecurity experience.",
     tutorFlag: "LOW TUTORING CASE. Self-study path well-trodden. If practice exam scores plateau below 70% at week 10, consider one 2-hour session with a Microsoft Cybersecurity Architect reviewing the whiteboarded architectures — £100-150 for the session via Codementor. Better than tutoring for most candidates: reading MCRA + CAF-Secure + Zero Trust Deployment Guide three times in full.",
     subjects: ["Microsoft Cybersecurity Architect Expert","Architecture patterns","Zero Trust design","PowerShell intermediate"],
     tracks: ["A","C"],
     id: "sc-100", name: "Microsoft Cybersecurity Architect Expert", code: "SC-100",
-    phase: 5, track: "CONDITIONAL", gateway: false, tier: "B",
+    phase: 5, track: "CORE", gateway: false, tier: "B",
+    awardPrerequisiteAnyOf: ["sc-200", "sc-300", "sc-500"],
     validity: 12, cost: "~£124 ($165 USD)", costNum: 124, cvValue: 6000, verifiedAt: "2026-06", roles: ["Cybersecurity Architect (Microsoft)","Security Architect"], employer: false, free: false,
     cpe: 0, cpePeriod: 0, difficulty: 8, roi: 8, hours: [80, 100],
     skills: ["Zero Trust design", "MCRA", "Microsoft security architecture"],
     examFormat: "Multiple choice + drag-drop + case studies (architecture-heavy). ~40-60 Qs, 120 min, passing 700/1000.",
     projectRec: "Zero Trust reference design for a Microsoft-centric enterprise (identity, endpoints, apps, data, network, infra). Publish to GitHub with diagrams.",
-    note: "Prereqs: SC-500 + (SC-200 or SC-300) all valid. Pinnacle of Microsoft security path. ⚠ 1-year validity, free renewal. Activate if CISSP + SC-500 alone aren't differentiating.",
-    deps: ["sc-500", "sc-300"]
+    note: "Mandatory architecture-stage milestone in My Path. The credential requires SC-100 plus at least one eligible associate credential; Microsoft role-based certifications renew annually through a free online assessment.",
+    deps: ["sc-500"]
   },
   {
     coverage: "AWS Certified Cloud Practitioner (CLF-C02). Foundational AWS cert — broad awareness of the AWS Cloud, no deep technical depth. Four domains: (1) Cloud Concepts 24% — AWS value proposition, cloud economics (CapEx vs OpEx), Well-Architected Framework pillars. (2) Security and Compliance 30% — AWS Shared Responsibility Model, IAM basics, security services overview (Shield, WAF, GuardDuty), compliance (Artifact), encryption basics. (3) Cloud Technology and Services 34% — core compute (EC2, Lambda), storage (S3, EBS, EFS), networking (VPC, Route 53, CloudFront), databases (RDS, DynamoDB), global infrastructure (regions/AZs/edge). (4) Billing, Pricing and Support 12% — pricing models, billing tools, support plans. Depth: conceptual only. 65 questions, 90 min, passing 700/1000. No hands-on.",
@@ -4489,7 +4491,9 @@ const MY_PATH_METADATA = {
   "sc-500": { officialUrl:"https://learn.microsoft.com/en-us/credentials/certifications/exams/sc-500/", provider:"Microsoft", renewalRule:"Pending live credential confirmation; Microsoft role-based credentials normally renew annually.", costStatus:"REGION_VARIABLE" },
   "ai-901": { officialUrl:"https://learn.microsoft.com/en-us/credentials/certifications/azure-ai-fundamentals/", provider:"Microsoft", renewalRule:"Fundamentals credential; confirm current Microsoft policy.", costStatus:"REGION_VARIABLE" },
   "pcpp1": { officialUrl:"https://pythoninstitute.org/pcpp1", provider:"Python Institute/OpenEDG", renewalRule:"Five-year credential validity; confirm current renewal policy.", costStatus:"PUBLISHED_USD_REGION_VARIATION" },
-  "az-305": { officialUrl:"https://learn.microsoft.com/en-us/credentials/certifications/azure-solutions-architect/", provider:"Microsoft", renewalRule:"Annual renewal via free Microsoft Learn assessment.", costStatus:"REGION_VARIABLE" }
+  "az-305": { officialUrl:"https://learn.microsoft.com/en-us/credentials/certifications/azure-solutions-architect/", provider:"Microsoft", renewalRule:"Annual renewal via free Microsoft Learn assessment.", costStatus:"REGION_VARIABLE" },
+  "sc-100": { officialUrl:"https://learn.microsoft.com/en-us/credentials/certifications/cybersecurity-architect-expert/", provider:"Microsoft", renewalRule:"Annual renewal via free Microsoft Learn assessment.", costStatus:"REGION_VARIABLE", verifiedAt:"2026-09-13" },
+  "cissp": { officialUrl:"https://www.isc2.org/certifications/cissp", provider:"ISC2", renewalRule:"Three-year cycle requiring 120 CPE credits and the current annual maintenance fee.", costStatus:"PUBLISHED_USD_REGION_VARIATION", verifiedAt:"2026-09-13" }
 };
 CERTS.forEach(cert => {
   const meta = MY_PATH_METADATA[cert.id];
@@ -4504,7 +4508,7 @@ CERTS.forEach(cert => {
 
 const PHASES = {
   1: { name: "Foundation Lock-In", window: "Apr–Aug 2026", applyOut: "Sec+ marked + LenelS2 trio + 12mo tenure → test market at £38–45k", artifact: "62443-style zone/conduit map of a real (anonymised) site estate", layer: "Vendor wall + Microsoft fundamentals", band: "£30–40k", roles: ["Security Systems Engineer", "VMS / Access Control Engineer", "IT Security Technician", "SOC Analyst (entry)"] },
-  2: { name: "Security + AI + Networking", window: "Sep 2026–Mar 2028", applyOut: "Phase 2 core + Sec+ held → target £45–55k security engineer roles", artifact: "Public write-up: hardening a VMS deployment (blog/LinkedIn)", layer: "Sec+ + SecAI+ + AZ-104 + CCNA + Linux+", band: "£35–50k", roles: ["SOC Analyst (Tier 1–2)", "Cyber Security Analyst", "Network Security Engineer", "IT Security Administrator"] },
+  2: { name: "Security + AI + Networking", window: "Sep 2026–Mar 2028", applyOut: "Phase 2 core + Sec+ held → target £45–55k security engineer roles", artifact: "Public write-up: hardening a VMS deployment (blog/LinkedIn)", layer: "Sec+ + AZ-104 + CCNA + Linux+; SecAI+ optional", band: "£35–50k", roles: ["SOC Analyst (Tier 1–2)", "Cyber Security Analyst", "Network Security Engineer", "IT Security Administrator"] },
   3: { name: "Cloud + Security On-Ramp", window: "Apr 2028–May 2029", applyOut: "Cloud trio + SC-200 → £55–70k cloud security roles open", artifact: "Homelab: SIEM ingesting camera/access logs, documented on GitHub", layer: "SC-200/300 + SAA + Terraform + AZ-400 + LCE + Splunk", band: "£45–60k", roles: ["Security Engineer", "Cloud Security Analyst", "OT Security Analyst (entry)", "Microsoft Security Operations Analyst"] },
   4: { name: "Mid-Career Specialisation", window: "Jun 2029–May 2031", applyOut: "PAN cluster + Claroty → £65–85k converged/OT security roles", artifact: "Claroty asset-inventory mapping of a camera/access estate", layer: "SC-500 + CKA + LCDA + pivot mid-tier", band: "£55–75k", roles: ["OT / ICS Security Engineer", "Cloud Security Engineer", "Identity & Access Engineer", "Network Security Engineer (mid)"] },
   5: { name: "Architect + Senior Security", window: "Jun 2031–Nov 2035", applyOut: "CISSP (Assoc.) + 62443 suite → £80–110k architect market", artifact: "Reference architecture doc: converged physical+cyber design, publishable", layer: "AZ-305 + CISSP capstone + Senior pivots", band: "£70–100k", roles: ["Security Architect", "OT Security Architect / Consultant", "Cloud Security Architect", "Principal Security Engineer"] },
@@ -4522,7 +4526,7 @@ const PHASE_GATES = {
     { id: "p1-acsp", text: "UKCSC ACSP application submitted or in progress" },
   ],
   2: [
-    { id: "p2-core", text: "Security+, SecAI+, and CCNA (if pursued) all passed" },
+    { id: "p2-core", text: "Security+ and CCNA (if pursued) passed; SecAI+ remains an optional AI-security branch" },
     { id: "p2-lab", text: "Milestone multi-camera deployment walkthrough OR Packet Tracer/GNS3 topology documented" },
     { id: "p2-adr", text: "Design decisions documented — written reasoning, not just screenshots" },
     { id: "p2-repos", text: "5+ repos on GitHub with consistent commit history" },

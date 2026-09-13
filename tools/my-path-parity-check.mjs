@@ -9,13 +9,18 @@ vm.runInContext(fs.readFileSync('src/path-defaults.js', 'utf8'), sandbox, { file
 
 const route = sandbox.window.CERT_TRACKER_FOCUSED_ROUTE;
 const routeIds = Array.from(route.ids || []);
-const certs = Array.from(sandbox.window.CERTS || []);
+const focusIds = [...new Set(Array.from(route.focusTracks || []).flatMap(track => Array.from(track.certs || [])))];
+const certs = Array.from(sandbox.window.CERTS || []).map(cert => structuredClone(cert));
 const byId = new Map(certs.map(cert => [cert.id, cert]));
+vm.runInContext(fs.readFileSync('src/cert-extensions.js', 'utf8'), sandbox, { filename: 'src/cert-extensions.js' });
+const assembledCerts = Array.from(sandbox.window.CERTS || []);
+const assembledById = new Map(assembledCerts.map(cert => [cert.id, cert]));
 assert.ok(route && routeIds.length, 'focused My Path route must be present');
 assert.equal(new Set(routeIds).size, routeIds.length, 'My Path must not contain duplicate route IDs');
 
 const unknown = routeIds.filter(id => !byId.has(id));
 assert.deepEqual(unknown, [], 'My Path references unknown canonical certification IDs');
+assert.deepEqual(focusIds.filter(id => !assembledById.has(id)), [], 'My Path focus tracks reference unknown assembled-catalogue certification IDs');
 
 for (const id of routeIds) {
   const cert = byId.get(id);
@@ -38,7 +43,21 @@ assert.equal(Array.from(byId.get('cwap').deps || []).join(','), 'cwna');
 assert.equal(Array.from(byId.get('cwdp').deps || []).join(','), 'cwna');
 assert.equal(Array.from(byId.get('cwsp').deps || []).join(','), 'cwna');
 assert.equal(byId.get('ai-901').code, 'AI-901');
+assert.equal(byId.get('cwisa').phase, 2);
+assert.equal(byId.get('cwisa').track, 'CORE');
+assert.match(byId.get('cwisa').note, /core wireless-IoT/i);
+assert.equal(byId.get('sc-100').provider, 'Microsoft');
+assert.equal(byId.get('sc-100').track, 'CORE');
+assert.deepEqual(Array.from(byId.get('sc-100').awardPrerequisiteAnyOf || []), ['sc-200', 'sc-300', 'sc-500']);
+assert.equal(byId.get('cissp').provider, 'ISC2');
+assert.ok(byId.get('cissp').applicationBased, 'CISSP must remain visibly experience/application gated');
+assert.equal(byId.get('cissp').experienceGate?.minYears, 5);
+assert.equal(byId.get('cissp').experienceGate?.domainsRequired, 2);
+assert.equal(byId.get('cissp').experienceGate?.endorsementRequired, true);
+assert.deepEqual(Array.from(byId.get('cissp').deps || []), [], 'CISSP has experience requirements, not a fabricated CySA+ prerequisite');
+assert.ok(focusIds.includes('secai-plus'));
+assert.ok(focusIds.includes('iec-62443-cfs'));
 assert.match(byId.get('pcep').marketNote, /five years/i);
 assert.match(byId.get('pcap').marketNote, /five years/i);
 
-console.log(`My Path parity OK: ${routeIds.length} route IDs, ${certs.length} total catalogue records`);
+console.log(`My Path parity OK: ${routeIds.length} core route IDs, ${focusIds.length} focus-track IDs, ${assembledCerts.length} total assembled catalogue records`);

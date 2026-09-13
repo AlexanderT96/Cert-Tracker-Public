@@ -9,7 +9,7 @@
     cwap:{level:'CERT',verifiedAt:'2026-09-11',url:'https://www.cwnp.com/certifications/cwap',note:'Official CWNP CWAP page.'},
     cwdp:{level:'CERT',verifiedAt:'2026-09-11',url:'https://www.cwnp.com/certifications/cwdp',note:'Official CWNP CWDP page.'},
     cwsp:{level:'CERT',verifiedAt:'2026-09-11',url:'https://www.cwnp.com/certifications/cwsp',note:'Official CWNP CWSP page.'},
-    cwisa:{level:'CERT',verifiedAt:'2026-09-11',url:'https://www.cwnp.com/certifications/cwisa',note:'Official CWNP CWISA page; represented only because it is a current CWNE requirement.'},
+    cwisa:{level:'CERT',verifiedAt:'2026-09-11',url:'https://www.cwnp.com/certifications/cwisa',note:'Official CWNP CWISA page; core wireless-IoT milestone that also contributes to the later CWNE requirement.'},
     cwne:{level:'CERT',verifiedAt:'2026-09-11',url:'https://www.cwnp.com/certifications/cwne',note:'Official CWNP expert application and experience requirements.'},
     'nokia-5g-associate':{level:'CERT',verifiedAt:'2026-09-11',url:'https://www.nokia.com/networks/training/bell-labs/',note:'Official Nokia Bell Labs vendor-agnostic 5G certification programme overview.'},
     'nokia-5g-networking':{level:'CERT',verifiedAt:'2026-09-11',url:'https://www.nokia.com/networks/training/bell-labs/',note:'Official programme lists 5G Networking as a Professional certification domain.'},

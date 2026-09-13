@@ -76,8 +76,13 @@ old.schemaVersion=3;old.status='degraded';old.providerCoverage={successes:0,fail
 await vm.runInContext(`(async()=>{${producer}})()`,context);
 assert.equal(written.lastSuccessfulFetchAt,null,'Legacy failed attempts are not verified successful fetches');assert.equal(written.fetchedAt,null);
 // Focused route is a generic preset, never a public record of a user's completions.
-const expected=['a-plus','network-plus','mcit','mcde','arcules-csp','mcie','acp','ccna','cwna','cwisa','cisco-meraki-solutions','security-plus','pcep','az-900','pcap','linux-plus','az-802','az-104','az-700','sc-300','crowdstrike-ccfa','sc-500','cwap','cwdp','cwsp','ccnp-enterprise','ai-901','ai-103','pcpp1','az-305','ccie-enterprise','cwne'];
+const expected=['a-plus','network-plus','mcit','mcde','arcules-csp','mcie','acp','ccna','cwna','cwisa','cisco-meraki-solutions','security-plus','pcep','az-900','pcap','linux-plus','az-802','az-104','az-700','sc-300','crowdstrike-ccfa','sc-500','cwap','cwdp','cwsp','ccnp-enterprise','ai-901','ai-103','pcpp1','az-305','sc-100','cissp','ccie-enterprise','cwne'];
 assert.deepEqual(Array.from(CT.focusedRoute.definition.ids),expected);
+assert.equal(cert('cwisa').phase,2);assert.equal(cert('cwisa').track,'CORE');assert.match(cert('cwisa').note,/core wireless-IoT/i);
+assert.ok(CT.focusedRoute.definition.focusTracks.find(x=>x.id==='ai-security')?.certs.includes('secai-plus'));
+assert.ok(CT.focusedRoute.definition.focusTracks.find(x=>x.id==='ot-convergence')?.certs.includes('iec-62443-cfs'));
+assert.equal(cert('sc-100').track,'CORE');assert.deepEqual(Array.from(cert('sc-100').awardPrerequisiteAnyOf||[]),['sc-200','sc-300','sc-500']);
+assert.ok(cert('cissp').applicationBased);assert.deepEqual(Array.from(cert('cissp').deps||[]),[]);assert.equal(cert('cissp').experienceGate.minYears,5);assert.equal(cert('cissp').experienceGate.domainsRequired,2);
 assert.equal(cert('ai-901').code,'AI-901');assert.equal(cert('pcep').validity,60);assert.equal(cert('pcap').validity,60);
 assert.equal(cert('ccna').costNum,0);assert.ok(!/825|pass rate|DEC 2026/.test(cert('ccna').note+cert('ccna').examFormat));
 assert.equal(cert('mcie').name,'XProtect Certified Integration Engineer');assert.equal(cert('mcie').code,'XCIE');
@@ -112,7 +117,7 @@ const learning=CT.learningPath.render();assert.ok(!learning.includes('OT + conve
 assert.ok(learning.includes('Parallel depth tracks')&&learning.includes('CWAP-405')&&learning.includes('Nokia Bell Labs 5G')&&learning.includes('Cloudflare edge'),'Wireless, cellular and Cloudflare depth must remain visibly separate from core milestones');
 assert.ok(!CT.topicEngine.forPhase(4).some(r=>/PLC|SCADA|ISA-95/.test(r.topic.title)));
 const previous=Array.from(CT.focusedRoute.definition.previousIds);
-assert.equal(previous.length,25);assert.equal(expected.length,32);
+assert.equal(previous.length,25);assert.equal(expected.length,34);
 state.myPath=Object.fromEntries(previous.map(id=>[id,true]));state.passes={mcie:'2026-01-01'};state.notes={mcie:{text:'Keep migration note'}};
 CT.storage.persistAll();CT.store.load();assert.equal(CT.focusedRoute.enabled(),true);
 assert.equal(state.passes.mcie,'2026-01-01');assert.equal(state.notes.mcie.text,'Keep migration note');
