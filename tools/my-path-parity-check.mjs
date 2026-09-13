@@ -57,6 +57,14 @@ assert.equal(byId.get('cissp').experienceGate?.endorsementRequired, true);
 assert.deepEqual(Array.from(byId.get('cissp').deps || []), [], 'CISSP has experience requirements, not a fabricated CySA+ prerequisite');
 assert.ok(focusIds.includes('secai-plus'));
 assert.ok(focusIds.includes('iec-62443-cfs'));
+const lenelTrack=Array.from(route.focusTracks||[]).find(track=>track.id==='lenels2-access-control');
+const briefcamTrack=Array.from(route.focusTracks||[]).find(track=>track.id==='milestone-briefcam');
+assert.equal(lenelTrack?.hidden,true,'LenelS2 must remain a collapsed optional unlock track');
+assert.deepEqual(Array.from(lenelTrack?.certs||[]),['lca','lcp','lce','lcda']);
+assert.equal(lenelTrack?.unlock?.type,'EMPLOYER_PARTNER_ACCESS');
+assert.equal(briefcamTrack?.hidden,true,'BriefCam must remain a collapsed optional unlock track');
+assert.deepEqual(Array.from(briefcamTrack?.certs||[]),['briefcam-tech']);
+assert.equal(briefcamTrack?.unlock?.type,'EMPLOYER_PARTNER_ACCESS');
 assert.match(byId.get('pcep').marketNote, /five years/i);
 assert.match(byId.get('pcap').marketNote, /five years/i);
 

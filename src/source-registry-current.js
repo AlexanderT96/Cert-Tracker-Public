@@ -912,11 +912,12 @@
       "sourceAudited": false
     },
     "briefcam-tech": {
-      "url": "https://www.milestonesys.com/products/software/briefcam/",
-      "level": "VENDOR",
-      "sourceCheckedAt": null,
-      "note": "Official BriefCam product-family source, not evidence of a standalone certification. Training access requires confirmation.",
-      "sourceAudited": false
+      "url": "https://www.briefcam.com/lp/20251202-tier-1-technical-training-na-remote-certification-class/",
+      "level": "CERT",
+      "verifiedAt": "2026-09-13",
+      "sourceCheckedAt": "2026-09-13",
+      "note": "Dated official BriefCam technical-certification class documents authorised-partner access, User/Admin prerequisites, practical technical outcomes and 18-month validity. Current UK scheduling and policy still require partner-portal confirmation.",
+      "sourceAudited": true
     },
     "cmss": {
       "url": "https://www.cisco.com/site/us/en/learn/training-certifications/certifications/index.html",

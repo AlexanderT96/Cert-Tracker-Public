@@ -136,6 +136,27 @@
       link('Milestone Learning and Performance','https://www.milestonesys.com/learn-and-support/learning-and-performance/','Official XProtect technical learning and certification route','course',null),
       link('Milestone documentation','https://doc.milestonesys.com/','Current product documentation for build, validation and troubleshooting practice','reference',true)
     ]),
+    lca:Object.freeze([
+      link('LenelS2 training and certification','https://www.lenels2.com/en/training/','Official restricted training entry point; use the partner portal to verify the active course and award','course',null),
+      link('LenelS2 product support','https://www.lenels2.com/en/us/support/','Official product support entry point for platform-specific documentation and lifecycle guidance','reference',null)
+    ]),
+    lcp:Object.freeze([
+      link('LenelS2 training and certification','https://www.lenels2.com/en/training/','Official restricted training entry point; confirm the current LCP designation and prerequisite inside the partner portal','course',null),
+      link('LenelS2 product support','https://www.lenels2.com/en/us/support/','Official support entry point for advanced configuration, integration and upgrade evidence','reference',null)
+    ]),
+    lce:Object.freeze([
+      link('LenelS2 training and certification','https://www.lenels2.com/en/training/','Official restricted training entry point; confirm the current advanced engineering award and experience gate','course',null),
+      link('LenelS2 product support','https://www.lenels2.com/en/us/support/','Official support entry point for enterprise operations and troubleshooting evidence','reference',null)
+    ]),
+    lcda:Object.freeze([
+      link('LenelS2 training and certification','https://www.lenels2.com/en/training/','Official restricted training entry point; confirm the current architecture award and eligibility','course',null),
+      link('LenelS2 product support','https://www.lenels2.com/en/us/support/','Official support entry point for architecture, lifecycle and integration evidence','reference',null)
+    ]),
+    'briefcam-tech':Object.freeze([
+      link('BriefCam technical certification class','https://www.briefcam.com/lp/20251202-tier-1-technical-training-na-remote-certification-class/','Dated official class specification covering prerequisites, outcomes, access and validity; confirm a current class in Milestone Learning','official',true),
+      link('Milestone BriefCam','https://www.milestonesys.com/products/software/briefcam/','Current product modules, supported ecosystem and use cases','reference',true),
+      link('Milestone Learning and Performance','https://www.milestonesys.com/learn-and-support/learning-and-performance/','Current partner learning entry point for authorised User, Admin and technical training','course',null)
+    ]),
     'crowdstrike-ccfa':Object.freeze([
       link('CrowdStrike University','https://www.crowdstrike.com/en-us/services/training-and-certification/crowdstrike-university/','Official Falcon administrator training route','course',null),
       link('CCFA certification guide','https://www.crowdstrike.com/content/dam/crowdstrike/marketing/en-us/documents/pdfs/crowdstrike-university/ccfa-certification-guide.pdf','Official audience, domains and preparation requirements','official',true)
@@ -406,10 +427,36 @@
       {topic:'Architecture validation and lifecycle integration',depth:5,emphasis:'High'}
     ]),
     'briefcam-tech':Object.freeze([
-      {topic:'BriefCam architecture and deployment',depth:3,emphasis:'High'},
-      {topic:'Analytics configuration and forensic search',depth:4,emphasis:'Very high'},
-      {topic:'Alerts, metadata and VMS integration',depth:4,emphasis:'High'},
-      {topic:'Administration and troubleshooting',depth:4,emphasis:'Very high'}
+      {topic:'BriefCam User and Admin foundations',depth:3,emphasis:'Required prerequisite'},
+      {topic:'Installation, architecture and configuration',depth:4,emphasis:'Very high'},
+      {topic:'Review, Respond and Research workflows',depth:4,emphasis:'Very high'},
+      {topic:'Metadata, permissions and VMS integration',depth:4,emphasis:'High'},
+      {topic:'Administration, performance and troubleshooting',depth:4,emphasis:'Very high'},
+      {topic:'Privacy, auditability and human validation',depth:4,emphasis:'Very high'}
+    ]),
+    lca:Object.freeze([
+      {topic:'LenelS2 platform and access-control foundations',depth:3,emphasis:'Very high'},
+      {topic:'Cardholders, credentials and access levels',depth:3,emphasis:'High'},
+      {topic:'Readers, controllers and communications',depth:3,emphasis:'High'},
+      {topic:'Alarm monitoring and first-line troubleshooting',depth:3,emphasis:'Very high'}
+    ]),
+    lcp:Object.freeze([
+      {topic:'Advanced LenelS2 platform configuration',depth:4,emphasis:'Very high'},
+      {topic:'Access policy, partitioning and enterprise operations',depth:4,emphasis:'High'},
+      {topic:'VMS, identity and OAAP integration',depth:4,emphasis:'Very high'},
+      {topic:'Upgrade, backup, rollback and troubleshooting',depth:4,emphasis:'Very high'}
+    ]),
+    lce:Object.freeze([
+      {topic:'Enterprise LenelS2 deployment architecture',depth:5,emphasis:'Very high'},
+      {topic:'High availability, databases and recovery',depth:5,emphasis:'High'},
+      {topic:'Complex integration and API boundaries',depth:5,emphasis:'Very high'},
+      {topic:'Performance and multi-layer fault isolation',depth:5,emphasis:'Very high'}
+    ]),
+    lcda:Object.freeze([
+      {topic:'Requirements, capacity and enterprise design',depth:5,emphasis:'Very high'},
+      {topic:'Availability, cyber security and trust boundaries',depth:5,emphasis:'Very high'},
+      {topic:'Integration, migration and acceptance design',depth:5,emphasis:'Very high'},
+      {topic:'Lifecycle cost, supportability and design assurance',depth:5,emphasis:'High'}
     ]),
     acp:Object.freeze([
       {topic:'IP video and network fundamentals',depth:4,emphasis:'High'},

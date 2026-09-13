@@ -81,6 +81,9 @@ assert.deepEqual(Array.from(CT.focusedRoute.definition.ids),expected);
 assert.equal(cert('cwisa').phase,2);assert.equal(cert('cwisa').track,'CORE');assert.match(cert('cwisa').note,/core wireless-IoT/i);
 assert.ok(CT.focusedRoute.definition.focusTracks.find(x=>x.id==='ai-security')?.certs.includes('secai-plus'));
 assert.ok(CT.focusedRoute.definition.focusTracks.find(x=>x.id==='ot-convergence')?.certs.includes('iec-62443-cfs'));
+assert.equal(CT.focusedRoute.definition.focusTracks.find(x=>x.id==='lenels2-access-control')?.hidden,true);
+assert.deepEqual(Array.from(CT.focusedRoute.definition.focusTracks.find(x=>x.id==='lenels2-access-control')?.certs||[]),['lca','lcp','lce','lcda']);
+assert.equal(CT.focusedRoute.definition.focusTracks.find(x=>x.id==='milestone-briefcam')?.hidden,true);
 assert.equal(cert('sc-100').track,'CORE');assert.deepEqual(Array.from(cert('sc-100').awardPrerequisiteAnyOf||[]),['sc-200','sc-300','sc-500']);
 assert.ok(cert('cissp').applicationBased);assert.deepEqual(Array.from(cert('cissp').deps||[]),[]);assert.equal(cert('cissp').experienceGate.minYears,5);assert.equal(cert('cissp').experienceGate.domainsRequired,2);
 assert.equal(cert('ai-901').code,'AI-901');assert.equal(cert('pcep').validity,60);assert.equal(cert('pcap').validity,60);
@@ -115,6 +118,8 @@ for(let i=0;i<expected.length;i++)for(const dep of cert(expected[i]).deps||[])as
 for(const file of ['src/topic-engine.js','src/career-advisor.js','src/assessment-bank.js','src/career-mentor.js','src/weekly-coach.js','src/learning-path-ui.js'])vm.runInContext(fs.readFileSync(file,'utf8'),s,{filename:file});
 const learning=CT.learningPath.render();assert.ok(!learning.includes('OT + convergence engineering'));assert.ok(learning.includes('LOCKED MILESTONE'));
 assert.ok(learning.includes('Parallel depth tracks')&&learning.includes('CWAP-405')&&learning.includes('Nokia Bell Labs 5G')&&learning.includes('Cloudflare edge'),'Wireless, cellular and Cloudflare depth must remain visibly separate from core milestones');
+assert.ok(learning.includes('Employer-access unlock tracks · 2')&&learning.includes('LenelS2 access-control engineering ecosystem')&&learning.includes('Milestone BriefCam video-analytics ecosystem'),'Restricted physical-security ecosystems must remain discoverable in a collapsed unlock group');
+assert.ok(learning.includes('LCA')&&learning.includes('BRIEFCAM-TECH'),'Restricted track certification records must render');
 assert.ok(!CT.topicEngine.forPhase(4).some(r=>/PLC|SCADA|ISA-95/.test(r.topic.title)));
 const previous=Array.from(CT.focusedRoute.definition.previousIds);
 assert.equal(previous.length,25);assert.equal(expected.length,34);

@@ -2230,7 +2230,7 @@ function renderCertRow(cert, isNext = false) {
         </div>` : ''}
       ${cert.marketNote ? `<div class="cert-marketnote">📣 ${escape(cert.marketNote)}</div>` : ''}
       ${cert.expReq ? `<div class="cert-marketnote">🛂 <strong>Experience gate:</strong> ${escape(cert.expReq)} — the exam is the flight; this is the visa.</div>` : ''}
-      ${cert.cvValue ? `<div class="cert-cv-line">Estimated CV value <strong>+£${cert.cvValue.toLocaleString()}</strong><span class="cert-cv-cav"> /yr earning-power signal — UK market estimate, not a guarantee; non-additive</span>${cert.verifiedAt ? `<span class="cert-cv-cav"> · data verified ${escape(cert.verifiedAt)}</span>` : ''}</div>` : ''}
+      ${cert.cvValue ? `<div class="cert-cv-line">Estimated CV value <strong>+£${cert.cvValue.toLocaleString()}</strong><span class="cert-cv-cav"> /yr earning-power signal — UK market estimate, not a guarantee; non-additive · ${escape(String(cert.cvValueConfidence||'LOW').toLowerCase())}-confidence ${escape(String(cert.cvValueBasis||'catalogue estimate').toLowerCase().replaceAll('_',' '))}</span>${cert.verifiedAt ? `<span class="cert-cv-cav"> · record reviewed ${escape(cert.verifiedAt)}</span>` : ''}</div>` : ''}
       ${state.simMode && !state.passes[cert.id] ? `<button class="sim-pass-btn${state.simPasses[cert.id] ? ' on' : ''}" onclick="simTogglePass('${cert.id}')">${state.simPasses[cert.id] ? '🧪 Simulated pass — tap to remove' : '🧪 Simulate pass'}</button>` : ''}
       ${cert.projectRec ? `
         <div class="cert-project">

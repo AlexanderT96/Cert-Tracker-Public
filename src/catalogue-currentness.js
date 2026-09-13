@@ -8,6 +8,20 @@
   const byId=Object.fromEntries(CERTS.map(cert=>[cert.id,cert]));
   const patch=(id,values)=>{if(byId[id])Object.assign(byId[id],values);};
 
+  // Restricted physical-security ecosystems. Public pages establish that training exists;
+  // partner-only naming, eligibility and renewal details remain deliberately provisional.
+  const lenelValues={lca:2500,lcp:4500,lce:6500,lcda:8500};
+  for(const id of Object.keys(lenelValues))patch(id,{
+    validity:0,cvValue:lenelValues[id],cvValueConfidence:'LOW',cvValueScope:'UK enterprise physical-security roles with active LenelS2 delivery responsibility',verifiedAt:'2026-09-13',employer:true,
+    sourceUrl:'https://www.lenels2.com/en/training/',officialUrl:'https://www.lenels2.com/en/training/',provider:'LenelS2',cost:'Restricted employer / authorised-partner training; confirm current price and entitlement in the partner portal',costStatus:'PARTNER_PORTAL_REQUIRED',
+    renewalRule:'Current validity, product-update and renewal rules are not publicly verified; confirm them in the authorised LenelS2 learning portal before enrolment.',
+    availabilityStatus:'PARTNER_VERIFICATION_REQUIRED'
+  });
+  patch('lca',{note:'Hidden employer-access foundation. A legacy Lenel training source publicly evidences the LCA designation, but current course, exam, validity and renewal details must be confirmed in the authorised portal. Career-value estimate is low-confidence and conditional on hands-on platform responsibility.'});
+  patch('lcp',{note:'Hidden employer-access progression placeholder after LCA. The current LCP designation, eligibility, assessment and renewal details are not confirmed by a public cert-level source; verify all four in the authorised portal before treating this as bookable.'});
+  patch('lce',{note:'Hidden employer-access advanced progression placeholder after LCP. Do not infer eligibility from a fixed deployment count: use the current partner-portal rules and demonstrated enterprise delivery evidence.'});
+  patch('lcda',{note:'Hidden employer-access architecture-stage placeholder after LCE. Its high estimate reflects potential contextual scarcity in enterprise LenelS2 design work, not a guaranteed salary premium; confirm the current award and experience gate in the partner portal.'});
+
   // Fortinet rebuilt the certification programme into NSE 1-8 levels on 15 July 2026.
   // Keep legacy tracker IDs but never present retired FCP/FCSS/FCX branding as current.
   patch('nse-4',{
@@ -96,6 +110,22 @@
   // so sparse records must not collapse into thin cards just because they are outside My Path.
   // Missing fields are deliberately labelled as derived guidance, not invented vendor facts.
   for(const cert of CERTS){
+    const explicitValue=Number(cert.cvValue);
+    if(!Number.isFinite(explicitValue)||explicitValue<=0){
+      const trackBase={CORE:2600,FOUNDATION:1100,CONDITIONAL:1800,OPTIONAL:1400,'ROLE-DRIVEN':2200,ARCHITECT:4800,'IDENTITY-SEC':2800,'POST-PLAN':3400,WIRELESS:2700,'PREREQUISITE-ONLY':800,'EXPERIENCE-GATED':6000,'CELLULAR-FOCUS':2600}[cert.track]||1600;
+      const tierFactor={S:1.55,A:1.3,B:1.12,C:1,D:.82}[cert.tier]||1;
+      const roiFactor=.7+Math.max(0,Math.min(10,Number(cert.roi)||5))/20;
+      const difficultyFactor=.82+Math.max(0,Math.min(10,Number(cert.difficulty)||5))/30;
+      const accessFactor=cert.employer?1.08:1;
+      cert.cvValue=Math.max(500,Math.min(12000,Math.round(trackBase*tierFactor*roiFactor*difficultyFactor*accessFactor/100)*100));
+      cert.cvValueBasis='MODELLED_FALLBACK';
+    }else{
+      cert.cvValue=explicitValue;
+      cert.cvValueBasis=cert.cvValueBasis||'CATALOGUE_ESTIMATE';
+    }
+    cert.cvValueCurrency='GBP';
+    cert.cvValueConfidence=cert.cvValueConfidence||(cert.pending||cert.employer?'LOW':'MEDIUM');
+    cert.cvValueScope=cert.cvValueScope||'UK role-aligned earning-power planning signal; non-additive and not a guaranteed salary uplift';
     const topics=[...(cert.subjects||[]),...(cert.skills||[])].map(x=>String(x).trim()).filter(Boolean);
     const topicText=[...new Set(topics)].slice(0,6).join(', ')||cert.name||cert.code||'the certification domain';
     let derived=false;
