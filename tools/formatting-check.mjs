@@ -42,6 +42,10 @@ require(icon.includes('data-goal="true"'),'Application icon is missing its expli
 require(!/[\u{1F300}-\u{1FAFF}]/u.test(typography+symbols),'Professional CSS should not use decorative emoji.');
 for(const token of ['--hud-cyan:#16d9e3','--hud-teal:#20e39a','--hud-amber:#f0aa3c','--bg:#030811'])require(hud.includes(token),`Mechanical HUD token missing: ${token}`);
 for(const selector of ['.ct-map-viewport','.ct-map-gate','.ct-map-tutor-summary','.ct-command-dock','.ct-credential-tier-diamond'])require(hud.includes(selector),`Mechanical HUD coverage missing ${selector}`);
+require(chassis.includes('assets/hud/pathway-emblems.svg'),'Six-stage pathway emblem sprite is not wired into the HUD');
+for(const phase of [2,3,4,5,6])require(chassis.includes(`.phase-block.ph${phase} .phase-num`),`Pathway emblem mapping missing for phase ${phase}`);
+for(const phase of [2,3,4,5,6])require(chassis.includes(`.ct-map-phase[data-phase="${phase}"] .ct-map-phase-number`),`Map pathway emblem mapping missing for phase ${phase}`);
+for(const tier of ['bronze','silver','gold','platinum','diamond'])require(chassis.includes(`.ct-credential-tier-${tier}`),`Certification tier emblem missing: ${tier}`);
 for(const behavior of ['@media(hover:none)','@media(prefers-reduced-motion:reduce)','min-height:44px','touch-action:manipulation'])require(hud.includes(behavior),`Touch/accessibility contract missing ${behavior}`);
 for(const spacing of ['gap:4px','padding:4px','--hud-cut:10px'])require(hud.includes(spacing),`HUD spacing contract missing ${spacing}`);
 for(const forbidden of ['#ff7ad9','#c084fc','#9b8cff','#ff6ee0','#d946ef','#ec4899'])require(!hud.toLowerCase().includes(forbidden),`Forbidden legacy colour ${forbidden} remains in HUD layer.`);
@@ -52,7 +56,7 @@ require(icon.includes('cybernetic five-tier progression core'),'Application icon
 require(config.includes(`app: '${pkg.version}'`),'Visible application version must match package.json.');
 for(const selector of ['.header::before','.dash-hero::before','.ct-credential-tier-diamond','.strategy-marker','.ct-command-dock button::before'])require(chassis.includes(selector),`Approved mechanical chassis coverage missing ${selector}`);
 for(const token of ['RANK_TO_TIER','decorateCertRows','decorateMedalShelf',"S:'diamond'","A:'platinum'","B:'gold'","C:'silver'","D:'bronze'"])require(icons.includes(token),`Certification emblem coverage token ${token} is missing.`);
-for(const asset of ['chassis-frame.webp','portal.png','tier-bronze.png','tier-silver.png','tier-gold.png','tier-platinum.png','tier-diamond.png','strategy.png','roadmap.png','learning.png','customize.png','app-icon-192.png','app-icon-512.png']){
+for(const asset of ['chassis-frame.webp','portal.png','pathway-emblems.svg','tier-bronze.png','tier-silver.png','tier-gold.png','tier-platinum.png','tier-diamond.png','strategy.png','roadmap.png','learning.png','customize.png','app-icon-192.png','app-icon-512.png']){
   require(fs.existsSync(`assets/hud/${asset}`),`Approved HUD asset missing assets/hud/${asset}`);
   require(worker.includes(`'./assets/hud/${asset}'`),`Service worker does not cache assets/hud/${asset}`);
 }

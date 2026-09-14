@@ -1,0 +1,23 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 120" role="img" aria-label="Six-stage pathway emblem family">
+  <defs>
+    <radialGradient id="core" cx="50%" cy="45%" r="58%"><stop offset="0" stop-color="#17343b"/><stop offset=".58" stop-color="#08171c"/><stop offset="1" stop-color="#02080b"/></radialGradient>
+    <linearGradient id="steel" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#b9ccd0"/><stop offset=".24" stop-color="#33464b"/><stop offset=".58" stop-color="#101b1f"/><stop offset=".82" stop-color="#71868a"/><stop offset="1" stop-color="#172428"/></linearGradient>
+    <linearGradient id="cyan" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#d9ffff"/><stop offset=".35" stop-color="#00f0f5"/><stop offset="1" stop-color="#007c88"/></linearGradient>
+    <linearGradient id="red" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#ffb09e"/><stop offset=".4" stop-color="#ff4635"/><stop offset="1" stop-color="#7d130f"/></linearGradient>
+    <filter id="glow"><feGaussianBlur stdDeviation="2.2" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
+    <g id="chassis">
+      <path d="M60 5 91 17l24 25v36L91 103 60 115 29 103 5 78V42l24-25Z" fill="#030a0d" stroke="#152b31" stroke-width="3"/>
+      <path d="M60 10 88 21l20 23v32L88 99 60 110 32 99 12 76V44l20-23Z" fill="none" stroke="url(#steel)" stroke-width="6"/>
+      <path d="M60 19 83 28l16 19v26L83 92 60 101 37 92 21 73V47l16-19Z" fill="url(#core)" stroke="#32616a" stroke-width="2"/>
+      <path d="M60 10v10M108 44l-10 4M108 76l-10-4M60 110v-10M12 76l10-4M12 44l10 4" stroke="#00e9f0" stroke-width="3"/>
+      <circle cx="60" cy="60" r="30" fill="none" stroke="#0b3e46" stroke-width="3"/>
+    </g>
+    <g id="nodes" fill="#02090c" stroke="url(#cyan)" stroke-width="3"><circle cx="43" cy="69" r="5"/><circle cx="60" cy="42" r="5"/><circle cx="78" cy="69" r="5"/></g>
+  </defs>
+  <g transform="translate(0)"><use href="#chassis"/><circle cx="60" cy="60" r="17" fill="none" stroke="url(#cyan)" stroke-width="4" filter="url(#glow)"/><path d="M53 60h14M60 53v14" stroke="#e8ffff" stroke-width="3"/></g>
+  <g transform="translate(120)"><use href="#chassis"/><path d="m43 69 17-27 18 27H43Z" fill="none" stroke="#00e9f0" stroke-width="2"/><use href="#nodes" filter="url(#glow)"/></g>
+  <g transform="translate(240)"><use href="#chassis"/><path d="M41 42h38v12H41zm0 17h38v12H41zm0 17h38v12H41z" fill="none" stroke="url(#cyan)" stroke-width="3"/><path d="M70 48h4M70 65h4M70 82h4" stroke="#ff4635" stroke-width="3" filter="url(#glow)"/></g>
+  <g transform="translate(360)"><use href="#chassis"/><path d="M60 34 83 43v17c0 17-9 27-23 32-14-5-23-15-23-32V43Z" fill="none" stroke="url(#cyan)" stroke-width="3"/><path d="m48 61 8 8 17-19" fill="none" stroke="url(#red)" stroke-width="4" filter="url(#glow)"/></g>
+  <g transform="translate(480)"><use href="#chassis"/><path d="M60 31 84 45v30L60 89 36 75V45Z" fill="none" stroke="url(#cyan)" stroke-width="3"/><path d="m60 31v58M36 45l48 30M84 45 36 75" stroke="#00a8b4" stroke-width="2"/><circle cx="60" cy="60" r="9" fill="#041216" stroke="url(#red)" stroke-width="3" filter="url(#glow)"/></g>
+  <g transform="translate(600)"><use href="#chassis"/><path d="m60 26 9 16 18-4-5 18 14 12-18 7-1 19-17-10-17 10-1-19-18-7 14-12-5-18 18 4Z" fill="none" stroke="url(#cyan)" stroke-width="3"/><path d="M60 40 75 60 60 81 45 60Z" fill="url(#red)" stroke="#ffe7dc" stroke-width="2" filter="url(#glow)"/></g>
+</svg>
