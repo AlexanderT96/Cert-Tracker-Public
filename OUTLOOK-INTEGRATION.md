@@ -16,6 +16,20 @@ The first deployment is deliberately calendar-first:
 
 Optional inbox intelligence can be enabled separately with `Mail.Read`. It is intentionally off by default because calendar integration does not require mailbox access and ChatGPT already handles Outlook email monitoring separately.
 
+## Personal Microsoft accounts
+
+A business Microsoft 365 tenant is **not** required for this integration. Microsoft Graph supports delegated calendar access for personal Microsoft accounts such as Outlook.com, Hotmail, Live, Skype and Xbox-linked Microsoft accounts.
+
+For a personal account deployment:
+
+- register the application with **Personal Microsoft accounts only** as the supported account type;
+- use the `consumers` Microsoft identity authority in Cert Tracker;
+- register the production Cert Tracker URL as a **Single-page application (SPA)** redirect URI;
+- grant delegated `User.Read` and `Calendars.ReadWrite` permissions;
+- add `Mail.Read` only if you intentionally want Cert Tracker itself to inspect inbox context.
+
+The `common` authority also accepts personal accounts when the app registration supports them, but `consumers` is the narrower and clearer choice for a personal-only deployment.
+
 ## Security model
 
 - The public repository contains no Microsoft password, client secret, access token or refresh token.
@@ -32,7 +46,7 @@ Optional inbox intelligence can be enabled separately with `Mail.Read`. It is in
 1. Sign in to the Microsoft Entra admin centre and open **Identity > Applications > App registrations**.
 2. Select **New registration**.
 3. Give the app a clear name such as `Cert Tracker Outlook Bridge`.
-4. Choose the supported account type that matches the Microsoft account you use with Outlook. If you want the same registration to accept more than one Microsoft organisation/account type, choose the appropriate multitenant option.
+4. If this tracker will use a personal Outlook.com/Hotmail/Live Microsoft account, choose **Personal Microsoft accounts only** under Supported account types. If you intentionally want both personal and work/school Microsoft accounts to be usable, choose the mixed account option instead.
 5. Register the application.
 6. Open the registration's **Authentication** page.
 7. Add a platform and choose **Single-page application (SPA)**.
@@ -43,12 +57,12 @@ Optional inbox intelligence can be enabled separately with `Mail.Read`. It is in
     - `Calendars.ReadWrite`
     - optionally `Mail.Read` only if you explicitly want the tracker itself to inspect inbox context.
 11. Copy the **Application (client) ID** from the app registration overview.
-12. In Cert Tracker > **Connections**, paste the client ID. Leave authority as `common` unless you intentionally want to restrict sign-in to a particular tenant/domain.
+12. In Cert Tracker > **Connections**, paste the client ID. For a personal Microsoft account, select **Use personal account** or set the authority to `consumers`.
 13. Select **Save setup**, then **Connect Outlook**.
-14. Complete Microsoft sign-in/consent.
+14. Complete Microsoft sign-in/consent with the personal Microsoft account you want the tracker to read.
 15. Back in the tracker, use **Test access** and then **Sync managed milestones**.
 
-Microsoft tenants can impose stricter consent policies than the underlying delegated permission definition. If your work tenant blocks user consent, an administrator may need to approve the application before the tracker can connect.
+For personal Microsoft accounts there is no organisation-level Microsoft 365 administrator whose app-consent policy needs to approve the connection. The user grants consent to the delegated permissions for their own Microsoft account. Work/school accounts can still be subject to organisational consent policy if the same tracker registration is later used with them.
 
 ## What the current scaffold does
 
@@ -68,6 +82,7 @@ Microsoft tenants can impose stricter consent policies than the underlying deleg
 
 - the header **Connections** button;
 - Outlook setup and connection state;
+- a one-click personal-account mode that selects the `consumers` authority;
 - the exact redirect URI to register;
 - a least-privilege Calendar-first mode;
 - access test and on-demand managed-milestone sync;
