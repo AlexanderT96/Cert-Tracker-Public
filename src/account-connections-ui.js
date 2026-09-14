@@ -39,15 +39,17 @@
         <section class="ct-account-card">
           <div class="ct-account-head"><div><strong>Microsoft Outlook</strong><div class="ct-account-detail">Calendar bridge for ChatGPT-managed milestones, leave and optional inbox context.</div></div><span class="ct-account-status ${oclass}">${esc(olabel)}</span></div>
           <div class="ct-account-detail">${account?`Signed in as <strong>${esc(account.displayName||account.mail||account.userPrincipalName||'Microsoft account')}</strong><br>${esc(account.mail||account.userPrincipalName||'')}`:'The tracker has its own Microsoft OAuth connection. It cannot reuse the Outlook permission granted to ChatGPT.'}</div>
+          <div class="ct3-notice"><strong>Personal Outlook.com / Hotmail / Live account?</strong><br>Use the <code>consumers</code> authority and register the Entra app for <strong>Personal Microsoft accounts only</strong>. You do not need a business Microsoft 365 tenant for the Outlook calendar integration.</div>
           <div class="ct-account-config">
             <label>Microsoft Entra Application (client) ID<input id="ct-outlook-client-id" type="text" value="${esc(cfg.clientId)}" placeholder="xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx" autocomplete="off"></label>
-            <label>Tenant / authority<input id="ct-outlook-tenant" type="text" value="${esc(cfg.tenant)}" placeholder="common" autocomplete="off"></label>
+            <label>Microsoft account authority<input id="ct-outlook-tenant" type="text" value="${esc(cfg.tenant)}" placeholder="consumers" autocomplete="off"></label>
+            <div class="ct-account-detail"><code>consumers</code> = personal Microsoft accounts only · <code>organizations</code> = work/school only · <code>common</code> = either.</div>
             <label class="ct-check"><input id="ct-outlook-mail" type="checkbox" ${cfg.includeMail?'checked':''}><span>Enable optional inbox intelligence (<code>Mail.Read</code>). Calendar integration works without this.</span></label>
           </div>
           <hr class="ct-account-divider">
           <div class="ct-account-detail"><strong>Redirect URI to register as SPA:</strong><br><code>${esc(st.outlook.redirectUri)}</code></div>
           <div class="ct-account-detail" style="margin-top:7px"><strong>Requested delegated scopes:</strong><br><code>${esc(st.outlook.scopes.join(' '))}</code></div>
-          <div class="ct3-actions" style="margin-top:12px"><button class="ct3-btn" id="ct-outlook-save">Save setup</button><button class="ct3-btn primary" id="ct-outlook-connect">${st.outlook.connected?'Reconnect Outlook':'Connect Outlook'}</button></div>
+          <div class="ct3-actions" style="margin-top:12px"><button class="ct3-btn" id="ct-outlook-personal">Use personal account</button><button class="ct3-btn" id="ct-outlook-save">Save setup</button><button class="ct3-btn primary" id="ct-outlook-connect">${st.outlook.connected?'Reconnect Outlook':'Connect Outlook'}</button></div>
           <div class="ct3-actions"><button class="ct3-btn" id="ct-outlook-test" ${st.outlook.connected?'':'disabled'}>Test access</button><button class="ct3-btn" id="ct-outlook-sync" ${st.outlook.connected?'':'disabled'}>Sync managed milestones</button><button class="ct3-btn danger" id="ct-outlook-disconnect" ${st.outlook.connected?'':'disabled'}>Disconnect session</button></div>
           <div id="ct-outlook-status" class="ct-account-detail" style="margin-top:8px">${st.outlook.lastSyncAt?`Last successful sync: ${esc(new Date(st.outlook.lastSyncAt).toLocaleString('en-GB'))} · ${st.outlook.lastManagedCount} managed events.`:'No Outlook sync recorded yet.'}</div>
         </section>
@@ -73,11 +75,12 @@
   function show(){
     CT.ux.modal({title:'Account Connections',subtitle:'Outlook, encrypted device sync and HR calendar bridge',body:bodyHtml(),onMount(root){
       const status=root.querySelector('#ct-outlook-status'),preview=root.querySelector('#ct-outlook-preview');const setStatus=t=>{if(status)status.textContent=t;};
+      root.querySelector('#ct-outlook-personal')?.addEventListener('click',()=>{const authority=root.querySelector('#ct-outlook-tenant');if(authority)authority.value='consumers';saveForm(root);setStatus('Personal Microsoft account mode selected. Use “Personal Microsoft accounts only” in the Entra app registration.');});
       root.querySelector('#ct-outlook-save')?.addEventListener('click',()=>{const cfg=saveForm(root).outlook;setStatus(cfg.clientId?'Outlook setup saved locally. Connect when ready.':'Setup saved, but a valid Microsoft Application (client) ID is still required.');});
       root.querySelector('#ct-outlook-connect')?.addEventListener('click',async()=>{try{saveForm(root);setStatus('Redirecting to Microsoft sign-in…');await CT.accountConnections.connectOutlook();}catch(e){setStatus(e.message);}});
       root.querySelector('#ct-outlook-test')?.addEventListener('click',async()=>{try{setStatus('Testing Microsoft Graph access…');const r=await CT.accountConnections.testOutlook();setStatus(`Access confirmed for ${r.account?.displayName||r.account?.mail||'Microsoft account'} · ${r.calendars.length} calendar(s) visible.`);}catch(e){setStatus(e.message);}});
       root.querySelector('#ct-outlook-sync')?.addEventListener('click',async()=>{try{setStatus('Syncing managed Outlook milestones…');const r=await CT.accountConnections.syncOutlook();if(preview)preview.innerHTML=renderUpcoming(r);setStatus(`Sync complete: ${r.managed.length} ChatGPT-managed event(s) in the calendar window.`);}catch(e){setStatus(e.message);}});
-      root.querySelector('#ct-outlook-disconnect')?.addEventListener('click',()=>{CT.accountConnections.disconnectOutlook();setStatus('Outlook session disconnected. Your local client ID/tenant setup was kept.');setLauncherState();});
+      root.querySelector('#ct-outlook-disconnect')?.addEventListener('click',()=>{CT.accountConnections.disconnectOutlook();setStatus('Outlook session disconnected. Your local client ID/authority setup was kept.');setLauncherState();});
       root.querySelector('#ct-open-github-sync')?.addEventListener('click',()=>{root.closest('.ct3-backdrop')?.querySelector('.ct3-close')?.click();CT.githubSyncUI?.show?.();});
     }});
   }
