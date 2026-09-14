@@ -16,6 +16,18 @@
         else CT.workspaceShell?.decorate();
       }catch(error){console.error('[CertTracker] initial render failed',error);}
       if(!app.childNodes.length){
+        // Recover once from a mixed/stale PWA cache after a deployment. Preserve local workspace data.
+        try{
+          const key='ct4-boot-recovery-v427';
+          if(!sessionStorage.getItem(key)){
+            sessionStorage.setItem(key,'1');
+            Promise.allSettled([
+              navigator.serviceWorker?.getRegistrations?.().then(regs=>Promise.all(regs.map(reg=>reg.unregister()))),
+              caches?.keys?.().then(keys=>Promise.all(keys.map(name=>caches.delete(name))))
+            ]).finally(()=>location.reload());
+            return;
+          }
+        }catch(recoveryError){console.warn('[CertTracker] cache recovery unavailable',recoveryError);}
         app.innerHTML='<main class="ct3-card" role="alert" style="margin:16px;padding:20px"><h1>Cert Tracker could not start</h1><p>The saved workspace is still intact. Reload once; if the problem persists, clear this site\'s cached data and reopen it.</p><button class="ct3-btn" type="button" onclick="location.reload()">Reload tracker</button></main>';
       }
       const content=document.getElementById('tab-content');
