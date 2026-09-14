@@ -409,11 +409,12 @@ function renderApp() {
 function renderTabContent() {
   const el = document.getElementById('tab-content');
   if (!el) return;
-  const y = window.CertTrackerTabNavigation ? 0 : window.scrollY;
+  const navigating = Boolean(window.CertTrackerTabNavigation);
+  const y = navigating ? 0 : window.scrollY;
   if (state.currentTab === 'dashboard')      el.innerHTML = renderDashboard();
   if (state.currentTab === 'strategy')       el.innerHTML = renderStrategy();
   if (state.currentTab === 'certifications') el.innerHTML = renderCertifications();
-  requestAnimationFrame(() => window.scrollTo({ top: y, left: 0, behavior: 'instant' }));
+  if (!navigating) requestAnimationFrame(() => window.scrollTo({ top: y, left: 0, behavior: 'instant' }));
 }
 
 function switchTab(tab) { state.currentTab = tab; renderApp(); }
