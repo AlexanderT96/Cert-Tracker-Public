@@ -393,13 +393,13 @@ try{
   assert.ok(await focused.page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth+1),'Focused route must not overflow mobile');
   await focused.page.locator('[data-mobile-tab="learning"]').click();
   assert.ok(!(await focused.page.locator('#tab-content').textContent()).includes('OT + convergence engineering'));
+  assert.ok((await focused.page.locator('.ct-learning-workspace').textContent()).includes('Milestone BriefCam Technical Certification'),'BriefCam remains visible in the core learning path');
   const unlockTracks=focused.page.locator('.ct-learning-unlock-tracks');
   assert.equal(await unlockTracks.count(),1,'Restricted physical-security tracks remain in one discoverable group');
   assert.equal(await unlockTracks.getAttribute('open'),null,'Employer-access tracks are collapsed by default');
   await unlockTracks.locator('summary').click();
   assert.ok((await unlockTracks.textContent()).includes('LenelS2 access-control engineering ecosystem'));
-  assert.ok((await unlockTracks.textContent()).includes('Milestone BriefCam video-analytics ecosystem'));
-  assert.ok((await unlockTracks.textContent()).includes('BRIEFCAM-TECH'));
+  assert.ok(!(await unlockTracks.textContent()).includes('Milestone BriefCam video-analytics ecosystem'),'Core BriefCam must not be duplicated in hidden unlock tracks');
   for(const width of [320,390,768,1280]){
     await focused.page.setViewportSize({width,height:900});
     await focused.page.evaluate(()=>new Promise(resolve=>requestAnimationFrame(()=>requestAnimationFrame(resolve))));
