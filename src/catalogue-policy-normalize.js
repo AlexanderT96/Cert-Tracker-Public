@@ -103,7 +103,21 @@
   for(const [id,name,code] of [['mcit','XProtect Certified Integration Technician','XCIT'],['mcde','XProtect Certified Design Engineer','XCDE'],['mcie','XProtect Certified Integration Engineer','XCIE']]){
     revise(id,{name,code,examFormat:'Check the current assessment guide in the Milestone Learning Portal; public format and delivery details were not verified.',prerequisites:'Check the current portal assessment guide. Previous-certification requirements must not be inferred from tracker learning order.',note:'XProtect certification milestone. Legacy internal ID retained to preserve progress. Current price, eligibility and renewal details require the issuer portal; no workplace funding or automatic completion is assumed.',studyMaterials:'Milestone Learning Portal and current XProtect documentation. Select the guide matching the current assessment name.'},'https://milestonesys.fuseuniversal.com/');
   }
-  revise('arcules-csp',{examFormat:'Partner assessment details require the current Milestone/Arcules portal.',note:'Sales-focused credential, not proof of technical integration capability. Current validity, assessment and pricing require portal confirmation; unknown validity is not a lifetime guarantee.'},'https://milestonesys.fuseuniversal.com/');
+  const restrictedCoverage={
+    mcit:['XProtect deployment planning and system requirements','Installation and core system components','Devices, recording and storage configuration','Users, roles and operator clients','Events, rules, alarms and notifications','Maintenance and first-line troubleshooting'],
+    mcde:['Requirements, edition and topology selection','Camera, scene and image-quality design','Bandwidth, storage and retention design','Server roles, sizing and distributed architecture','Availability, cybersecurity and recovery design','Integration, documentation and design assurance'],
+    mcie:['Advanced XProtect architecture and component dependencies','Milestone Federated Architecture','XProtect Interconnect','Recording, storage and performance engineering','Events, rules, alarms and third-party integrations','Security, identity and certificate operations','Availability, backup, failover and recovery','Multi-layer troubleshooting and change validation'],
+    acp:['Network video technologies and standards','Imaging, optics and scene requirements','Encoding, streaming, bandwidth and storage','IP networking and device cybersecurity','Installation, configuration and troubleshooting','Solution design, products and integrations'],
+    'arcules-csp':['Cloud VSaaS value and suitable use cases','Arcules portfolio and service architecture','Connectivity, security and operational requirements','Cloud, on-premises and hybrid positioning','Licensing, commercial discovery and proposal fit','Customer outcomes, limitations and handover']
+  };
+  for(const[id,subjects]of Object.entries(restrictedCoverage)){
+    const cert=byId[id];if(!cert)continue;
+    cert.subjects=subjects;
+    cert.coverage=subjects.join('; ')+'. Exact assessment weighting and private course objectives require the current authorised learning portal.';
+    cert.coverageModel='ACCESS_RESTRICTED_EXPLICIT_FLOOR';
+    cert.tutorBottlenecks=subjects.map(subject=>({subject,reason:`Demonstrate ${subject} through explanation, configuration or design, a controlled failure and evidence-led recovery before treating the subject as covered.`}));
+  }
+  revise('arcules-csp',{examFormat:'Partner assessment details require the current Milestone/Arcules portal.',note:'Sales-focused credential, not proof of technical integration capability. Current validity, assessment and pricing require portal confirmation; unknown validity is not a lifetime guarantee.',studyMaterials:'Milestone Learning Portal for the current authorised curriculum, supported by current Arcules product and support documentation.'},'https://milestonesys.fuseuniversal.com/');
   for(const id of ['a-plus','network-plus','security-plus']){
     revise(id,{note:'Use the current CompTIA objectives for the listed exam code. Current issuer pages could not be independently retrieved in this review; retirement predictions, discount promises and automatic cross-renewal claims are not assumed.',prerequisites:'Consult current CompTIA recommended experience. Tracker learning dependencies do not establish formal eligibility.',cost:'Current regional CompTIA price unverified; confirm official checkout',costNum:0},'https://www.comptia.org/certifications');
   }

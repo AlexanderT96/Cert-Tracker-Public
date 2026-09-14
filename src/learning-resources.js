@@ -134,7 +134,21 @@
     ]),
     mcie:Object.freeze([
       link('Milestone Learning and Performance','https://www.milestonesys.com/learn-and-support/learning-and-performance/','Official XProtect technical learning and certification route','course',null),
-      link('Milestone documentation','https://doc.milestonesys.com/','Current product documentation for build, validation and troubleshooting practice','reference',true)
+      link('Milestone documentation','https://doc.milestonesys.com/','Current product documentation for build, validation and troubleshooting practice','reference',true),
+      link('Milestone Federated Architecture','https://doc.milestonesys.com/en-US/bundle/wp1404_ver1/page/content/wp_fedarch/introduction.htm','Official architecture reference for federated-site study','official',true),
+      link('XProtect Interconnect comparison','https://doc.milestonesys.com/en-US/bundle/wp1405_ver1/page/content/wp_interconnect/milestone_interconnect_in_1.htm','Official reference comparing Interconnect and Federated Architecture','official',true)
+    ]),
+    mcit:Object.freeze([
+      link('Milestone Learning Portal','https://learn.milestonesys.com/','Authoritative XCIT course and assessment; customer or partner sign-in required','course',null),
+      link('XProtect VMS documentation','https://doc.milestonesys.com/en-US/category/XProtect_VMS','Current installation, configuration, operation and troubleshooting reference','reference',true)
+    ]),
+    mcde:Object.freeze([
+      link('Milestone Learning Portal','https://learn.milestonesys.com/','Authoritative XCDE design course and assessment; customer or partner sign-in required','course',null),
+      link('XProtect VMS documentation','https://doc.milestonesys.com/en-US/category/XProtect_VMS','Validate current features, limits and architecture assumptions','reference',true)
+    ]),
+    'arcules-csp':Object.freeze([
+      link('Milestone Learning Portal','https://learn.milestonesys.com/','Authoritative Arcules partner course and assessment; sign-in required','course',null),
+      link('Arcules support','https://arcules.com/support/','Official product, operational and support reference','reference',true)
     ]),
     lca:Object.freeze([
       link('LenelS2 training and certification','https://www.lenels2.com/en/training/','Official restricted training entry point; use the partner portal to verify the active course and award','course',null),
@@ -198,6 +212,14 @@
       link('AWS Skill Builder','https://skillbuilder.aws/','Official AWS learning and labs','course',true),
       link('Tutorials Dojo AWS practice exams','https://portal.tutorialsdojo.com/course-category/aws-practice-exams/','Best-fit scenario-heavy practice','practice',false)
     ])
+  });
+
+  const TOPIC_RESOURCE_OVERRIDES=Object.freeze({
+    mcie:Object.freeze({
+      'Milestone Federated Architecture':Object.freeze([link('Milestone Federated Architecture guide','https://doc.milestonesys.com/en-US/bundle/wp1404_ver1/page/content/wp_fedarch/introduction.htm','Official definition, hierarchy and configuration entry point','official',true)]),
+      'XProtect Interconnect':Object.freeze([link('XProtect Interconnect and Federation comparison','https://doc.milestonesys.com/en-US/bundle/wp1405_ver1/page/content/wp_interconnect/milestone_interconnect_in_1.htm','Official architectural comparison and Interconnect entry point','official',true)]),
+      'Multi-layer troubleshooting and change validation':Object.freeze([link('XProtect VMS documentation','https://doc.milestonesys.com/en-US/category/XProtect_VMS','Current product documentation for dependency, port, certificate, service and upgrade checks','official',true)])
+    })
   });
 
   const SUBJECT_OVERRIDES=Object.freeze({
@@ -459,16 +481,46 @@
       {topic:'Lifecycle cost, supportability and design assurance',depth:5,emphasis:'High'}
     ]),
     acp:Object.freeze([
-      {topic:'IP video and network fundamentals',depth:4,emphasis:'High'},
-      {topic:'Axis product/system design',depth:4,emphasis:'High'},
-      {topic:'Image quality, video streaming and bandwidth',depth:4,emphasis:'Very high'},
-      {topic:'Installation, configuration and troubleshooting',depth:4,emphasis:'Very high'}
+      {topic:'Network video technologies and standards',depth:3,emphasis:'High'},
+      {topic:'Imaging, optics and scene requirements',depth:4,emphasis:'Very high'},
+      {topic:'Encoding, streaming, bandwidth and storage',depth:4,emphasis:'Very high'},
+      {topic:'IP networking and device cybersecurity',depth:4,emphasis:'Very high'},
+      {topic:'Installation, configuration and troubleshooting',depth:4,emphasis:'Very high'},
+      {topic:'Solution design, products and integrations',depth:4,emphasis:'High'}
+    ]),
+    mcit:Object.freeze([
+      {topic:'XProtect deployment planning and system requirements',depth:3,emphasis:'High'},
+      {topic:'Installation and core system components',depth:3,emphasis:'Very high'},
+      {topic:'Devices, recording and storage configuration',depth:3,emphasis:'Very high'},
+      {topic:'Users, roles and operator clients',depth:3,emphasis:'High'},
+      {topic:'Events, rules, alarms and notifications',depth:3,emphasis:'High'},
+      {topic:'Maintenance and first-line troubleshooting',depth:4,emphasis:'Very high'}
+    ]),
+    mcde:Object.freeze([
+      {topic:'Requirements, edition and topology selection',depth:4,emphasis:'Very high'},
+      {topic:'Camera, scene and image-quality design',depth:4,emphasis:'High'},
+      {topic:'Bandwidth, storage and retention design',depth:4,emphasis:'Very high'},
+      {topic:'Server roles, sizing and distributed architecture',depth:4,emphasis:'Very high'},
+      {topic:'Availability, cybersecurity and recovery design',depth:4,emphasis:'Very high'},
+      {topic:'Integration, documentation and design assurance',depth:4,emphasis:'High'}
     ]),
     mcie:Object.freeze([
-      {topic:'XProtect architecture and advanced configuration',depth:4,emphasis:'Very high'},
-      {topic:'Recording, storage and performance design',depth:4,emphasis:'High'},
-      {topic:'Network, service and integration troubleshooting',depth:4,emphasis:'Very high'},
-      {topic:'Security, resilience and operational design',depth:4,emphasis:'High'}
+      {topic:'Advanced XProtect architecture and component dependencies',depth:4,emphasis:'Very high'},
+      {topic:'Milestone Federated Architecture',depth:4,emphasis:'Very high'},
+      {topic:'XProtect Interconnect',depth:4,emphasis:'Very high'},
+      {topic:'Recording, storage and performance engineering',depth:4,emphasis:'Very high'},
+      {topic:'Events, rules, alarms and third-party integrations',depth:4,emphasis:'High'},
+      {topic:'Security, identity and certificate operations',depth:4,emphasis:'Very high'},
+      {topic:'Availability, backup, failover and recovery',depth:4,emphasis:'Very high'},
+      {topic:'Multi-layer troubleshooting and change validation',depth:5,emphasis:'Very high'}
+    ]),
+    'arcules-csp':Object.freeze([
+      {topic:'Cloud VSaaS value and suitable use cases',depth:2,emphasis:'High'},
+      {topic:'Arcules portfolio and service architecture',depth:2,emphasis:'High'},
+      {topic:'Connectivity, security and operational requirements',depth:3,emphasis:'Very high'},
+      {topic:'Cloud, on-premises and hybrid positioning',depth:3,emphasis:'Very high'},
+      {topic:'Licensing, commercial discovery and proposal fit',depth:2,emphasis:'High'},
+      {topic:'Customer outcomes, limitations and handover',depth:3,emphasis:'High'}
     ])
   });
 
@@ -497,6 +549,7 @@
     const official=safeUrl(cert.sourceUrl);
     const rows=[];
     if(official)rows.push(link('Official blueprint',official,`Authoritative ${subject} scope and current exam requirements`,'official',true));
+    rows.push(...(TOPIC_RESOURCE_OVERRIDES[cert.id]?.[subject]||[]));
     rows.push(...auditedLinks(cert));
     rows.push(...platformRecommendations(cert,subject,requiredDepth));
     if(p?.training)rows.push(link('Primary course',p.training,`Official/vendor learning for ${subject}`,'course',null));

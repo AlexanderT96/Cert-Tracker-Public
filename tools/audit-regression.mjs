@@ -90,6 +90,8 @@ assert.equal(cert('ai-901').code,'AI-901');assert.equal(cert('pcep').validity,60
 assert.equal(cert('ccna').costNum,0);assert.ok(!/825|pass rate|DEC 2026/.test(cert('ccna').note+cert('ccna').examFormat));
 assert.equal(cert('mcie').name,'XProtect Certified Integration Engineer');assert.equal(cert('mcie').code,'XCIE');
 assert.ok(CT.learningResources.overallStack(cert('ai-901'))[0].label.startsWith('Official credential'));
+assert.ok(CT.learningResources.profile(cert('mcie')).subjects.some(row=>row.topic==='Milestone Federated Architecture'));
+assert.ok(CT.learningResources.profile(cert('mcie')).subjects.some(row=>row.topic==='XProtect Interconnect'));
 assert.ok(CT.learningResources.overallStack(cert('ai-901')).filter(r=>/results|search/.test(r.url)).every(r=>r.verified===false&&r.label.startsWith('Unreviewed search')));
 const integrityProfile=CT.learningResources.profile(cert('ai-901'));assert.ok(integrityProfile.subjects.every(s=>s.studyBrief.outcomes.length>=3&&s.studyBrief.lab.length>=3));assert.ok(integrityProfile.subjects.every(s=>s.resources.filter(r=>['DISCOVERY','REFERENCE'].includes(r.coverage)).every(r=>r.coverage!=='REVIEWED')),'Search and credential-reference links cannot count as reviewed teaching');
 assert.ok(!/CySA\+ DOES|cloud workloads ARE Linux|post-nominal/.test(cert('linux-plus').note),'Linux guidance must not promise unverified renewal or broad role outcomes');
@@ -116,6 +118,7 @@ state.passes=Object.fromEntries(expected.map(id=>[id,'2026-01-01']));assert.equa
 // Every later milestone must remain reachable without an excluded study dependency.
 for(let i=0;i<expected.length;i++)for(const dep of cert(expected[i]).deps||[])assert.ok(expected.indexOf(dep)>=0&&expected.indexOf(dep)<i,expected[i]+' dependency '+dep);
 for(const file of ['src/topic-engine.js','src/career-advisor.js','src/assessment-bank.js','src/career-mentor.js','src/weekly-coach.js','src/learning-path-ui.js'])vm.runInContext(fs.readFileSync(file,'utf8'),s,{filename:file});
+assert.ok(CT.assessmentBank.get('xcie-multisite-01')&&CT.assessmentBank.get('xcie-federation-01')&&CT.assessmentBank.get('xcie-retrieval-01'),'XCIE multi-site coverage needs original scenario checks');
 const learning=CT.learningPath.render();assert.ok(!learning.includes('OT + convergence engineering'));assert.ok(learning.includes('LOCKED MILESTONE'));
 assert.ok(learning.includes('Parallel depth tracks')&&learning.includes('CWAP-405')&&learning.includes('Nokia Bell Labs 5G')&&learning.includes('Cloudflare edge'),'Wireless, cellular and Cloudflare depth must remain visibly separate from core milestones');
 assert.ok(learning.includes('Employer-access unlock tracks · 2')&&learning.includes('LenelS2 access-control engineering ecosystem')&&learning.includes('Milestone BriefCam video-analytics ecosystem'),'Restricted physical-security ecosystems must remain discoverable in a collapsed unlock group');

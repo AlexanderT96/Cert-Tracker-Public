@@ -5,10 +5,12 @@
   'use strict';
   const CT=global.CertTrackerV3;if(!CT)throw new Error('config.js must load before curriculum-audit.js');
   const CHECKED='2026-09-11';
+  const RESTRICTED_CHECKED='2026-09-14';
   const d=(subject,objective,weight=null)=>Object.freeze({subject,objective,weight:weight?Object.freeze(weight):null});
   const r=(label,url,role,status,note,free=null)=>Object.freeze({label,url,role,status,note,free,checkedAt:CHECKED});
+  const rr=(label,url,role,status,note,free=null)=>Object.freeze({label,url,role,status,note,free,checkedAt:RESTRICTED_CHECKED});
   const verified=(version,url,domains,resources=[],note='Public issuer blueprint cross-walked to the tracker subjects.')=>Object.freeze({status:'VERIFIED',version,url,checkedAt:CHECKED,note,domains:Object.freeze(domains),resources:Object.freeze(resources)});
-  const pending=(status,url,note)=>Object.freeze({status,version:null,url,checkedAt:null,note,domains:Object.freeze([]),resources:Object.freeze([])});
+  const restricted=(version,url,domains,resources=[],note='Partner access is required to verify the exact assessment blueprint. These domains are an explicit public product/role coverage floor, not claimed exam weightings.')=>Object.freeze({status:'ACCESS_RESTRICTED',version,url,checkedAt:RESTRICTED_CHECKED,coverageBasis:'PUBLIC_PRODUCT_AND_ROLE_SCOPE',portalValidationRequired:true,note,domains:Object.freeze(domains),resources:Object.freeze(resources)});
 
   const records={
     ccna:verified('200-301 v1.1','https://learningnetwork.cisco.com/s/ccna-exam-topics',[
@@ -103,19 +105,53 @@
     ],[], 'Experience-gated application requirements are represented as evidence domains, not exam topics.')
   };
 
-  const queue={
-    mcit:['ACCESS_RESTRICTED','https://www.milestonesys.com/learn-and-support/learning-and-performance/','Exact course objectives require Milestone Learning & Performance access.'],
-    mcde:['ACCESS_RESTRICTED','https://www.milestonesys.com/learn-and-support/learning-and-performance/','Exact design-course objectives require Milestone Learning & Performance access.'],
-    mcie:['ACCESS_RESTRICTED','https://www.milestonesys.com/learn-and-support/learning-and-performance/','Exact integration-engineer objectives require Milestone Learning & Performance access.'],
-    acp:['ACCESS_RESTRICTED','https://www.axis.com/learning/certification-program','Validate the current exam specification and training modules through Axis learning access.'],
-    'arcules-csp':['ACCESS_RESTRICTED','https://arcules.com/','Certification curriculum requires the partner learning portal.'],
-  };
-  for(const[id,[status,url,note]]of Object.entries(queue))records[id]=pending(status,url,note);
+  records.mcit=restricted('Current XCIT partner curriculum','https://learn.milestonesys.com/',[
+    d('XProtect deployment planning and system requirements','Select an appropriate XProtect edition/topology and validate Windows, network, licensing and service prerequisites.'),
+    d('Installation and core system components','Install and identify the responsibilities and dependencies of management, recording, event, mobile and client components.'),
+    d('Devices, recording and storage configuration','Add devices; configure streams, recording, retention, storage and basic camera/device behaviour.'),
+    d('Users, roles and operator clients','Configure authentication, roles, permissions, Smart Client and supported client access.'),
+    d('Events, rules, alarms and notifications','Create and validate basic event-driven behaviour, rules, alarms and operator workflows.'),
+    d('Maintenance and first-line troubleshooting','Use logs, service state, connectivity and configuration evidence to diagnose common XProtect faults and preserve recoverability.')
+  ],[rr('Milestone Learning Portal','https://learn.milestonesys.com/','course','ISSUER_RECOMMENDED','Authoritative course and assessment access; partner/customer sign-in required.',null),rr('XProtect VMS documentation','https://doc.milestonesys.com/en-US/category/XProtect_VMS','reference','BLUEPRINT','Current product documentation supports the coverage floor but does not disclose the XCIT exam blueprint.',true)]);
+  records.mcde=restricted('Current XCDE partner curriculum','https://learn.milestonesys.com/',[
+    d('Requirements, edition and topology selection','Translate operational, camera, retention, integration and site requirements into a justified XProtect solution boundary.'),
+    d('Camera, scene and image-quality design','Choose device capabilities, placement assumptions, resolution, frame rate and image-quality settings for the stated operational purpose.'),
+    d('Bandwidth, storage and retention design','Calculate and challenge bitrate, recording behaviour, retention, archive and storage-performance assumptions.'),
+    d('Server roles, sizing and distributed architecture','Size and place management, recording, event, mobile and supporting services across the required topology.'),
+    d('Availability, cybersecurity and recovery design','Design failure tolerance, backups, certificates, identity, segmentation, hardening and recovery validation.'),
+    d('Integration, documentation and design assurance','Document interfaces, licensing, BoM, constraints, acceptance criteria and design trade-offs so another engineer can implement and challenge the design.')
+  ],[rr('Milestone Learning Portal','https://learn.milestonesys.com/','course','ISSUER_RECOMMENDED','Authoritative design course and assessment access; partner/customer sign-in required.',null),rr('XProtect VMS documentation','https://doc.milestonesys.com/en-US/category/XProtect_VMS','reference','BLUEPRINT','Use current product limits and feature documentation to validate design assumptions.',true)]);
+  records.mcie=restricted('Current XCIE partner curriculum','https://learn.milestonesys.com/',[
+    d('Advanced XProtect architecture and component dependencies','Build and reason about distributed management, recording, event, mobile, database and client-service dependencies.'),
+    d('Milestone Federated Architecture','Design, configure and troubleshoot parent/child site hierarchy, trust, identity, permissions, certificates and site connectivity.'),
+    d('XProtect Interconnect','Design, configure and troubleshoot central/remote sites, exposed devices, live streams, remote recordings, retrieval and constrained-WAN behaviour.'),
+    d('Recording, storage and performance engineering','Tune streams, recording, retention, archives, storage and server resources from measured workload evidence.'),
+    d('Events, rules, alarms and third-party integrations','Implement and diagnose Event Server workflows, analytics, XProtect Access and supported integrations.'),
+    d('Security, identity and certificate operations','Apply least privilege, service identities, secure communication, certificates and auditable administrative practice.'),
+    d('Availability, backup, failover and recovery','Validate failure behaviour, configuration/database protection, recording-server failover and service restoration.'),
+    d('Multi-layer troubleshooting and change validation','Isolate client, service, database, storage, device, DNS, time, certificate and network faults; validate upgrades and rollback.')
+  ],[rr('Milestone Learning Portal','https://learn.milestonesys.com/','course','ISSUER_RECOMMENDED','Authoritative XCIE course and assessment access; partner/customer sign-in required.',null),rr('Milestone Federated Architecture','https://doc.milestonesys.com/en-US/bundle/wp1404_ver1/page/content/wp_fedarch/introduction.htm','reference','BLUEPRINT','Official architecture reference; not presented as the private XCIE blueprint.',true),rr('XProtect Interconnect comparison','https://doc.milestonesys.com/en-US/bundle/wp1405_ver1/page/content/wp_interconnect/milestone_interconnect_in_1.htm','reference','BLUEPRINT','Official Interconnect and Federated Architecture comparison reference.',true),rr('XProtect VMS documentation','https://doc.milestonesys.com/en-US/category/XProtect_VMS','reference','BLUEPRINT','Current product documentation for configuration and troubleshooting validation.',true)]);
+  records.acp=restricted('Current Axis Certification Program','https://www.axis.com/learning/axis-certification-program',[
+    d('Network video technologies and standards','Explain the network-video system, standards, protocols and component responsibilities.'),
+    d('Imaging, optics and scene requirements','Select and configure image, lens, light, exposure, resolution and scene-dependent capabilities.'),
+    d('Encoding, streaming, bandwidth and storage','Reason about codecs, profiles, frame rate, bitrate, multiple streams, bandwidth, storage and image-quality trade-offs.'),
+    d('IP networking and device cybersecurity','Configure addressing and network services; apply accounts, certificates, hardening, firmware and secure lifecycle practices.'),
+    d('Installation, configuration and troubleshooting','Install, focus, configure, maintain and diagnose Axis devices using observable evidence.'),
+    d('Solution design, products and integrations','Select appropriate Axis devices and ecosystem capabilities for operational, environmental and integration requirements.')
+  ],[rr('Axis Certification Program','https://www.axis.com/learning/axis-certification-program','course','ISSUER_RECOMMENDED','Official preparation and certification entry point; current detailed knowledge areas may require sign-in.',null),rr('Axis developer documentation','https://developer.axis.com/','reference','BLUEPRINT','Official technical reference for streaming, metadata, analytics and integrations; not an exam blueprint.',true)]);
+  records['arcules-csp']=restricted('Current Arcules/Milestone partner sales curriculum','https://learn.milestonesys.com/',[
+    d('Cloud VSaaS value and suitable use cases','Explain where cloud-managed video creates operational value and where on-premises or hybrid designs remain more appropriate.'),
+    d('Arcules portfolio and service architecture','Describe the current platform, devices/gateways, cloud services, clients and service responsibility boundaries.'),
+    d('Connectivity, security and operational requirements','Identify network, identity, privacy, retention, resilience and support assumptions that affect solution fit.'),
+    d('Cloud, on-premises and hybrid positioning','Compare Arcules with XProtect and mixed estates without making unsupported feature or resilience claims.'),
+    d('Licensing, commercial discovery and proposal fit','Gather requirements, identify subscription/licensing dependencies and present a supportable solution scope.'),
+    d('Customer outcomes, limitations and handover','Tie capabilities to measurable customer outcomes and disclose constraints, dependencies and technical-validation needs.')
+  ],[rr('Milestone Learning Portal','https://learn.milestonesys.com/','course','ISSUER_RECOMMENDED','Authoritative Arcules partner curriculum and assessment access; sign-in required.',null),rr('Arcules support','https://arcules.com/support/','reference','BLUEPRINT','Official product/support reference for validating current capabilities; not the private sales assessment blueprint.',true)]);
   const ROUTE_IMPACT=Object.freeze({'network-plus':49,'security-plus':42,'a-plus':36,'az-104':20,pcep:11,'az-900':11,pcap:11,'az-305':9,'linux-plus':8,'sc-300':8,mcie:6,acp:6,ccna:6,cwna:6,'cisco-meraki-solutions':6,'crowdstrike-ccfa':6,pcpp1:6,mcde:4,mcit:3,'sc-500':3,'ccnp-enterprise':3,'az-802':2,'az-700':2,'ccie-enterprise':2,'arcules-csp':1,'ai-901':0,'ai-103':0,'sc-100':0,cissp:0});
   const frozen=Object.freeze(Object.fromEntries(Object.entries(records).map(([id,value])=>[id,Object.freeze({...value,certId:id,routeImpact:ROUTE_IMPACT[id]||0})])));
   function record(id){return frozen[id]||null;}
   function validatedResources(id){return Object.freeze((record(id)?.resources||[]).filter(x=>['BLUEPRINT_ALIGNED','VERSION_MATCH'].includes(x.status)));}
   function queueRows(){return Object.freeze(Object.values(frozen).filter(x=>x.status!=='VERIFIED').sort((a,b)=>b.routeImpact-a.routeImpact||a.certId.localeCompare(b.certId)));}
-  function summary(){const rows=Object.values(frozen),coreIds=new Set(global.CERT_TRACKER_FOCUSED_ROUTE?.ids||[]),core=rows.filter(x=>coreIds.has(x.certId)),focus=rows.filter(x=>!coreIds.has(x.certId));return Object.freeze({scope:rows.length,verified:rows.filter(x=>x.status==='VERIFIED').length,queued:rows.filter(x=>x.status==='QUEUED'||x.status==='SOURCE_IDENTIFIED').length,restricted:rows.filter(x=>x.status==='ACCESS_RESTRICTED').length,validatedResources:rows.reduce((n,x)=>n+validatedResources(x.certId).length,0),coreScope:core.length,coreVerified:core.filter(x=>x.status==='VERIFIED').length,coreRestricted:core.filter(x=>x.status==='ACCESS_RESTRICTED').length,focusScope:focus.length,focusVerified:focus.filter(x=>x.status==='VERIFIED').length});}
+  function summary(){const rows=Object.values(frozen),coreIds=new Set(global.CERT_TRACKER_FOCUSED_ROUTE?.ids||[]),core=rows.filter(x=>coreIds.has(x.certId)),focus=rows.filter(x=>!coreIds.has(x.certId));return Object.freeze({scope:rows.length,verified:rows.filter(x=>x.status==='VERIFIED').length,queued:rows.filter(x=>x.status==='QUEUED'||x.status==='SOURCE_IDENTIFIED').length,restricted:rows.filter(x=>x.status==='ACCESS_RESTRICTED').length,validatedResources:rows.reduce((n,x)=>n+validatedResources(x.certId).length,0),coreScope:core.length,coreStructured:core.filter(x=>x.domains?.length>=2).length,coreVerified:core.filter(x=>x.status==='VERIFIED').length,coreRestricted:core.filter(x=>x.status==='ACCESS_RESTRICTED').length,focusScope:focus.length,focusVerified:focus.filter(x=>x.status==='VERIFIED').length});}
   CT.curriculumAudit=Object.freeze({STATUSES:Object.freeze(['VERIFIED','SOURCE_IDENTIFIED','ACCESS_RESTRICTED','QUEUED']),RESOURCE_STATUSES:Object.freeze(['BLUEPRINT','BLUEPRINT_ALIGNED','VERSION_MATCH','ISSUER_RECOMMENDED']),records:frozen,record,validatedResources,queue:queueRows,summary});
 })(window);
