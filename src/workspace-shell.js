@@ -176,7 +176,6 @@
     const content=document.getElementById('tab-content');
     if(content&&typeof global.renderTabContent==='function'){
       content.setAttribute('aria-busy','true');
-      content.innerHTML='';
       if(pendingTabFrame)global.cancelAnimationFrame(pendingTabFrame);
       pendingTabFrame=global.requestAnimationFrame(()=>{
         pendingTabFrame=0;
