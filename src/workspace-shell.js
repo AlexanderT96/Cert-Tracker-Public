@@ -166,6 +166,7 @@
   function announceRendered(){try{global.dispatchEvent(new CustomEvent('certtracker:workspace-rendered',{detail:{tab:state.currentTab}}));}catch{}}
   function decorate(){ensureActiveTab();syncMobileNavigation();renderHeader();renderNavigation();renderWorkspaceContent();renderFocusedRoute();CT.personalization.organiseDock?.();announceRendered();}
   function renderApp(){ensureActiveTab();originalRenderApp();decorate();}
+  let pendingTabFrame=0;
   function switchTab(tab){
     const tabs=availableTabs();if(!tabs.includes(tab)||tab===state.currentTab){closeMobileMore();return;}
     state.currentTab=tab;
@@ -176,14 +177,21 @@
     if(content&&typeof global.renderTabContent==='function'){
       content.setAttribute('aria-busy','true');
       content.innerHTML='';
-      global.renderTabContent();
-      renderWorkspaceContent();
-      renderFocusedRoute();
-      content.removeAttribute('aria-busy');
-      CT.personalization.organiseDock?.();
-      announceRendered();
-    }else renderApp();
-    global.CertTrackerTabNavigation=false;
+      if(pendingTabFrame)global.cancelAnimationFrame(pendingTabFrame);
+      pendingTabFrame=global.requestAnimationFrame(()=>{
+        pendingTabFrame=0;
+        global.renderTabContent();
+        renderWorkspaceContent();
+        renderFocusedRoute();
+        content.removeAttribute('aria-busy');
+        CT.personalization.organiseDock?.();
+        announceRendered();
+        global.CertTrackerTabNavigation=false;
+      });
+    }else{
+      renderApp();
+      global.CertTrackerTabNavigation=false;
+    }
   }
 
   global.renderApp=renderApp;
