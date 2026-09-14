@@ -118,3 +118,6 @@ a{color:#87f8f8!important;text-decoration-color:rgba(34,229,229,.45)!important}a
 
 /* v4.26.2 — preserve the compact verification glyph while enforcing a stable WCAG touch target across engines. */
 [aria-label="Data accuracy and verification"]{width:45px!important;height:45px!important;min-width:45px!important;min-height:45px!important;flex:0 0 45px!important}
+
+/* v4.26.3 — specificity-safe cross-engine header control geometry. */
+.header #ct-data-help{width:45px!important;height:45px!important;min-width:45px!important;min-height:45px!important;flex:0 0 45px!important}
