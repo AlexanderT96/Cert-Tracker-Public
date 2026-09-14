@@ -16,10 +16,13 @@ const manifest=read('manifest.json');
 const worker=read('sw.js');
 const config=read('src/config.js');
 const pkg=JSON.parse(read('package.json'));
+const templateOne=read('template-one.css');
 
 function require(condition,message){if(!condition)errors.push(message);}
 
 for(const asset of ['professional-overrides.css','professional-depth.css','professional-symbols.css','professional-typography.css','cyberpunk-hud.css','mechanical-chassis.css','src/professional-icons.js'])require(index.includes(asset),`index.html is missing final presentation asset ${asset}`);
+require(index.includes('template-one.css'),'Template 1 final presentation layer is missing.');
+require(index.indexOf('template-one.css')>index.indexOf('mobile-polish.css'),'Template 1 must load after every legacy presentation layer.');
 require(index.indexOf('professional-typography.css')>index.indexOf('professional-symbols.css'),'professional-typography.css must load after professional-symbols.css');
 require(index.indexOf('cyberpunk-hud.css')>index.indexOf('professional-typography.css'),'cyberpunk-hud.css must load after professional typography.');
 require(index.indexOf('mechanical-chassis.css')>index.indexOf('cyberpunk-hud.css'),'mechanical-chassis.css must be the final presentation layer.');
@@ -62,6 +65,9 @@ for(const asset of ['chassis-frame.webp','portal.png','pathway-emblems.svg','tie
 }
 require(worker.includes("'./mechanical-chassis.css'"),'Service worker does not cache the mechanical chassis layer.');
 require(worker.includes(`cert-tracker-assets-v${pkg.version}`),'Service-worker cache was not advanced for the approved chassis release.');
+for(const selector of ['.header','.tabs','.dash-hero','.phase-block','.cert-row','.ct-learning-phase','.ct-map-viewport','.ct-mobile-navigation','.ct-command-dock'])require(templateOne.includes(selector),`Template 1 workspace coverage missing ${selector}`);
+for(const token of ['--t1-black','--t1-white','--t1-cyan','--t1-red','--t1-amber'])require(templateOne.includes(token),`Template 1 design token missing ${token}`);
+require(worker.includes("'./template-one.css'"),'Service worker does not cache the Template 1 layer.');
 const presentationCss=fs.readdirSync('.').filter(file=>file.endsWith('.css')).map(read).join('\n').toLowerCase();
 for(const forbidden of ['#ff7ad9','#c084fc','#9b8cff','#ff6ee0','#d946ef','#ec4899','#d8b0ff','#b03fd0','#ff5d7d','#ff6b8a','#a55ef0','#d0a6ff','rgba(167,139,250','rgba(255,140,225','rgba(255,110,224'])require(!presentationCss.includes(forbidden),`Forbidden legacy presentation colour ${forbidden} remains in CSS.`);
 for(const forbidden of ['#c084fc','#d4d1e8','#d8b0ff','#b03fd0','#ff6ee0','#ff7ad9'])require(!renderer.toLowerCase().includes(forbidden),`Forbidden legacy renderer colour ${forbidden} remains.`);
