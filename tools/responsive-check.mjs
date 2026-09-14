@@ -47,7 +47,7 @@ require(mobileCss.includes('#tab-content{min-height:0!important;contain:none!imp
 require(mobileCss.includes('clip-path:none!important'),'Tall mobile cards must avoid iOS clipped-layer paint gaps.');
 require(workspace.includes('global.CertTrackerTabNavigation=true'),'Workspace navigation must mark tab changes so stale scroll offsets are not restored.');
 require(workspace.includes("typeof global.renderTabContent==='function'"),'Workspace tabs must update content without rebuilding the entire application shell.');
-require(renderer.includes('window.CertTrackerTabNavigation ? 0 : window.scrollY'),'Tab changes must reset scroll while in-place updates preserve reading position.');
+require(renderer.includes('const navigating = Boolean(window.CertTrackerTabNavigation)')&&renderer.includes('const y = navigating ? 0 : window.scrollY')&&renderer.includes('if (!navigating) requestAnimationFrame'),'Tab changes must reset scroll while in-place updates preserve reading position.');
 require(personalization.includes('[data-workspace-tab=')&&personalization.includes('[data-ct-workspace='),'Personalization must reuse workspace-shell tabs instead of manufacturing duplicate menu buttons.');
 for(const mode of ['mobile','tablet','desktop'])require(alignmentCss.includes(`data-layout=\"${mode}\"`),`Missing independent ${mode} emblem alignment rules.`);
 require(alignmentCss.includes('grid-template-columns:42px minmax(0,1fr) auto auto'),'Banner icons, text and actions must occupy separate grid columns.');
