@@ -11,10 +11,13 @@ const route = sandbox.window.CERT_TRACKER_FOCUSED_ROUTE;
 const routeIds = Array.from(route.ids || []);
 const focusIds = [...new Set(Array.from(route.focusTracks || []).flatMap(track => Array.from(track.certs || [])))];
 const certs = Array.from(sandbox.window.CERTS || []).map(cert => structuredClone(cert));
-const byId = new Map(certs.map(cert => [cert.id, cert]));
 vm.runInContext(fs.readFileSync('src/cert-extensions.js', 'utf8'), sandbox, { filename: 'src/cert-extensions.js' });
 const assembledCerts = Array.from(sandbox.window.CERTS || []);
 const assembledById = new Map(assembledCerts.map(cert => [cert.id, cert]));
+const baseIds = new Set(certs.map(cert => cert.id));
+const byId = new Map([...certs, ...assembledCerts.filter(cert => !baseIds.has(cert.id))].map(cert => [cert.id, cert]));
+vm.runInContext(fs.readFileSync('src/catalogue-policy-normalize.js', 'utf8'), sandbox, { filename: 'src/catalogue-policy-normalize.js' });
+const runtimeById = new Map(Array.from(sandbox.window.CERTS || []).map(cert => [cert.id, cert]));
 assert.ok(route && routeIds.length, 'focused My Path route must be present');
 assert.equal(new Set(routeIds).size, routeIds.length, 'My Path must not contain duplicate route IDs');
 
@@ -62,9 +65,14 @@ const briefcamTrack=Array.from(route.focusTracks||[]).find(track=>track.id==='mi
 assert.equal(lenelTrack?.hidden,true,'LenelS2 must remain a collapsed optional unlock track');
 assert.deepEqual(Array.from(lenelTrack?.certs||[]),['lca','lcp','lce','lcda']);
 assert.equal(lenelTrack?.unlock?.type,'EMPLOYER_PARTNER_ACCESS');
-assert.equal(briefcamTrack?.hidden,true,'BriefCam must remain a collapsed optional unlock track');
-assert.deepEqual(Array.from(briefcamTrack?.certs||[]),['briefcam-tech']);
-assert.equal(briefcamTrack?.unlock?.type,'EMPLOYER_PARTNER_ACCESS');
+assert.equal(briefcamTrack,undefined,'Accessible BriefCam must not remain duplicated as a hidden optional track');
+assert.ok(routeIds.includes('briefcam-tech'),'Accessible BriefCam must be visible in the core route');
+const otTrack=Array.from(route.focusTracks||[]).find(track=>track.id==='ot-convergence');
+assert.deepEqual(Array.from(otTrack?.certs||[]),['iec-62443-cfs','iec-62443-cra','iec-62443-cds','iec-62443-cms','iec-62443-expert','isa95-fund','isa-apm','isa-cap-associate','isa-cap','isa-61511-sis-fund','isa-61511-sil-select','isa-61511-sil-verify','isa-61511-expert']);
+assert.equal(otTrack?.status,'OPTIONAL');
+assert.equal(route.executionPolicy?.mode,'FOREGROUND_CORE_BACKGROUND_PYTHON');
+assert.deepEqual(Array.from(runtimeById.get('ai-901').deps||[]),['pcep']);
+assert.deepEqual(Array.from(runtimeById.get('ai-103').deps||[]),['pcap','ai-901']);
 assert.match(byId.get('pcep').marketNote, /five years/i);
 assert.match(byId.get('pcap').marketNote, /five years/i);
 

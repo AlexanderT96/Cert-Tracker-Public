@@ -82,6 +82,7 @@
   for(const [id,[slug,minutes,coverage,note]] of Object.entries(microsoft)){
     const url=msBase+slug,fundamental=['az-900','ai-901'].includes(id);
     revise(id,{code:id.toUpperCase(),coverage,note,prerequisites:id==='az-305'?'Azure Administrator Associate is required for the Expert certification award; distinguish this from exam scheduling.':note,
+      ...id==='ai-901'?{deps:['pcep']}:id==='ai-103'?{deps:['pcap','ai-901']}:{},
       examFormat:minutes?`Proctored assessment: ${minutes} minutes, with possible interactive components. Refer to the current issuer page for exam policies.`:'Refer to the current Microsoft exam page for duration, delivery and assessment policies.',
       cost:'Regional Microsoft checkout price; confirm currency and taxes before booking',costNum:0,validity:fundamental?0:12,
       studyMaterials:'Use the current certification page and its linked study guide, learning modules and practice assessment where available. Availability of third-party courses is not assumed.'
@@ -108,7 +109,8 @@
     mcde:['Requirements, edition and topology selection','Camera, scene and image-quality design','Bandwidth, storage and retention design','Server roles, sizing and distributed architecture','Availability, cybersecurity and recovery design','Integration, documentation and design assurance'],
     mcie:['Advanced XProtect architecture and component dependencies','Milestone Federated Architecture','XProtect Interconnect','Recording, storage and performance engineering','Events, rules, alarms and third-party integrations','Security, identity and certificate operations','Availability, backup, failover and recovery','Multi-layer troubleshooting and change validation'],
     acp:['Network video technologies and standards','Imaging, optics and scene requirements','Encoding, streaming, bandwidth and storage','IP networking and device cybersecurity','Installation, configuration and troubleshooting','Solution design, products and integrations'],
-    'arcules-csp':['Cloud VSaaS value and suitable use cases','Arcules portfolio and service architecture','Connectivity, security and operational requirements','Cloud, on-premises and hybrid positioning','Licensing, commercial discovery and proposal fit','Customer outcomes, limitations and handover']
+    'arcules-csp':['Cloud VSaaS value and suitable use cases','Arcules portfolio and service architecture','Connectivity, security and operational requirements','Cloud, on-premises and hybrid positioning','Licensing, commercial discovery and proposal fit','Customer outcomes, limitations and handover'],
+    'briefcam-tech':['BriefCam User and Admin foundations','Installation, architecture and configuration','Review, Respond and Research workflows','Metadata, permissions and VMS integration','Administration, performance and troubleshooting','Privacy, auditability and human validation']
   };
   for(const[id,subjects]of Object.entries(restrictedCoverage)){
     const cert=byId[id];if(!cert)continue;
