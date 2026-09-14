@@ -2,8 +2,8 @@
 (function(global){
   'use strict';
   const groups=[
-    ['Systems and physical-security foundations',['a-plus','network-plus','mcit','mcde','arcules-csp','mcie','acp'],'Windows, DNS, storage, recovery and IP-video integration'],
-    ['Networking, wireless and programming foundations',['ccna','briefcam-tech','cwna','cwisa','cisco-meraki-solutions','security-plus','pcep','az-900','pcap'],'CCNA first, then accessible video analytics, vendor-neutral enterprise Wi-Fi, wireless-IoT administration, Meraki operations, security fundamentals and reusable Python'],
+    ['Systems, networking and physical-security lock-in',['a-plus','network-plus','mcit','mcde','arcules-csp','mcie','ccna','acp'],'Complete the time-bounded CCNA programme after XCIE while Axis ACP continues as supporting role study'],
+    ['Wireless, analytics and programming foundations',['briefcam-tech','cwna','cwisa','cisco-meraki-solutions','security-plus','pcep','az-900','pcap'],'Accessible video analytics, vendor-neutral enterprise Wi-Fi, wireless-IoT administration, Meraki operations, security fundamentals and reusable Python'],
     ['Linux, Windows Server, Azure and platform security',['linux-plus','az-802','az-104','az-700','sc-300','crowdstrike-ccfa','sc-500','cwap','cwdp','cwsp'],'Linux and Windows administration, Azure networking, identity and endpoint controls plus wireless analysis, architecture and security'],
     ['Professional networking and AI foundations',['ccnp-enterprise','ai-901'],'ENCOR + ENARSI routing depth; practical AI foundations'],
     ['Automation, AI applications and cloud/security design',['ai-103','pcpp1','az-305','sc-100'],'Python applications, Microsoft Foundry, resilient Azure design and Zero Trust security architecture'],
@@ -30,7 +30,7 @@
   const auditIds=Object.freeze([...new Set([...ids,...focusTracks.filter(x=>x.id.startsWith('cwnp-')).flatMap(x=>x.certs)])]);
   const executionPolicy=Object.freeze({
     mode:'FOREGROUND_CORE_BACKGROUND_PYTHON',
-    foreground:Object.freeze(['mcie','acp','ccna']),
+    foreground:Object.freeze(['mcie','ccna','acp']),
     complementary:Object.freeze(['pcep','pcap','pcpp1']),
     nonCompeting:Object.freeze(['pcep','pcap','pcpp1','ai-901','ai-103']),
     rule:'Python remains a core dependency but cannot displace an active networking, wireless or current-role milestone. AI begins only after the mapped Python rung is complete.'

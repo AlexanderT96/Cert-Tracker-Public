@@ -76,7 +76,7 @@ old.schemaVersion=3;old.status='degraded';old.providerCoverage={successes:0,fail
 await vm.runInContext(`(async()=>{${producer}})()`,context);
 assert.equal(written.lastSuccessfulFetchAt,null,'Legacy failed attempts are not verified successful fetches');assert.equal(written.fetchedAt,null);
 // Focused route is a generic preset, never a public record of a user's completions.
-const expected=['a-plus','network-plus','mcit','mcde','arcules-csp','mcie','acp','ccna','briefcam-tech','cwna','cwisa','cisco-meraki-solutions','security-plus','pcep','az-900','pcap','linux-plus','az-802','az-104','az-700','sc-300','crowdstrike-ccfa','sc-500','cwap','cwdp','cwsp','ccnp-enterprise','ai-901','ai-103','pcpp1','az-305','sc-100','cissp','ccie-enterprise','cwne'];
+const expected=['a-plus','network-plus','mcit','mcde','arcules-csp','mcie','ccna','acp','briefcam-tech','cwna','cwisa','cisco-meraki-solutions','security-plus','pcep','az-900','pcap','linux-plus','az-802','az-104','az-700','sc-300','crowdstrike-ccfa','sc-500','cwap','cwdp','cwsp','ccnp-enterprise','ai-901','ai-103','pcpp1','az-305','sc-100','cissp','ccie-enterprise','cwne'];
 assert.deepEqual(Array.from(CT.focusedRoute.definition.ids),expected);
 assert.equal(cert('cwisa').phase,2);assert.equal(cert('cwisa').track,'CORE');assert.match(cert('cwisa').note,/core wireless-IoT/i);
 assert.ok(CT.focusedRoute.definition.focusTracks.find(x=>x.id==='ai-security')?.certs.includes('secai-plus'));
@@ -108,9 +108,9 @@ state.passes=Object.fromEntries(expected.slice(0,5).map(id=>[id,'2026-01-01']));
 assert.equal(CT.recommendations.recommend()[0].id,'mcie');
 assert.equal(CT.recommendations.recommend().length,1);
 assert.equal(CT.filterIntelligence.nextFor(c=>state.myPath[c.id]).id,'mcie');
-assert.equal(CT.phases.phaseState(1).required.length,7);
+assert.equal(CT.phases.phaseState(1).required.length,8);
 state.skipped.mcie=true;assert.equal(CT.phases.phaseState(1).complete,false);assert.equal(CT.recommendations.recommend()[0].id,'mcie','Do not jump past skipped locked milestones');
-state.skipped={};state.passes.mcie='2026-01-02';assert.equal(CT.recommendations.recommend()[0].id,'acp');
+state.skipped={};state.passes.mcie='2026-01-02';assert.equal(CT.recommendations.recommend()[0].id,'ccna');state.passes.ccna='2026-01-03';assert.equal(CT.recommendations.recommend()[0].id,'acp');
 const routeBackup=CT.storage.serializableState();CT.storage.applyBackup(routeBackup,{silent:true});
 assert.equal(state.passes.mcie,'2026-01-02');assert.equal(CT.focusedRoute.enabled(),true);
 state.phaseOverrides['ccie-enterprise']=1;assert.equal(CT.store.effectivePhase(cert('ccie-enterprise')),6);
