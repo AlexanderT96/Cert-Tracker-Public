@@ -2,8 +2,8 @@
 (function(global){
   'use strict';
   const groups=[
-    ['Systems and physical-security foundations',['a-plus','network-plus','mcit','mcde','arcules-csp','mcie','acp','briefcam-tech'],'Windows, DNS, storage, recovery, IP-video integration and accessible video analytics'],
-    ['Networking, wireless and programming foundations',['ccna','cwna','cwisa','cisco-meraki-solutions','security-plus','pcep','az-900','pcap'],'Routing, switching, vendor-neutral enterprise Wi-Fi, visible wireless-IoT administration, Meraki operations, security fundamentals and reusable Python'],
+    ['Systems and physical-security foundations',['a-plus','network-plus','mcit','mcde','arcules-csp','mcie','acp'],'Windows, DNS, storage, recovery and IP-video integration'],
+    ['Networking, wireless and programming foundations',['ccna','briefcam-tech','cwna','cwisa','cisco-meraki-solutions','security-plus','pcep','az-900','pcap'],'CCNA first, then accessible video analytics, vendor-neutral enterprise Wi-Fi, wireless-IoT administration, Meraki operations, security fundamentals and reusable Python'],
     ['Linux, Windows Server, Azure and platform security',['linux-plus','az-802','az-104','az-700','sc-300','crowdstrike-ccfa','sc-500','cwap','cwdp','cwsp'],'Linux and Windows administration, Azure networking, identity and endpoint controls plus wireless analysis, architecture and security'],
     ['Professional networking and AI foundations',['ccnp-enterprise','ai-901'],'ENCOR + ENARSI routing depth; practical AI foundations'],
     ['Automation, AI applications and cloud/security design',['ai-103','pcpp1','az-305','sc-100'],'Python applications, Microsoft Foundry, resilient Azure design and Zero Trust security architecture'],
