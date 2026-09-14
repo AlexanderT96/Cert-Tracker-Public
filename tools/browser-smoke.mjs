@@ -44,7 +44,7 @@ async function persistentHealth(page){
   assert.equal((await button.textContent()).trim(),'?');
   assert.equal(await button.getAttribute('aria-label'),'Data accuracy and verification');
   const bounds=await button.boundingBox();assert.ok(bounds.width<=45&&bounds.height<=45,'Health control stays compact');
-  const icon=await button.locator('span').boundingBox();assert.equal(icon.width,22);assert.equal(icon.height,22);
+  const icon=await button.locator('span').boundingBox();assert.ok(Math.abs(icon.width-22)<.1&&Math.abs(icon.height-22)<.1,'Health icon remains 22px within sub-pixel browser tolerance');
   assert.ok(bounds.width>=44&&bounds.height>=44,'Small visual retains an accessible tap target');
   const title=await page.locator('.header-title').boundingBox();
   assert.ok(bounds.x>title.x+title.width&&Math.abs(bounds.y+bounds.height/2-(title.y+title.height/2))<=12,'Help aligns with the mobile title row');
