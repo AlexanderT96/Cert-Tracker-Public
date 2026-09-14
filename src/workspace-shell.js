@@ -18,7 +18,7 @@
 
   function availableTabs(){const order=CT.personalization.tabOrder?.()||FALLBACK_TABS;return order.length?order:FALLBACK_TABS;}
   function ensureActiveTab(){const tabs=availableTabs();if(!tabs.includes(state.currentTab))state.currentTab=tabs.includes('dashboard')?'dashboard':tabs[0];}
-  function tabButton(tab){const active=state.currentTab===tab?' active':'';return `<button type="button" class="tab${active}" data-workspace-tab="${esc(tab)}" data-ct-workspace="${esc(tab)}">${esc(CT.personalization.tabLabel(tab))}</button>`;}
+  function tabButton(tab){const active=state.currentTab===tab?' active':'';return `<button type="button" class="tab${active}" data-workspace-tab="${esc(tab)}" data-ct-workspace="${esc(tab)}"><span class="tab-glyph" aria-hidden="true"></span><span>${esc(CT.personalization.tabLabel(tab))}</span></button>`;}
 
   function canonicalTab(button){
     const direct=button?.dataset?.workspaceTab||button?.dataset?.ctWorkspace;
@@ -106,7 +106,7 @@
     let nav=document.getElementById('ct-mobile-navigation');
     if(!nav){
       nav=document.createElement('nav');nav.id='ct-mobile-navigation';nav.className='ct-mobile-navigation';nav.setAttribute('aria-label','Primary tracker navigation');
-      nav.innerHTML=MOBILE_PRIMARY.map(([tab,label,short])=>`<button type="button" data-mobile-tab="${tab}" aria-label="${label}"><span class="ct-mobile-nav-label" data-short-label="${short}">${label}</span></button>`).join('')+'<button type="button" id="ct-mobile-more-button" data-mobile-more="true">More</button>';
+      nav.innerHTML=MOBILE_PRIMARY.map(([tab,label,short])=>`<button type="button" data-mobile-tab="${tab}" aria-label="${label}"><span class="ct-mobile-nav-icon" aria-hidden="true"></span><span class="ct-mobile-nav-label" data-short-label="${short}">${label}</span></button>`).join('')+'<button type="button" id="ct-mobile-more-button" data-mobile-more="true"><span class="ct-mobile-nav-icon" aria-hidden="true"></span><span class="ct-mobile-nav-label">More</span></button>';
       nav.querySelectorAll('[data-mobile-tab]').forEach(button=>button.addEventListener('click',()=>switchTab(button.dataset.mobileTab)));
       nav.querySelector('[data-mobile-more]')?.addEventListener('click',openMobileMore);
       document.body.appendChild(nav);

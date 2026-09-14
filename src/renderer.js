@@ -378,22 +378,30 @@ function renderApp() {
   document.documentElement.dataset.phase = ph;
 
   document.getElementById('app').innerHTML = `
+    <div class="terminal-topline" aria-hidden="true">
+      <span class="terminal-signal">SECURE ACCESS TERMINAL</span>
+      <span class="terminal-build">CT/OPS · v${escape(window.CertTrackerV3?.version?.app || '24')}</span>
+      <span class="terminal-motto">CLEARER SKILLS. A SAFER TOMORROW.</span>
+    </div>
     <div class="header">
-      <div>
+      <div class="header-brand">
         <div class="header-title">Cert Tracker</div>
-        <div class="header-sub">v24 · ${scoped ? escape(scopeLabel) : total + ' certs'} · <span style="color: var(--blue-text)">Phase ${ph}</span></div>
+        <div class="header-sub"><span class="header-route">My Path</span><span class="header-separator">›</span><span>Phase ${ph}</span><span class="header-scope">${scoped ? escape(scopeLabel) : total + ' certs'}</span></div>
       </div>
       <div class="header-count">
-        ${passed}/${total}
-        <small>Core ${corePassed}/${coreTotal}</small>
+        <span class="header-count-value">${passed}/${total}</span>
+        <small>certifications complete</small>
+        <span class="header-core">Core ${corePassed}/${coreTotal}</span>
       </div>
+      <div class="header-doctrine" aria-hidden="true"><span>DISCIPLINE</span><span>BUILDS</span><span>OPPORTUNITY</span></div>
     </div>
     <div class="tabs">
       <button class="tab${state.currentTab === 'dashboard' ? ' active' : ''}" onclick="switchTab('dashboard')">Dashboard</button>
       <button class="tab${state.currentTab === 'certifications' ? ' active' : ''}" onclick="switchTab('certifications')">Certifications</button>
       <button class="tab${state.currentTab === 'strategy' ? ' active' : ''}" onclick="switchTab('strategy')">📋 Strategy</button>
     </div>
-    <div class="content" id="tab-content"></div>
+    <main class="content" id="tab-content"></main>
+    <div class="terminal-footer-rail" aria-hidden="true"><span>PEOPLE</span><span>SKILLS</span><span>PROGRESS</span></div>
   `;
   renderTabContent();
 }
@@ -1913,6 +1921,7 @@ function renderCertifications() {
 
   const searchBar = `
     <div class="cert-search-bar">
+      <span class="cert-search-icon" aria-hidden="true"></span>
       <input
         type="search"
         class="cert-search-input"
@@ -1983,30 +1992,43 @@ function renderCertifications() {
     const filterTest = typeof activeFilter?.test === 'function' ? activeFilter.test : null;
     const nextRecommended = isDefaultFilter ? nextCoreCert() : nextCoreCert(filterTest);
     if(nextRecommended&&certs.some(c=>c.id===nextRecommended.id))certs=[nextRecommended,...certs.filter(c=>c.id!==nextRecommended.id)];
-    const rows = isOpen ? certs.map(cert => renderCertRow(cert, nextRecommended && cert.id === nextRecommended.id)).join('') : '';
+    const rows = isOpen ? certs.map((cert,index) => renderCertRow(cert, nextRecommended && cert.id === nextRecommended.id,index + 1,certs.length)).join('') : '';
+    const phasePct = totalCerts ? Math.round((passed / totalCerts) * 100) : 0;
 
     return `
       <div class="phase-block ph${ph}">
         <button class="phase-header" onclick="togglePhase(${ph})">
           <div class="phase-header-left">
             <span class="phase-num ${numClass}">${ph}</span>
-            <div>
-              <div class="phase-header-title">Phase ${ph}: ${escape(trackerPhaseSpec(ph).name)} <span class="phase-stage-tag">${phaseStage(ph)}</span></div>
+            <div class="phase-header-copy">
+              <div class="phase-header-kicker">Current run · Stage ${String(ph).padStart(2,'0')}</div>
+              <div class="phase-header-title"><span>Phase ${ph}</span><i aria-hidden="true"></i>${escape(trackerPhaseSpec(ph).name)} <span class="phase-stage-tag">${phaseStage(ph)}</span></div>
               <div class="phase-header-meta">${passed}/${totalCerts} passed · ${(() => { const e = phaseETA(ph); return e ? `≈ ${e}` : escape(trackerPhaseSpec(ph).window); })()}${avgROI ? ` · Avg ROI ${avgROI}` : ''}</div>
               ${trackerPhaseSpec(ph).roles ? `<div class="phase-header-roles"><span class="phr-band">${escape(trackerPhaseSpec(ph).band)}</span> Opens: ${trackerPhaseSpec(ph).roles.map(r => escape(r)).join(' · ')}</div>` : ''}
+              <span class="phase-progress-track" aria-label="${phasePct}% phase complete"><span style="width:${phasePct}%"></span></span>
             </div>
           </div>
-          <span class="phase-toggle">${isOpen ? '−' : '+'}</span>
+          <span class="phase-toggle"><small>${isOpen ? 'Collapse' : 'Deploy'}</small>${isOpen ? '−' : '+'}</span>
         </button>
-        ${rows}
+        <div class="phase-cert-stack">${rows}</div>
       </div>`;
   }).join('');
 
+  const visibleTotal = CERTS.filter(activeFilter.test).filter(c => !state.passedOnly || state.passes[c.id]).filter(c => !searchTest || searchTest(c)).length;
+  const visiblePassed = CERTS.filter(activeFilter.test).filter(c => state.passes[c.id]).filter(c => !searchTest || searchTest(c)).length;
+  const activePhase = currentPhase();
+  const runPct = visibleTotal ? Math.round((visiblePassed / visibleTotal) * 100) : 0;
+
   return `
-    <p style="font-size:11px;color:var(--dim);margin-bottom:10px">Tap a cert to expand. Enter pass dates for auto-renewal and expiry tracking.</p>
-    ${searchBar}
-    ${filterBar}
-    ${blocks || `<div class="empty-filter-state"><div class="icon">🔍</div><h3>No certs match this ${searchQuery ? 'search' : 'filter'}</h3><p>${searchQuery ? 'Try clearing the search or broadening the filter.' : 'Try clearing the filter or selecting a different one. The "All" chip will show every cert in the plan.'}</p></div>`}`;
+    <section class="cert-operations" aria-label="Certification operations">
+      <div class="cert-operations-head"><span>Certification operations</span><small>Tap a dossier to inspect blueprint, resources and evidence gates</small></div>
+      <div class="current-run-panel">
+        <div><span class="current-run-label">Current run</span><strong>Phase ${activePhase} · ${escape(trackerPhaseSpec(activePhase).name)}</strong><small>${escape(phaseStage(activePhase))} // ${escape(activeFilter.label || 'My Path')}</small></div>
+        <div class="current-run-meter"><span>${visiblePassed}/${visibleTotal}</span><small>complete</small><div><i style="width:${runPct}%"></i></div></div>
+      </div>
+      <div class="cert-command-row">${searchBar}${filterBar}</div>
+      <div class="cert-phase-stack">${blocks || `<div class="empty-filter-state"><div class="icon">⌕</div><h3>No certifications acquired</h3><p>${searchQuery ? 'Clear the search or broaden the query.' : 'Change the active route filter to recover the certification feed.'}</p></div>`}</div>
+    </section>`;
 }
 
 function renderApplicationGuide(cert) {
@@ -2160,7 +2182,7 @@ function pathwayIcon(cert) {
 }
 
 
-function renderCertRow(cert, isNext = false) {
+function renderCertRow(cert, isNext = false, sequence = 1, sequenceTotal = 1) {
   const pd = state.passes[cert.id] || '';
   const { status, days, expiry } = expiryInfo(cert, pd);
   const info = TRACK_INFO[cert.track];
@@ -2180,11 +2202,16 @@ function renderCertRow(cert, isNext = false) {
 
   const summary = `
     <div class="cert-summary${cert.tracks && cert.tracks.length === 0 ? ' parked' : ''}" role="button" tabindex="0" aria-expanded="${state.openCerts[cert.id] ? 'true' : 'false'}" onclick="toggleCert('${cert.id}')" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();toggleCert('${cert.id}');}">
-      <button class="cert-status-dot ${dotClass}" onclick="event.stopPropagation(); toggleComplete('${cert.id}')" title="${pd ? 'Completed — tap to undo' : 'Tap to mark complete'}" aria-label="Toggle completion">${pd ? '✓' : ''}</button>
-      ${certNotes.imageData ? `<img src="${escape(certNotes.imageData)}" class="cert-badge-img" alt="">` : (pd ? certMedallionHTML(cert) : '')}
+      <div class="cert-sequence" aria-hidden="true"><span>${String(sequence).padStart(2,'0')}</span><small>${String(sequenceTotal).padStart(2,'0')}</small></div>
+      <div class="cert-emblem-bay">
+        ${certNotes.imageData ? `<img src="${escape(certNotes.imageData)}" class="cert-badge-img" alt="">` : certMedallionHTML(cert)}
+        <button class="cert-status-dot ${dotClass}" onclick="event.stopPropagation(); toggleComplete('${cert.id}')" title="${pd ? 'Completed — tap to undo' : 'Tap to mark complete'}" aria-label="Toggle completion">${pd ? '✓' : ''}</button>
+        <span class="cert-tier-caption">${mt} tier</span>
+      </div>
       <div class="cert-summary-main">
         <div class="cert-name-row">
-          ${isNext ? `<span class="badge badge-next">▶ NEXT UP</span>` : ''}
+          ${isNext ? `<span class="badge badge-next">Next up <i aria-hidden="true"></i></span>` : ''}
+          <span class="cert-discipline">${escape(pathwayOf(cert))} // ${escape(info?.label || cert.track || 'Professional')}</span>
           <span class="cert-name ${pd ? 'passed' : ''}">${escape(cert.name)}</span>
           ${cert.code ? `<span class="cert-code">${escape(cert.code)}</span>` : ''}
           ${state.filter === 'my-path' ? '' : `<button class="mypath-star${state.myPath?.[cert.id] ? ' active' : ''}" onclick="event.stopPropagation(); toggleMyPath('${cert.id}')" title="${state.myPath?.[cert.id] ? 'Remove from My Path' : 'Add to My Path'}" aria-pressed="${state.myPath?.[cert.id] ? 'true' : 'false'}">${state.myPath?.[cert.id] ? 'PATH −' : 'PATH +'}</button>`}
@@ -2207,7 +2234,12 @@ function renderCertRow(cert, isNext = false) {
           ${pd ? statusBadgeHTML(status, days) : ''}
         </div>
       </div>
-      <button class="cert-expand-toggle">${isOpen ? '▲' : '▼'}</button>
+      <div class="cert-vitals" aria-label="Certification metrics">
+        ${cert.roi > 0 ? `<span><small>ROI</small><strong>${cert.roi}</strong></span>` : ''}
+        ${cert.difficulty > 0 ? `<span><small>Depth</small><strong>D${cert.difficulty}</strong></span>` : ''}
+        ${cert.cvValue ? `<span><small>CV signal</small><strong>+£${cert.cvValue >= 1000 ? (cert.cvValue / 1000).toFixed(cert.cvValue % 1000 ? 1 : 0) + 'k' : cert.cvValue}</strong></span>` : ''}
+      </div>
+      <button class="cert-expand-toggle" aria-label="${isOpen ? 'Collapse' : 'Open'} ${escape(cert.name)}"><span>${isOpen ? 'Close' : 'View plan'}</span><b>${isOpen ? '↑' : '›'}</b></button>
     </div>`;
 
   if (!isOpen) return `<div class="cert-row roi-${cert.roi || 0} ${pd ? 'passed' : ''} ${cert.gateway ? 'gateway' : ''} ${isNext ? 'is-next' : ''} ${state.skipped[cert.id] ? 'is-skipped' : ''} ${cert.pending && !pd ? 'is-pending' : ''} ${cert.applicationBased && !pd ? 'is-portfolio' : ''}" data-cid="${cert.id}" data-cph="${certPhase(cert)}" data-m="${mt}"><span class="drag-handle" title="Hold and drag to reorder">⠿</span>${summary}</div>`;
@@ -2737,7 +2769,8 @@ function certBadgeSVG(cert) {
 }
 function certMedallionHTML(cert) {
   const _mt = medalTier(cert); const _ml = _mt.charAt(0).toUpperCase()+_mt.slice(1);
-  return `<span class="cert-badge-medallion cbm-tier-${_mt}" title="${escape(cert.name)} \u2014 completed (${_ml})">${certBadgeSVG(cert)}<span class="cbm-check">\u2713</span></span>`;
+  const _done = !!state.passes[cert.id];
+  return `<span class="cert-badge-medallion cbm-tier-${_mt}${_done ? ' is-earned' : ''}" title="${escape(cert.name)} \u2014 ${_ml} tier${_done ? ', completed' : ''}">${certBadgeSVG(cert)}${_done ? '<span class="cbm-check">\u2713</span>' : ''}</span>`;
 }
 function toggleNotes(id) {
   state.openCerts[id + '_notes'] = !state.openCerts[id + '_notes'];
