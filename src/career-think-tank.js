@@ -17,6 +17,8 @@
   ]);
 
   const WEIGHTS=Object.freeze({currentCapability:20,gapCloseability:10,endgameLeverage:20,marketDemand:10,compensation:10,remoteFit:10,travelFit:8,workStyleFit:5,technicalDepth:5,evidenceOpportunity:2});
+  const FRONTIER_DIMENSIONS=Object.freeze(['currentCapability','endgameLeverage','marketDemand','compensation','remoteFit','travelFit']);
+  const DIMENSION_ALIASES=Object.freeze({currentCapability:Object.freeze(['currentCapability','immediateFit','immediate_fit']),endgameLeverage:Object.freeze(['endgameLeverage','endgame_leverage']),marketDemand:Object.freeze(['marketDemand','marketSignal','market_signal']),compensation:Object.freeze(['compensation','compensationFit','compensation_fit']),remoteFit:Object.freeze(['remoteFit','remote_fit']),travelFit:Object.freeze(['travelFit','travel_fit'])});
   const CAREER_SEATS=Object.freeze({
     WORK:Object.freeze({authority:1.25,chair:true,focus:'constraints, workload, reversibility, timing and opportunity cost'}),
     CERT:Object.freeze({authority:1.25,chair:true,focus:'market evidence, roadmap, credentials and role progression'}),
@@ -46,6 +48,46 @@
 
   function explain(dimensions={}){
     return Object.freeze({score:scoreOpening(dimensions),classification:classify(dimensions),dimensions:Object.freeze({...dimensions}),weights:WEIGHTS});
+  }
+
+  function dimensionValue(row,key){
+    for(const alias of DIMENSION_ALIASES[key]||[key]){
+      const value=Number(row?.[alias]);
+      if(Number.isFinite(value))return clamp(value);
+    }
+    return null;
+  }
+
+  function openingId(row,index=0){return String(row?.openingId||row?.opening_id||row?.id||row?.title||`opening-${index}`);}
+
+  function dominates(a,b){
+    if(a?.hardConstraint===true&&b?.hardConstraint!==true)return false;
+    if(a?.hardConstraint!==true&&b?.hardConstraint===true)return true;
+    let comparable=0,strictlyBetter=false;
+    for(const key of FRONTIER_DIMENSIONS){
+      const av=dimensionValue(a,key),bv=dimensionValue(b,key);
+      if(av==null||bv==null)continue;
+      comparable++;
+      if(av<bv)return false;
+      if(av>bv)strictlyBetter=true;
+    }
+    // Avoid declaring dominance from one or two partially populated fields.
+    return comparable>=4&&strictlyBetter;
+  }
+
+  function paretoFrontier(openings=[]){
+    const rows=Array.isArray(openings)?openings:[];
+    return Object.freeze(rows.map((row,index)=>{
+      const dominatedBy=[];
+      for(let other=0;other<rows.length;other++)if(other!==index&&dominates(rows[other],row))dominatedBy.push(openingId(rows[other],other));
+      const dimensions=Object.freeze(Object.fromEntries(FRONTIER_DIMENSIONS.map(key=>[key,dimensionValue(row,key)])));
+      return Object.freeze({opening:row,id:openingId(row,index),frontier:dominatedBy.length===0,dominatedBy:Object.freeze(dominatedBy),dimensions,score:scoreOpening({...row,currentCapability:dimensionValue(row,'currentCapability'),endgameLeverage:dimensionValue(row,'endgameLeverage'),marketDemand:dimensionValue(row,'marketDemand'),compensation:dimensionValue(row,'compensation'),remoteFit:dimensionValue(row,'remoteFit'),travelFit:dimensionValue(row,'travelFit')}),classification:classify({...row,currentCapability:dimensionValue(row,'currentCapability'),endgameLeverage:dimensionValue(row,'endgameLeverage')})});
+    }));
+  }
+
+  function opportunityFrontier(openings=[]){
+    const assessed=paretoFrontier(openings);
+    return Object.freeze({frontier:Object.freeze(assessed.filter(row=>row.frontier)),dominated:Object.freeze(assessed.filter(row=>!row.frontier)),assessed});
   }
 
   function normalisePosition(position={}){
@@ -111,5 +153,5 @@
     return Object.freeze({eligible:failed.length===0,failed,checks,council});
   }
 
-  CT.careerThinkTank=Object.freeze({version:'14.1',BRIDGE_LADDER,SEARCH_QUERIES,WEIGHTS,CAREER_SEATS,STANCE_VALUE,VALID_STANCES,MY_PATH_POLICY,scoreOpening,classify,explain,normalisePosition,synthesiseCouncil,autoApplyEligibility});
+  CT.careerThinkTank=Object.freeze({version:'14.2',BRIDGE_LADDER,SEARCH_QUERIES,WEIGHTS,FRONTIER_DIMENSIONS,CAREER_SEATS,STANCE_VALUE,VALID_STANCES,MY_PATH_POLICY,scoreOpening,classify,explain,dimensionValue,dominates,paretoFrontier,opportunityFrontier,normalisePosition,synthesiseCouncil,autoApplyEligibility});
 })(window);
