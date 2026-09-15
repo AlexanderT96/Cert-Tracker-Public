@@ -1,9 +1,14 @@
-# Cert Tracker
+# Nexus
 
-Cert Tracker is a local-first certification, readiness and career-planning application. It combines certification progress, exam and renewal tracking, competency coverage, subject-level study resources, practical evidence, directional UK market context and constraint-aware sequencing in one installable PWA.
+Nexus is a local-first personal intelligence, career, learning and decision-support application. It combines a five-pillar intelligence timeline with certification progress, readiness, competency coverage, study resources, practical evidence, risks, opportunities, scenarios, market context and constraint-aware planning in one installable PWA.
 
 ## Core capabilities
 
+- Five-pillar personal intelligence across Work & Life Operations, Physical Security & Infrastructure, Career/Certification/Market, Learning/AI/Capability, and Personal Interests & Technology
+- Outlook-backed intelligence timeline with personal relevance, urgency, confidence, storyline, source reliability, attention cost, outcomes and strategic metadata
+- Persistent risks, opportunity pipeline, entity dossiers, causal links, contradictions, decision expiry and proof-of-completion tracking
+- Forecast calibration, confidence decay, weak-signal detection, historical pattern analysis, strategic horizons and monthly intelligence reviews
+- Change-impact simulation, counterfactual analysis, scenario planning and attention/opportunity-cost budgeting
 - Certification progress and pass-date tracking
 - Exam booking, calendar export and renewal reminders
 - Custom **My Path** planning with prerequisites and phase gates
@@ -33,7 +38,7 @@ Cert Tracker is a local-first certification, readiness and career-planning appli
 
 ## Readiness and planning
 
-The **Plan** view turns the tracker from a certification list into a sequencing tool.
+The **Plan** view turns certification and capability data into a sequencing tool.
 
 It models:
 
@@ -82,7 +87,7 @@ The application tracks verification dates, official-source provenance, pricing d
 
 ## Privacy and local storage
 
-Personal progress is stored locally in the browser by default. There is no Cert Tracker account, analytics service or application backend.
+Personal progress is stored locally in the browser by default. There is no Nexus account, analytics service or application backend.
 
 The salary baseline starts at zero. Salary, progress, notes, objective coverage, exam dates and portfolio information remain browser-local unless encrypted sync is explicitly enabled.
 
@@ -109,7 +114,7 @@ WebDAV sync uses device/revision metadata, content hashes and HTTP ETags where a
 
 ## Architecture
 
-The application remains framework-free and build-free. Domain logic is separated from rendering so the UI renderer no longer owns persistence or application state.
+Nexus remains framework-free and build-free. Domain logic is separated from rendering so the UI renderer no longer owns persistence or application state.
 
 | File | Responsibility |
 | --- | --- |
@@ -155,4 +160,4 @@ A separate scheduled data-health workflow checks both stored verification age an
 
 ## Deployment
 
-Cert Tracker is a static application suitable for GitHub Pages or another HTTPS static host. HTTPS is required for service workers, notifications and Web Crypto outside localhost.
+Nexus is a static application suitable for GitHub Pages or another HTTPS static host. HTTPS is required for service workers, notifications and Web Crypto outside localhost.
