@@ -25,7 +25,7 @@ const thinkTankSandbox={window:{CertTrackerV3:{}}};
 vm.createContext(thinkTankSandbox);
 vm.runInContext(fs.readFileSync('src/career-think-tank.js','utf8'),thinkTankSandbox,{filename:'src/career-think-tank.js'});
 const model=thinkTankSandbox.window.CertTrackerV3.careerThinkTank;
-assert.equal(model?.version,'14.1');
+assert.equal(model?.version,'14.2');
 assert.equal(model?.MY_PATH_POLICY?.target,'Security Convergence Architect');
 assert.equal(model?.MY_PATH_POLICY?.minimumConsensus,85);
 assert.equal(model?.MY_PATH_POLICY?.retainCatalogue,true);
@@ -38,6 +38,7 @@ assert.ok(Array.from(model?.SEARCH_QUERIES||[]).some(q=>/security convergence ar
 assert.equal(model?.CAREER_SEATS?.WORK?.chair,true);
 assert.equal(model?.CAREER_SEATS?.CERT?.chair,true);
 assert.equal(model?.CAREER_SEATS?.ENTERTAINMENT?.conditional,true);
+assert.deepEqual(Array.from(model?.FRONTIER_DIMENSIONS||[]),['currentCapability','endgameLeverage','marketDemand','compensation','remoteFit','travelFit']);
 
 const refreshSource=fs.readFileSync('tools/refresh-job-market.mjs','utf8');
 assert.match(refreshSource,/career-think-tank\.js/,'market refresher must consume the V14 think-tank query vocabulary');
@@ -52,6 +53,15 @@ const future=model.classify({currentCapability:30,gapCloseability:50,endgameLeve
 assert.equal(future,'FUTURE_SIGNAL');
 const constrained=model.classify({hardConstraint:true,currentCapability:95,endgameLeverage:95});
 assert.equal(constrained,'SKIP_CONSTRAINT');
+
+const frontier=model.opportunityFrontier([
+  {id:'remote-bridge',immediateFit:72,endgameLeverage:88,marketSignal:80,compensationFit:70,remoteFit:95,travelFit:90},
+  {id:'onsite-higher-pay',immediateFit:80,endgameLeverage:88,marketSignal:82,compensationFit:95,remoteFit:30,travelFit:45},
+  {id:'dominated-role',immediateFit:60,endgameLeverage:75,marketSignal:70,compensationFit:60,remoteFit:70,travelFit:70}
+]);
+assert.deepEqual(Array.from(frontier.frontier,row=>row.id).sort(),['onsite-higher-pay','remote-bridge']);
+assert.deepEqual(Array.from(frontier.dominated,row=>row.id),['dominated-role']);
+assert.ok(frontier.dominated[0].dominatedBy.includes('remote-bridge'),'Inferior all-round role should be dominated by the stronger remote bridge');
 
 const approved=model.synthesiseCouncil({positions:[
   {pillar:'WORK',stance:'SUPPORT',confidence:95,rationale:'Fits constraints and timing.'},
@@ -88,4 +98,4 @@ const unsafe=model.autoApplyEligibility({council:approved,guardrails:{currentMar
 assert.equal(unsafe.eligible,false);
 assert.ok(unsafe.failed.includes('testsPassed'));
 
-console.log(`Career think tank OK: ${model.BRIDGE_LADDER.length} bridge stages, ${model.SEARCH_QUERIES.length} role queries, target ${model.MY_PATH_POLICY.target}, council ${approved.consensus}%`);
+console.log(`Career think tank OK: ${model.BRIDGE_LADDER.length} bridge stages, ${model.SEARCH_QUERIES.length} role queries, target ${model.MY_PATH_POLICY.target}, frontier ${frontier.frontier.length}, council ${approved.consensus}%`);
