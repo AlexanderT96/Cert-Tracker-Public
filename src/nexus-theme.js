@@ -48,6 +48,8 @@
     global.addEventListener('certtracker:personalization-changed',queuePin);
   }
 
-  if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',init,{once:true});else init();
+  // This script loads at the end of <body>; run immediately so the cleanup layer
+  // is present before the first settled application frame, then keep it pinned.
+  init();
   global.NexusTheme=Object.freeze({pin});
 })(window);
