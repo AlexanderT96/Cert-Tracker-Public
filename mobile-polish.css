@@ -1,4 +1,4 @@
-/* Cert Tracker — mobile density polish.
+/* Nexus — mobile density and paint-layer compatibility.
    Keep stage/tier context visible without letting it compete with phase titles. */
 
 html[data-layout="mobile"] .phase-header-title .phase-stage-tag {
@@ -17,6 +17,14 @@ html[data-layout="mobile"] .phase-header-title .phase-stage-tag {
   white-space: nowrap !important;
   vertical-align: .16em !important;
   opacity: .82;
+}
+
+/* Tall phone cards must remain in the normal paint layer. This intentionally
+   outranks the desktop clipped-corner chassis while preserving Template 1 colour,
+   border and typography. It avoids mobile paint/scroll regressions in all engines. */
+html[data-layout="mobile"] body #app #tab-content .ct3-card {
+  clip-path: none !important;
+  contain: none !important;
 }
 
 @media (max-width: 380px) {
