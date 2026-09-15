@@ -17,8 +17,18 @@ if(!workflow.includes("cron: '7 * * * *'"))errors.push("Automated market refresh
 for(const secret of ['secrets.ADZUNA_APP_ID','secrets.ADZUNA_APP_KEY'])if(!workflow.includes(secret))errors.push(`Workflow missing optional aggregator secret reference ${secret}`);
 if(/ADZUNA_APP_(?:ID|KEY)\s*[:=]\s*['\"][^$]/.test(workflow))errors.push('Job provider credential appears hard-coded in workflow.');
 if(refresh.includes('www.arbeitnow.co.uk'))errors.push('Unavailable UK provider endpoint must not return.');
-if(!refresh.includes('cursor%QUERIES.length'))errors.push('Adzuna market refresh does not rotate broad role-query batches.');
+
+// V14 market rotation: most scarce provider requests are spent on personalised
+// convergence/bridge roles, while an independently rotating general pool keeps
+// broad-market discovery alive. This replaces the old single cursor%QUERIES loop.
+for(const marker of ["career-think-tank.js",'PRIORITY_QUERIES','GENERAL_QUERIES','priorityQueryCursor','generalQueryCursor','priorityCursor%PRIORITY_QUERIES.length','generalCursor%GENERAL_QUERIES.length',"allocation:'2 priority : 1 general'"])
+  if(!refresh.includes(marker))errors.push(`Adzuna V14 market refresh missing ${marker}`);
+if(!/slot%3\s*!==\s*2/.test(refresh))errors.push('Adzuna V14 market refresh does not preserve the 2 priority : 1 broad-discovery rotation.');
+if(!/careerOptions\.ROLES/.test(refresh))errors.push('Adzuna general discovery pool is no longer derived from the complete career-role taxonomy.');
+if(!/SEARCH_QUERIES/.test(refresh))errors.push('Adzuna priority pool is not linked to the V14 convergence search vocabulary.');
+if(!/GENERAL_QUERIES\.length/.test(refresh))errors.push('Adzuna market refresh no longer proves that a broad discovery pool remains available.');
+
 if(!refresh.includes("sort_by:'date'"))errors.push('Market refresh is not prioritising fresh listings.');
 if(!refresh.includes('refreshTargetMinutes:60'))errors.push('Generated feed does not advertise a hourly refresh target.');
 if(!ui.includes('not sent to a jobs provider'))errors.push('Dashboard does not disclose local-only best-fit matching.');
-if(errors.length){console.error(`Market readiness gate failed (${errors.length}):`);errors.forEach(e=>console.error(`- ${e}`));process.exit(1);}console.log('Market readiness gate passed: active-filter role depth, six-level seniority gating, current-value modelling, privacy-preserving best-fit jobs and quota-limited hourly automation are enforced.');
+if(errors.length){console.error(`Market readiness gate failed (${errors.length}):`);errors.forEach(e=>console.error(`- ${e}`));process.exit(1);}console.log('Market readiness gate passed: active-filter role depth, six-level seniority gating, current-value modelling, personalised convergence search with preserved broad discovery, privacy-preserving best-fit jobs and quota-limited hourly automation are enforced.');
