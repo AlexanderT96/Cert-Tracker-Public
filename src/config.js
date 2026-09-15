@@ -119,10 +119,7 @@
         if (seen.has(input)) throw new TypeError('Cannot stringify circular data.');
         seen.add(input);
         if (Array.isArray(input)) return input.map(normalise);
-        const out = {};
-        Object.keys(input).sort().forEach(key => { out[key] = normalise(input[key]); });
-        seen.delete(input);
-        return out;
+        return Object.fromEntries(Object.keys(input).sort().map(key => [key, normalise(input[key])]));
       }
       return JSON.stringify(normalise(value));
     }
