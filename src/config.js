@@ -5,7 +5,7 @@
   const CT = global.CertTrackerV3 = global.CertTrackerV3 || {};
 
   CT.version = Object.freeze({
-    app: '4.27.2',
+    app: '4.28.0',
     data: 71,
     storage: 12,
     backup: 11,
@@ -119,7 +119,10 @@
         if (seen.has(input)) throw new TypeError('Cannot stringify circular data.');
         seen.add(input);
         if (Array.isArray(input)) return input.map(normalise);
-        return Object.fromEntries(Object.keys(input).sort().map(key => [key, normalise(input[key])]));
+        const out = {};
+        Object.keys(input).sort().forEach(key => { out[key] = normalise(input[key]); });
+        seen.delete(input);
+        return out;
       }
       return JSON.stringify(normalise(value));
     }
