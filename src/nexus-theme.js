@@ -2,11 +2,13 @@
 (function initNexusTheme(global){
   'use strict';
   const LINK_ID='nexus-template-one-stylesheet';
+  const EXACT_ID='nexus-template-one-exact-stylesheet';
   const CLEANUP_ID='nexus-template-one-cleanup-stylesheet';
   const CLEANUP_HREF='nexus-template-one-cleanup.css';
   let queued=false;
 
   function themeLink(){return document.getElementById(LINK_ID);}
+  function exactLink(){return document.getElementById(EXACT_ID);}
   function cleanupLink(){
     let link=document.getElementById(CLEANUP_ID);
     if(link)return link;
@@ -20,15 +22,17 @@
   }
 
   function pin(){
-    const theme=themeLink();
-    if(!theme)return false;
+    const theme=themeLink(),exact=exactLink();
+    if(!theme||!exact)return false;
     const cleanup=cleanupLink();
     document.documentElement.dataset.nexusTheme='template-one';
     document.documentElement.dataset.nexusGraphics='clean';
+    document.documentElement.dataset.nexusLayout='operations-console';
     const styleNodes=[...document.head.children].filter(node=>node.tagName==='STYLE'||(node.tagName==='LINK'&&node.rel==='stylesheet'));
-    const last=styleNodes.at(-1),penultimate=styleNodes.at(-2);
-    if(penultimate!==theme||last!==cleanup){
+    const last=styleNodes.at(-1),penultimate=styleNodes.at(-2),antepenultimate=styleNodes.at(-3);
+    if(antepenultimate!==theme||penultimate!==exact||last!==cleanup){
       document.head.appendChild(theme);
+      document.head.appendChild(exact);
       document.head.appendChild(cleanup);
     }
     return true;

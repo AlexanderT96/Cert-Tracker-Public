@@ -9,6 +9,7 @@
   if(typeof originalRenderApp!=='function')return;
 
   const FALLBACK_TABS=['dashboard','learning','roadmap','certifications','strategy','customize'];
+  const DISPLAY_TABS={dashboard:'Dashboard',learning:'My Path',certifications:'Certifications',strategy:'Study Plan',roadmap:'Roadmap',customize:'Settings'};
   const MOBILE_PRIMARY=[
     ['dashboard','Dashboard','Home'],
     ['learning','Learn','Learn'],
@@ -18,7 +19,7 @@
 
   function availableTabs(){const order=CT.personalization.tabOrder?.()||FALLBACK_TABS;return order.length?order:FALLBACK_TABS;}
   function ensureActiveTab(){const tabs=availableTabs();if(!tabs.includes(state.currentTab))state.currentTab=tabs.includes('dashboard')?'dashboard':tabs[0];}
-  function tabButton(tab){const active=state.currentTab===tab?' active':'';return `<button type="button" class="tab${active}" data-workspace-tab="${esc(tab)}" data-ct-workspace="${esc(tab)}"><span class="tab-glyph" aria-hidden="true"></span><span>${esc(CT.personalization.tabLabel(tab))}</span></button>`;}
+  function tabButton(tab){const active=state.currentTab===tab?' active':'';return `<button type="button" class="tab${active}" data-workspace-tab="${esc(tab)}" data-ct-workspace="${esc(tab)}"><span class="tab-glyph" aria-hidden="true"></span><span>${esc(DISPLAY_TABS[tab]||CT.personalization.tabLabel(tab))}</span></button>`;}
 
   function canonicalTab(button){
     const direct=button?.dataset?.workspaceTab||button?.dataset?.ctWorkspace;
@@ -48,7 +49,8 @@
   }
   function renderNavigation(){
     const nav=document.querySelector('.tabs');if(!nav)return;
-    nav.innerHTML=availableTabs().map(tabButton).join('');
+    const tabs=availableTabs(),preferred=['dashboard','learning','certifications','strategy','roadmap','customize'];
+    nav.innerHTML=[...tabs].sort((a,b)=>preferred.indexOf(a)-preferred.indexOf(b)).map(tabButton).join('');
     dedupeNavigation(nav);
     installNavigationGuard(nav);
     nav.querySelectorAll('[data-workspace-tab]').forEach(button=>button.addEventListener('click',()=>switchTab(button.dataset.workspaceTab)));
@@ -60,7 +62,7 @@
       if(active)button.setAttribute('aria-current','page');else button.removeAttribute('aria-current');
     });
   }
-  function renderHeader(){const title=document.querySelector('.header-title');if(title)title.textContent=CT.personalization.title();const sub=document.querySelector('.header-sub');if(sub&&/^v24\b/.test(sub.textContent||''))sub.innerHTML=sub.innerHTML.replace(/^v24/,`v${esc(CT.version.app)}`);document.title=CT.personalization.title();}
+  function renderHeader(){const title=document.querySelector('.header-title');if(title)title.textContent=DISPLAY_TABS[state.currentTab]||CT.personalization.tabLabel(state.currentTab);const sub=document.querySelector('.header-sub');if(sub)sub.textContent=state.currentTab==='dashboard'?'Your complete learning & career command centre':`Nexus workspace // ${DISPLAY_TABS[state.currentTab]||CT.personalization.tabLabel(state.currentTab)}`;document.title=CT.personalization.title();}
 
   function closeMobileMore(){
     const layer=document.getElementById('ct-mobile-more-layer');
@@ -148,9 +150,7 @@
     if(state.currentTab==='learning'){content.innerHTML=CT.learningPath.render();return;}
     if(state.currentTab==='roadmap'){content.innerHTML=CT.roadmapMap.render();CT.roadmapMap.bind(content);return;}
     if(state.currentTab==='customize'){content.innerHTML=CT.personalizationUI.render();CT.personalizationUI.bind(content);return;}
-    if(state.currentTab==='dashboard'){
-      const focus=focusHtml();if(focus&&!content.querySelector('.ct-dashboard-learning-focus'))content.insertAdjacentHTML('afterbegin',focus);
-    }
+    if(state.currentTab==='dashboard')return;
   }
   function renderFocusedRoute(){
     const content=document.getElementById('tab-content'),route=CT.focusedRoute;

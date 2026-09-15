@@ -375,6 +375,9 @@ function renderApp() {
   const coreTotal = scopeCerts.filter(c => c.track === 'CORE').length;
   const corePassed = scopeCerts.filter(c => c.track === 'CORE' && state.passes[c.id]).length;
   const ph = currentPhase();
+  const now = new Date();
+  const dateLabel = now.toLocaleDateString('en-GB', { weekday: 'short', day: '2-digit', month: 'short', year: 'numeric' }).toUpperCase();
+  const timeLabel = now.toLocaleTimeString('en-GB', { hour: '2-digit', minute: '2-digit' });
   document.documentElement.dataset.phase = ph;
 
   document.getElementById('app').innerHTML = `
@@ -383,22 +386,49 @@ function renderApp() {
       <span class="terminal-build">CT/OPS · v${escape(window.CertTrackerV3?.version?.app || '24')}</span>
       <span class="terminal-motto">CLEARER SKILLS. A SAFER TOMORROW.</span>
     </div>
+    <div class="nx-brand-banner" aria-hidden="true">
+      <div class="nx-brand-lockup"><strong>NEXUS</strong><span>LEARN&nbsp;&nbsp;|&nbsp;&nbsp;BUILD&nbsp;&nbsp;|&nbsp;&nbsp;CERTIFY&nbsp;&nbsp;|&nbsp;&nbsp;ADVANCE</span></div>
+      <div class="nx-brand-promise">HIGHER SKILLS.<br>A SAFER TOMORROW.</div>
+      <div class="nx-brand-quote">“DISCIPLINE BUILDS OPPORTUNITY.”<small>— ALEXANDER T.</small></div>
+    </div>
+    <aside class="nx-sidebar">
+      <div class="nx-sidebar-brand"><strong>NEXUS</strong><span>OPERATIONS CONSOLE</span></div>
+      <nav class="tabs" aria-label="Nexus workspace navigation">
+        <button class="tab${state.currentTab === 'dashboard' ? ' active' : ''}" onclick="switchTab('dashboard')">Dashboard</button>
+        <button class="tab${state.currentTab === 'certifications' ? ' active' : ''}" onclick="switchTab('certifications')">Certifications</button>
+        <button class="tab${state.currentTab === 'strategy' ? ' active' : ''}" onclick="switchTab('strategy')">Strategy</button>
+      </nav>
+      <nav class="nx-sidebar-links" aria-label="Nexus intelligence shortcuts">
+        <button type="button" onclick="switchTab('strategy')"><span aria-hidden="true">▣</span>Projects</button>
+        <button type="button" onclick="document.getElementById('ct3-launcher')?.click()"><span aria-hidden="true">□</span>Calendar</button>
+        <button type="button" onclick="document.getElementById('ct31-market-launcher')?.click()"><span aria-hidden="true">⌁</span>Market Intelligence</button>
+        <button type="button" onclick="document.getElementById('ct-career-launcher')?.click()"><span aria-hidden="true">◇</span>Job Pathways</button>
+        <button type="button" onclick="switchTab('learning')"><span aria-hidden="true">▱</span>Resources</button>
+        <button type="button" onclick="switchTab('certifications')"><span aria-hidden="true">▤</span>Notes</button>
+        <button type="button" onclick="switchTab('customize')"><span aria-hidden="true">⚙</span>Settings</button>
+      </nav>
+      <div class="nx-sidebar-agent" aria-label="Ghostbyte guidance status">
+        <span class="nx-agent-mark" aria-hidden="true"></span>
+        <div><strong>GHOSTBYTE</strong><small>Stay curious.<br>Stay dangerous.</small></div>
+      </div>
+    </aside>
+    <div class="nx-main-topbar">
+      <div class="nx-console-wordmark"><span aria-hidden="true">N</span><strong>NEXUS</strong></div>
+      <button type="button" class="nx-global-search" onclick="switchTab('certifications');setTimeout(()=>document.querySelector('.cert-search-input')?.focus(),40)" aria-label="Search certifications"><span aria-hidden="true">⌕</span> Search...</button>
+      <button type="button" class="nx-alert-button" onclick="document.getElementById('ct-notification-launcher')?.click()" aria-label="Open notifications">♢</button>
+      <div class="nx-user-chip"><span aria-hidden="true">AT</span><strong>Alexander T.</strong></div>
+    </div>
     <div class="header">
       <div class="header-brand">
-        <div class="header-title">Cert Tracker</div>
-        <div class="header-sub"><span class="header-route">My Path</span><span class="header-separator">›</span><span>Phase ${ph}</span><span class="header-scope">${scoped ? escape(scopeLabel) : total + ' certs'}</span></div>
+        <div class="header-title">Dashboard</div>
+        <div class="header-sub">Your complete learning &amp; career command centre</div>
       </div>
       <div class="header-count">
         <span class="header-count-value">${passed}/${total}</span>
         <small>certifications complete</small>
         <span class="header-core">Core ${corePassed}/${coreTotal}</span>
       </div>
-      <div class="header-doctrine" aria-hidden="true"><span>DISCIPLINE</span><span>BUILDS</span><span>OPPORTUNITY</span></div>
-    </div>
-    <div class="tabs">
-      <button class="tab${state.currentTab === 'dashboard' ? ' active' : ''}" onclick="switchTab('dashboard')">Dashboard</button>
-      <button class="tab${state.currentTab === 'certifications' ? ' active' : ''}" onclick="switchTab('certifications')">Certifications</button>
-      <button class="tab${state.currentTab === 'strategy' ? ' active' : ''}" onclick="switchTab('strategy')">📋 Strategy</button>
+      <div class="header-doctrine" aria-hidden="true"><small>${dateLabel}</small><strong>${timeLabel}</strong><span>“Same effort.<br>Different future.”</span></div>
     </div>
     <main class="content" id="tab-content"></main>
     <div class="terminal-footer-rail" aria-hidden="true"><span>PEOPLE</span><span>SKILLS</span><span>PROGRESS</span></div>
@@ -426,10 +456,10 @@ function updateHeaderCount() {
   const coreTotal = scopeCerts.filter(c => c.track === 'CORE').length;
   const corePassed = scopeCerts.filter(c => c.track === 'CORE' && state.passes[c.id]).length;
   const hc = document.querySelector('.header-count');
-  if (hc) hc.innerHTML = `${passed}/${total}<small>Core ${corePassed}/${coreTotal}</small>`;
+  if (hc) hc.innerHTML = `<span class="header-count-value">${passed}/${total}</span><small>certifications complete</small><span class="header-core">Core ${corePassed}/${coreTotal}</span>`;
   const hs = document.querySelector('.header-sub');
   const ph = currentPhase();
-  if (hs) hs.textContent = `v24 · ${scoped ? scopeLabel : total + ' certs'} · Phase ${ph}`;
+  if (hs) hs.innerHTML = `<span class="header-route">My Path</span><span class="header-separator">›</span><span>Phase ${ph}</span><span class="header-scope">${escape(scoped ? scopeLabel : total + ' certs')}</span>`;
 }
 
 function getFilterDefs() {
@@ -606,14 +636,25 @@ function renderDashboard() {
       <button class="btn-tool" onclick="importJSON()">⬆ Restore</button>
     </div>`;
 
+  let missionReadiness = 0;
+  try {
+    missionReadiness = nxt && window.CertTrackerV3?.competency?.readiness
+      ? window.CertTrackerV3.competency.readiness(nxt, window.CertTrackerV3.recommendations?.currentGoal?.()).score
+      : 0;
+  } catch {}
+  const plannedTotal = scopeCerts.filter(c => state.myPath?.[c.id] && !state.passes[c.id] && !state.skipped[c.id]).length;
+  const routeTotal = window.CertTrackerV3?.careerOptions?.ROLES?.length || 70;
+  const currentActions = nxt ? weeklyActions(nxt).slice(0, 4) : [];
+  const inProgressTotal = scopeCerts.filter(c => !state.passes[c.id] && (state.exams[c.id] || c.id === nxt?.id)).length;
+
   const heroCard = `
     <div class="dash-hero">
-      <div class="strat-framer" style="margin:0 0 8px">📊 Showing <strong>${escape(scopeLabel)}</strong> · ${passed}/${total} passed${scoped ? `<span style="opacity:.6"> · tap the active chip again or 🌟 My Path to change scope</span>` : `<span style="opacity:.6"> · tap 🌟 My Path to focus the dashboard on the plan</span>`}</div>
+      <div class="strat-framer nx-scope-rail">ACTIVE SCOPE // <strong>${escape(scopeLabel)}</strong> · ${passed}/${total} complete${scoped ? `<span> · SELECT THE ACTIVE FILTER AGAIN TO CHANGE SCOPE</span>` : `<span> · OPEN MY PATH TO FOCUS THE MISSION</span>`}</div>
       <div class="dash-hero-top">
-        <div>
-          <div class="dash-hero-eyebrow">Current position</div>
-          <div class="dash-hero-title">Phase ${ph} · ${escape(trackerPhaseSpec(ph).name)}</div>
-          <div class="dash-hero-sub">${(() => { const e = phaseETA(ph); return e ? `pace outlook ≈ ${e}` : escape(trackerPhaseSpec(ph).window); })()} · ${escape(trackerPhaseSpec(ph).layer)}</div>
+        <div class="nx-mission-copy">
+          <div class="dash-hero-eyebrow">Next mission</div>
+          <div class="dash-hero-title">${nxt ? `Complete ${escape(nxt.name)}` : `Advance beyond Phase ${ph}`}</div>
+          <div class="dash-hero-sub">${nxt ? `Phase ${ph} · ${escape(trackerPhaseSpec(ph).name)} · ${missionReadiness}% evidence coverage` : `Current phase complete · review the next evidence gate`}</div>
           ${trackerPhaseSpec(ph).applyOut ? `<div style="margin-top:8px;padding:8px 10px;background:var(--green-bg);border-left:3px solid var(--green);border-radius:8px;font-size:11px;color:var(--green-text)">📈 <strong>Apply-out trigger:</strong> ${escape(trackerPhaseSpec(ph).applyOut)}</div>` : ''}
           ${trackerPhaseSpec(ph).artifact ? `<div style="margin-top:6px;padding:8px 10px;background:${state.artifacts[ph] ? 'var(--green-bg)' : 'var(--purple-bg)'};border-left:3px solid ${state.artifacts[ph] ? 'var(--green)' : 'var(--purple)'};border-radius:8px;font-size:11px;color:var(--text);display:flex;gap:8px;align-items:flex-start">
             <input type="checkbox" ${state.artifacts[ph] ? 'checked' : ''} onchange="toggleArtifact(${ph})" style="margin-top:1px;accent-color:var(--green)">
@@ -621,11 +662,14 @@ function renderDashboard() {
           </div>` : ''}
           ${trackerPhaseSpec(ph).roles ? `<div class="dash-hero-roles"><span class="hero-roles-label">Now realistic to apply for</span><span class="hero-roles-band">${escape(trackerPhaseSpec(ph).band)}</span><div class="hero-roles-list">${trackerPhaseSpec(ph).roles.map(r => `<span class="role-pill">${escape(r)}</span>`).join('')}</div></div>` : ''}
         </div>
-        <div style="text-align:right">
-          <div class="big-number" style="font-size:32px">${overallPct}<span style="font-size:16px;color:var(--dim)">%</span></div>
-          <div style="font-size:10px;color:var(--dim)">${passed} of ${total}</div>
+        <div class="nx-mission-meter" aria-label="Mission readiness ${missionReadiness} percent">
+          <span>${missionReadiness}%</span>
+          <small>MISSION READINESS</small>
+          <div><i style="width:${Math.max(2, missionReadiness)}%"></i></div>
+          <button type="button" onclick="switchTab('learning')">VIEW PLAN <span aria-hidden="true">→</span></button>
         </div>
       </div>
+      <div class="nx-mission-briefs">
       ${nxt ? `
         <div class="dash-hero-next">
           <div style="display:flex;gap:6px;align-items:center;flex-wrap:wrap;margin-bottom:4px">
@@ -650,14 +694,14 @@ function renderDashboard() {
         <div class="dash-hero-next" style="background:var(--green-bg);border-color:var(--green)">
           <strong>✓ All Phase ${ph} certs passed.</strong> Move to the next phase or conditional work.
         </div>`}
+      </div>
       <div class="stat-pill-row">
-        <div class="stat-pill"><div class="stat-pill-num" style="color:var(--amber)">${gatewayPassed}/${gatewayCerts.length}</div><div class="stat-pill-label">🔑 Gateway</div></div>
-        <div class="stat-pill"><div class="stat-pill-num" style="color:${thisWeekHours >= studyTarget ? 'var(--green)' : thisWeekHours >= studyTarget * 0.5 ? 'var(--blue)' : 'var(--amber)'}">${thisWeekHours.toFixed(1)}h</div><div class="stat-pill-label">This week (${studyTarget}h target)</div></div>
-        <div class="stat-pill"><div class="stat-pill-num">${(() => {
-          const phaseSet = scopeCerts.filter(c => certPhase(c) === ph);
-          const phPassed = phaseSet.filter(c => state.passes[c.id]).length;
-          return `${phPassed}/${phaseSet.length}`;
-        })()}</div><div class="stat-pill-label">Phase ${ph}${scoped ? ' (scoped)' : ''}</div></div>
+        <div class="stat-pill"><div class="stat-pill-num">${passed}</div><div class="stat-pill-label">Certifications completed</div></div>
+        <div class="stat-pill"><div class="stat-pill-num">${inProgressTotal}</div><div class="stat-pill-label">In progress</div></div>
+        <div class="stat-pill"><div class="stat-pill-num" style="color:var(--amber)">${plannedTotal}</div><div class="stat-pill-label">Planned</div></div>
+        <div class="stat-pill"><div class="stat-pill-num">${routeTotal}</div><div class="stat-pill-label">Career routes</div></div>
+        <div class="stat-pill"><div class="stat-pill-num">${currentActions.length}</div><div class="stat-pill-label">Active tasks</div></div>
+        <div class="stat-pill"><div class="stat-pill-num" style="color:var(--nx-cyan)">${overallPct}%</div><div class="stat-pill-label">Overall progress</div></div>
       </div>
       ${(() => {
         const hoursNeeded = scopeCerts
@@ -727,7 +771,39 @@ function renderDashboard() {
              </div>
              ${statusBadgeHTML(c.status, c.days)}
            </div>
-         </div>`).join('')}${cpeProjection}`;
+       </div>`).join('')}${cpeProjection}`;
+
+  const dashboardActions = currentActions.length ? currentActions : [
+    'Open My Path and select the next evidence checkpoint',
+    'Review the current certification blueprint',
+    'Schedule the next focused study block',
+    'Check the latest platform and market intelligence'
+  ];
+  const eventRows = upcomingExams.slice(0, 4).map((c, index) => `
+    <div class="nx-event-row nx-event-${index + 1}"><time>${c.examDays === 0 ? 'TODAY' : fmt(c.examDate)}</time><span>${escape(c.name)}</span><small>${c.examDays === 0 ? 'Today' : `${c.examDays}d`}</small></div>`).join('') || `
+    <div class="nx-event-row nx-event-1"><time>THIS WEEK</time><span>${nxt ? escape(nxt.name) : 'Current route review'}</span><small>Active</small></div>
+    <div class="nx-event-row nx-event-2"><time>${new Date().toLocaleDateString('en-GB',{day:'2-digit',month:'short'})}</time><span>Weekly evidence and pace review</span><small>Plan</small></div>`;
+  const dashboardOperations = `
+    <div class="nx-operations-grid">
+      <section class="nx-ops-panel nx-recommendations-panel">
+        <h3>Today's Recommendations</h3>
+        <div class="nx-action-list">${dashboardActions.slice(0, 4).map((action, index) => `<button type="button" onclick="${index === 0 ? "switchTab('learning')" : index === 1 ? "switchTab('certifications')" : "document.getElementById('ct3-launcher')?.click()"}"><i aria-hidden="true"></i><span>${escape(action)}</span></button>`).join('')}</div>
+        <button type="button" class="nx-mark-complete" onclick="document.getElementById('ct3-launcher')?.click()">Open complete action list</button>
+      </section>
+      <section class="nx-ops-panel nx-events-panel">
+        <h3>Upcoming Events <button type="button" onclick="document.getElementById('ct3-launcher')?.click()">View Calendar →</button></h3>
+        <div class="nx-event-list">${eventRows}</div>
+      </section>
+      <section class="nx-ops-panel nx-quick-panel">
+        <h3>Quick Links</h3>
+        <button type="button" onclick="switchTab('learning')">My Learning Path <span>›</span></button>
+        <button type="button" onclick="switchTab('certifications')">Certification Tracker <span>›</span></button>
+        <button type="button" onclick="document.getElementById('ct31-market-launcher')?.click()">Market Intelligence <span>›</span></button>
+        <button type="button" onclick="document.getElementById('ct-career-launcher')?.click()">Job Opportunities <span>›</span></button>
+        <button type="button" onclick="switchTab('strategy')">Project Ideas <span>›</span></button>
+        <button type="button" onclick="switchTab('learning')">All Resources <span>›</span></button>
+      </section>
+    </div>`;
 
   const phaseHTML = [1, 2, 3, 4, 5, 6].map(p => {
     const activeFilterId = state.filter || 'all';
@@ -879,8 +955,9 @@ function renderDashboard() {
   return `
     ${renderBanners()}
     ${notifyBanner}
-    ${toolsBar}
     ${heroCard}
+    ${dashboardOperations}
+    ${toolsBar}
     <div class="dash-grid">
       ${roiCard}
       ${roleCard}
