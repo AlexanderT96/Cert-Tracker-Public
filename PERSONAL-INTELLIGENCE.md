@@ -1,6 +1,6 @@
-# Personal Intelligence architecture
+# Nexus personal intelligence architecture
 
-Cert Tracker can act as the private local decision surface for a five-pillar intelligence system without storing conversation-derived personal data in this public repository.
+Nexus acts as the private local decision surface for a five-pillar intelligence system without storing conversation-derived personal data in this public repository.
 
 ## Five pillars
 
@@ -56,7 +56,7 @@ Managed by ChatGPT Watch: VENDOR | Key: <stable-normalized-key>
 
 ## Personal relevance model
 
-`src/personal-intelligence.js` treats watch relevance as an external private-context signal and then combines it with browser-local tracker state:
+`src/personal-intelligence.js` treats watch relevance as an external private-context signal and then combines it with browser-local Nexus state:
 
 - current tracker goal;
 - current path/phase;
@@ -87,7 +87,7 @@ Managed events can carry a generic `Knowledge` candidate. The dashboard can ther
 - AI/tool evaluations;
 - gaming/PC compatibility findings.
 
-The public tracker must not automatically write private conversation-derived notes into the repository. It may present local candidates for the user to convert into tracker evidence, study notes, lab work or documentation.
+Nexus must not automatically write private conversation-derived notes into the public repository. It may present local candidates for the user to convert into tracker evidence, study notes, lab work or documentation.
 
 ## Privacy boundary
 
