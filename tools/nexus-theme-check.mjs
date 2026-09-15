@@ -9,6 +9,8 @@ const cleanup=read('nexus-template-one-cleanup.css');
 const theme=read('src/nexus-theme.js');
 const renderer=read('src/renderer.js');
 const sw=read('sw.js');
+const manifest=read('manifest.json');
+const icon=read('icon.svg');
 
 const legacyPos=index.indexOf('href="template-one.css"');
 const nexusPos=index.indexOf('id="nexus-template-one-stylesheet"');
@@ -37,6 +39,10 @@ for(const selector of ['.nx-main-topbar','.nx-sidebar-links','.nx-operations-gri
 }
 assert.match(renderer,/ALEXANDER T\./,'Masthead signature must read Alexander T.');
 assert.match(renderer,/Alexander T\./,'Desktop identity chip must read Alexander T.');
+assert.match(manifest,/"theme_color":"#00eaf2"/,'Installed app must use the Template 1 cyan theme colour.');
+assert.match(manifest,/app-icon-192\.png/,'Manifest must declare the mobile bookmark icon.');
+assert.match(manifest,/app-icon-512\.png/,'Manifest must declare the maskable PWA icon.');
+assert.match(icon,/aria-label="Nexus neon N"/,'Browser icon must use the Nexus Template 1 identity.');
 
 for(const structure of ['nx-brand-banner','nx-sidebar','nx-mission-meter','nx-mission-briefs']){
   assert.ok(renderer.includes(structure),`Missing Template 1 structural element ${structure}`);
@@ -61,4 +67,5 @@ assert.ok(sw.includes('./nexus-template-one-exact.css'),'Service worker must cac
 assert.ok(sw.includes('./nexus-template-one-cleanup.css'),'Service worker must cache the Nexus graphics-purge layer.');
 assert.ok(sw.includes('./src/nexus-theme.js'),'Service worker must cache Nexus theme runtime.');
 assert.ok(sw.includes('./assets/nexus-template-one-reference.jpg'),'Service worker must cache the approved Template 1 reference artwork.');
+assert.ok(sw.includes('./assets/hud/apple-touch-icon-dark-180.png'),'Service worker must cache the Apple Home Screen icon.');
 console.log('Nexus Template 1 + icon purge contract OK');

@@ -1,19 +1,14 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" role="img" aria-label="Cert Tracker cybernetic five-tier progression core">
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" role="img" aria-label="Nexus neon N">
   <defs>
-    <linearGradient id="shell" x1="64" y1="42" x2="448" y2="470" gradientUnits="userSpaceOnUse"><stop stop-color="#102a3b"/><stop offset=".5" stop-color="#07131f"/><stop offset="1" stop-color="#030811"/></linearGradient>
-    <linearGradient id="energy" x1="96" y1="368" x2="416" y2="142" gradientUnits="userSpaceOnUse"><stop stop-color="#20e39a"/><stop offset="1" stop-color="#16d9e3"/></linearGradient>
-    <filter id="glow" x="-40%" y="-40%" width="180%" height="180%"><feGaussianBlur stdDeviation="8" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#02070c"/><stop offset="1" stop-color="#000205"/></linearGradient>
+    <linearGradient id="neon" x1="112" y1="410" x2="409" y2="96" gradientUnits="userSpaceOnUse"><stop stop-color="#00eaf2"/><stop offset=".55" stop-color="#15f6ff"/><stop offset="1" stop-color="#00c8e8"/></linearGradient>
+    <filter id="glow" x="-35%" y="-35%" width="170%" height="170%"><feGaussianBlur stdDeviation="10" result="blur"/><feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
+    <pattern id="grid" width="42" height="42" patternUnits="userSpaceOnUse"><path d="M42 0H0v42" fill="none" stroke="#00dce8" stroke-opacity=".07"/></pattern>
   </defs>
-  <path d="M90 18h332l72 72v332l-72 72H90l-72-72V90Z" fill="url(#shell)" stroke="#247080" stroke-width="10"/>
-  <path d="M105 42h298l67 67v294l-67 67H109l-67-67V109Z" fill="none" stroke="#183b4a" stroke-width="3"/>
-  <path d="M72 128V82h46M394 82h46v46M440 384v46h-46M118 430H72v-46" fill="none" stroke="#16d9e3" stroke-width="7"/>
-  <g opacity=".38" stroke="#183b4a" stroke-width="3"><path d="M92 181h56l24-24h52M420 330h-59l-22 22h-45M256 69v57M256 386v57"/><circle cx="224" cy="157" r="5" fill="#16d9e3"/><circle cx="294" cy="352" r="5" fill="#20e39a"/></g>
-  <path d="M98 359 174 327 250 281 326 226 405 154" fill="none" stroke="#0a3440" stroke-width="30"/>
-  <path d="M98 359 174 327 250 281 326 226 405 154" fill="none" stroke="url(#energy)" stroke-width="9" filter="url(#glow)"/>
-  <g data-stage="bronze" transform="translate(98 359)"><path d="M-25-25H17L25-17V25H-25Z" fill="#0b1925" stroke="#b98558" stroke-width="7"/><path d="M-10 0h20M0-10v20" stroke="#d8a77c" stroke-width="4"/></g>
-  <g data-stage="silver" transform="translate(174 327)"><path d="M0-29 25-15v30L0 29l-25-14v-30Z" fill="#0b1925" stroke="#a9b7c6" stroke-width="7"/><path d="m-9 0 6 6 13-15" fill="none" stroke="#dce8ed" stroke-width="4"/></g>
-  <g data-stage="gold" transform="translate(250 281)"><path d="M0-31 27-16 27 16 0 31-27 16-27-16Z" fill="#17190f" stroke="#e2b64f" stroke-width="7"/><circle r="10" fill="none" stroke="#f0d37e" stroke-width="4"/><path d="M0-18v8M0 10v8M-18 0h8M10 0h8" stroke="#f0d37e" stroke-width="3"/></g>
-  <g data-stage="platinum" transform="translate(326 226)"><path d="M-27-25H27L31 6 0 31-31 6Z" fill="#091a25" stroke="#77bdd5" stroke-width="7"/><path d="m-13 3 9 9 18-22" fill="none" stroke="#bcecf2" stroke-width="5"/></g>
-  <g data-stage="diamond" data-goal="true" transform="translate(405 154)" filter="url(#glow)"><path d="M0-42 37-20 33 24 0 44-33 24-37-20Z" fill="#06271f" stroke="#20e39a" stroke-width="8"/><path d="M0-29 23-15 21 14 0 28-21 14-23-15Z" fill="#0a2930" stroke="#74f7ff" stroke-width="4"/><path d="m-12 1 8 8 18-21" fill="none" stroke="#e5fbff" stroke-width="7"/></g>
-  <path d="M94 405h324" stroke="#183b4a" stroke-width="8"/><path d="M94 405h251" stroke="url(#energy)" stroke-width="8" filter="url(#glow)"/>
+  <rect width="512" height="512" rx="32" fill="url(#bg)"/>
+  <rect width="512" height="512" rx="32" fill="url(#grid)"/>
+  <g opacity=".45"><path d="M34 420V260h24v160m22 0V194h28v226m27 0V280h31v140m242 0V216h25v204m22 0V155h28v265m20 0V245h19v175" fill="#031b24"/><path d="M52 324v-42m42 59v-73m333 35v-68m48 130v-84" stroke="#ff1687" stroke-width="7"/></g>
+  <path d="M102 398 177 121l93 191L408 98 326 402l-92-188Z" fill="none" stroke="#ff1687" stroke-width="34" stroke-linecap="square" stroke-linejoin="miter" opacity=".75" filter="url(#glow)"/>
+  <path d="M94 390 171 111l96 196L416 90 332 410l-98-201Z" fill="none" stroke="url(#neon)" stroke-width="36" stroke-linecap="square" stroke-linejoin="miter" filter="url(#glow)"/>
+  <path d="m74 416 38-18m-5-28 43-15m-28-8 35-13m251-255 35-15m-41 47 48-17m-56 48 33-11" stroke="#17f7ff" stroke-width="8" stroke-linecap="square" opacity=".9"/>
 </svg>

@@ -50,8 +50,8 @@ for(const token of ['RANK_TO_TIER','decorateCertRows','decorateMedalShelf',"S:'d
 
 const finalLayers=(symbols+typography+overrides+depth+templateOne+nexusTheme+icon).toLowerCase();
 for(const forbidden of ['#ff7ad9','#c084fc','#9b8cff','#ff6ee0','#d946ef','#ec4899','#d8b0ff','#b03fd0','#ff5d7d','#ff6b8a','#a55ef0','#d0a6ff'])require(!finalLayers.includes(forbidden),`Forbidden legacy presentation colour ${forbidden} remains in an active final layer.`);
-require((icon.match(/data-stage=/g)||[]).length===5,'Application icon must encode all five progression stages.');
-require(icon.includes('data-goal="true"'),'Application icon is missing its explicit goal marker.');
+require(icon.includes('aria-label="Nexus neon N"'),'Application icon must expose the Nexus identity.');
+for(const colour of ['#00eaf2','#15f6ff','#ff1687'])require(icon.includes(colour),`Application icon is missing Template 1 colour ${colour}.`);
 require(!/[\u{1F300}-\u{1FAFF}]/u.test(typography+symbols+nexusTheme),'Presentation CSS should not use decorative emoji.');
 
 for(const token of ['--nx-black','--nx-white','--nx-cyan','--nx-red','--nx-amber','--nx-green'])require(nexusTheme.includes(token),`Nexus Template 1 design token missing ${token}`);
@@ -70,10 +70,10 @@ require(!worker.includes("'./mechanical-chassis.css'"),'Service worker still tre
 require(!worker.includes("'./assets/hud/chassis-frame.webp'"),'Service worker still caches retired chassis artwork as a core asset.');
 require(!worker.includes("'./assets/hud/portal.png'"),'Service worker still caches retired portal artwork as a core asset.');
 require(worker.includes(`cert-tracker-assets-v${pkg.version}`),'Service-worker cache version must match package.json while preserving the compatibility prefix.');
-require(manifest.includes('"background_color":"#030811"')&&manifest.includes('"theme_color":"#08131f"'),'Manifest does not carry the installed-app colours.');
+require(manifest.includes('"background_color":"#01070a"')&&manifest.includes('"theme_color":"#00eaf2"'),'Manifest does not carry the installed-app Template 1 colours.');
 require(config.includes(`app: '${pkg.version}'`),'Visible application version must match package.json.');
 
-for(const asset of ['pathway-emblems.svg','tier-bronze.png','tier-silver.png','tier-gold.png','tier-platinum.png','tier-diamond.png','strategy.png','roadmap.png','learning.png','customize.png','app-icon-192.png','app-icon-512.png']){
+for(const asset of ['pathway-emblems.svg','tier-bronze.png','tier-silver.png','tier-gold.png','tier-platinum.png','tier-diamond.png','strategy.png','roadmap.png','learning.png','customize.png','app-icon-192.png','app-icon-512.png','apple-touch-icon-dark-180.png']){
   require(fs.existsSync(`assets/hud/${asset}`),`Supported Nexus asset missing assets/hud/${asset}`);
   require(worker.includes(`'./assets/hud/${asset}'`),`Service worker does not cache assets/hud/${asset}`);
 }
