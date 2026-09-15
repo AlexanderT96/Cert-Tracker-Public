@@ -43,6 +43,8 @@ assert.match(manifest,/"theme_color":"#00eaf2"/,'Installed app must use the Temp
 assert.match(manifest,/app-icon-192\.png/,'Manifest must declare the mobile bookmark icon.');
 assert.match(manifest,/app-icon-512\.png/,'Manifest must declare the maskable PWA icon.');
 assert.match(icon,/aria-label="Nexus neon N"/,'Browser icon must use the Nexus Template 1 identity.');
+assert.match(exact,/\.ct-depth-surface\{transform:none!important;transform-style:flat!important\}/,'Exact theme must keep cards in one pointer-safe paint plane.');
+assert.match(exact,/\.nx-sidebar \.tab\[data-workspace-tab="customize"\]\{display:flex!important\}/,'Desktop Settings navigation must remain visible.');
 
 for(const structure of ['nx-brand-banner','nx-sidebar','nx-mission-meter','nx-mission-briefs']){
   assert.ok(renderer.includes(structure),`Missing Template 1 structural element ${structure}`);
