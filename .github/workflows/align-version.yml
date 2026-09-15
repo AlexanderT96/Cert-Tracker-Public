@@ -1,0 +1,46 @@
+name: Align visible app version
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - '.github/workflows/align-version.yml'
+
+permissions:
+  contents: write
+
+jobs:
+  align:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: main
+          fetch-depth: 0
+      - name: Align configuration version
+        shell: bash
+        run: |
+          set -euo pipefail
+          git fetch origin main
+          git reset --hard origin/main
+          python - <<'PY'
+          from pathlib import Path
+          p=Path('src/config.js')
+          s=p.read_text()
+          old="app: '4.27.0'"
+          new="app: '4.27.2'"
+          if old not in s:
+              raise SystemExit('Expected old version not found')
+          p.write_text(s.replace(old,new,1))
+          PY
+          node --check src/config.js
+      - name: Commit version alignment
+        shell: bash
+        run: |
+          set -euo pipefail
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add src/config.js
+          git commit -m 'Align visible app version with 4.27.2'
+          git pull --rebase origin main
+          git push origin HEAD:main
