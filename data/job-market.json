@@ -22,8 +22,8 @@
   "providerCoverage": {
     "successes": 0,
     "failures": 0,
-    "queries": 66,
-    "fullSweepHours": 22
+    "queries": 85,
+    "fullSweepHours": 29
   },
   "queries": [
     "it support engineer",
@@ -91,7 +91,26 @@
     "it service delivery manager",
     "engineering manager",
     "business continuity & resilience manager",
-    "cybersecurity due diligence consultant"
+    "cybersecurity due diligence consultant",
+    "security systems analyst",
+    "physical security systems analyst",
+    "physical security platform engineer",
+    "enterprise security systems engineer",
+    "physical security technical consultant",
+    "physical security solutions engineer",
+    "physical security solutions architect",
+    "physical security pre sales engineer",
+    "security technology consultant",
+    "electronic security solutions engineer",
+    "video surveillance solutions engineer",
+    "security systems technical architect",
+    "security convergence architect",
+    "physical cyber convergence architect",
+    "smart building security architect",
+    "OT security architect",
+    "VMS PACS engineer",
+    "infrastructure networking building solutions architect",
+    "converged security solutions architect"
   ],
   "lastBatch": [],
   "providerStatus": [
