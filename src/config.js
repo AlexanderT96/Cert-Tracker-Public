@@ -1,11 +1,11 @@
-// Cert Tracker — central configuration. No build step required.
+// Nexus — central configuration. No build step required.
 (function initConfig(global) {
   'use strict';
 
   const CT = global.CertTrackerV3 = global.CertTrackerV3 || {};
 
   CT.version = Object.freeze({
-    app: '4.28.0',
+    app: '4.28.1',
     data: 71,
     storage: 12,
     backup: 11,
