@@ -122,7 +122,10 @@
 
   function pillarSummary(id,rows,context){
     const spec=PILLARS[id],items=rows.filter(row=>row.pillar===id).sort((a,b)=>b.personalScore-a.personalScore||a.daysUntil-b.daysUntil);
-    const top=items.slice(0,3),score=top.length?Math.round(top.reduce((s,x,i)=>s+x.personalScore*(i===0?.55:i===1?.30:.15),0)/(top.length===1?.55:top.length===2?.85:1)):0;
+    const top=items.slice(0,3);
+    const weighted=top.reduce((sum,item,index)=>sum+item.personalScore*(index===0 ? .55 : index===1 ? .30 : .15),0);
+    const divisor=top.length===1 ? .55 : top.length===2 ? .85 : 1;
+    const score=top.length?Math.round(weighted/divisor):0;
     const open=items.filter(x=>['OPEN','WAITING','NEEDS REVIEW'].includes(text(x.actionState).toUpperCase())).length;
     const urgent=items.filter(x=>x.interrupt).length;
     const next=items.filter(x=>x.daysUntil>=0).sort((a,b)=>a.daysUntil-b.daysUntil)[0]||null;
