@@ -7,6 +7,7 @@ const css=read('nexus-template-one.css');
 const exact=read('nexus-template-one-exact.css');
 const cleanup=read('nexus-template-one-cleanup.css');
 const theme=read('src/nexus-theme.js');
+const shell=read('src/workspace-shell.js');
 const renderer=read('src/renderer.js');
 const sw=read('sw.js');
 const manifest=read('manifest.json');
@@ -45,6 +46,12 @@ assert.match(manifest,/app-icon-512\.png/,'Manifest must declare the maskable PW
 assert.match(icon,/aria-label="Nexus neon N"/,'Browser icon must use the Nexus Template 1 identity.');
 assert.match(exact,/\.ct-depth-surface\{transform:none!important;transform-style:flat!important\}/,'Exact theme must keep cards in one pointer-safe paint plane.');
 assert.match(exact,/\.nx-sidebar \.tab\[data-workspace-tab="customize"\]\{display:flex!important\}/,'Desktop Settings navigation must remain visible.');
+assert.match(exact,/#tab-content:has\(>\.dash-hero\)>\.dash-hero\{order:0!important\}/,'Approved mission hero must remain the first visible dashboard surface.');
+assert.match(exact,/\.nx-sidebar \.nx-sidebar-link/,'Reference sidebar shortcut styling is missing.');
+assert.match(exact,/@media\(max-width:760px\)\{\.nx-brand-banner\{display:none!important\}\}/,'Mobile must use the dedicated compact Nexus topbar, not a scaled desktop composition.');
+assert.match(exact,/#ct-account-connections-launcher\{display:none!important\}/,'Legacy account launcher must not overlay the approved dashboard masthead.');
+assert.match(shell,/exactNavigation:true/,'Exact sidebar navigation guard is missing.');
+assert.match(shell,/data-nx-shortcut/,'Exact sidebar shortcuts are missing.');
 
 for(const structure of ['nx-brand-banner','nx-sidebar','nx-mission-meter','nx-mission-briefs']){
   assert.ok(renderer.includes(structure),`Missing Template 1 structural element ${structure}`);

@@ -87,6 +87,7 @@
   }
   function applyNavigation(){
     const nav=document.querySelector('.tabs');if(!nav)return;const s=settings();
+    if(CT.workspaceShell?.exactNavigation)return;
     const seen=new Set();
     [...nav.querySelectorAll('.tab')].forEach(button=>{
       const tab=button.dataset.workspaceTab||button.dataset.ctWorkspace;

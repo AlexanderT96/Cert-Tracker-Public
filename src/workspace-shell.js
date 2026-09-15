@@ -50,10 +50,22 @@
   function renderNavigation(){
     const nav=document.querySelector('.tabs');if(!nav)return;
     const tabs=availableTabs(),preferred=['dashboard','learning','certifications','strategy','roadmap','customize'];
-    nav.innerHTML=[...tabs].sort((a,b)=>preferred.indexOf(a)-preferred.indexOf(b)).map(tabButton).join('');
+    const ordered=[...tabs].sort((a,b)=>preferred.indexOf(a)-preferred.indexOf(b));
+    const primary=ordered.filter(tab=>tab!=='customize'),settings=ordered.filter(tab=>tab==='customize');
+    const shortcuts=[
+      ['projects','▣','Projects'],['calendar','□','Calendar'],['market','⌁','Market Intelligence'],
+      ['jobs','◇','Job Pathways'],['resources','▱','Resources'],['notes','▤','Notes']
+    ].map(([id,glyph,label])=>`<button type="button" class="nx-sidebar-link" data-nx-shortcut="${id}"><span aria-hidden="true">${glyph}</span><span>${label}</span></button>`).join('');
+    nav.innerHTML=primary.map(tabButton).join('')+shortcuts+settings.map(tabButton).join('');
     dedupeNavigation(nav);
     installNavigationGuard(nav);
     nav.querySelectorAll('[data-workspace-tab]').forEach(button=>button.addEventListener('click',()=>switchTab(button.dataset.workspaceTab)));
+    const shortcutActions={
+      projects:()=>switchTab('strategy'),calendar:()=>document.getElementById('ct3-launcher')?.click(),
+      market:()=>document.getElementById('ct31-market-launcher')?.click(),jobs:()=>document.getElementById('ct-career-launcher')?.click(),
+      resources:()=>switchTab('learning'),notes:()=>switchTab('certifications')
+    };
+    nav.querySelectorAll('[data-nx-shortcut]').forEach(button=>button.addEventListener('click',()=>shortcutActions[button.dataset.nxShortcut]?.()));
   }
   function syncDesktopNavigation(){
     document.querySelectorAll('[data-workspace-tab]').forEach(button=>{
@@ -197,7 +209,7 @@
   global.switchTab=switchTab;
   global.addEventListener('certtracker:layout-changed',()=>{syncMobileNavigation();if(document.documentElement.dataset.layout!=='mobile')closeMobileMore();});
   global.addEventListener('keydown',event=>{if(event.key==='Escape'&&!document.getElementById('ct-mobile-more-layer')?.hidden)closeMobileMore();});
-  CT.workspaceShell=Object.freeze({renderApp,switchTab,availableTabs,decorate,focusHtml,dedupeNavigation,syncMobileNavigation,syncDesktopNavigation});
+  CT.workspaceShell=Object.freeze({renderApp,switchTab,availableTabs,decorate,focusHtml,dedupeNavigation,syncMobileNavigation,syncDesktopNavigation,exactNavigation:true});
   // bootstrap.js owns initial rendering. Keeping this module passive prevents duplicate
   // first renders and keeps the browser regression harness lightweight.
 })(window);

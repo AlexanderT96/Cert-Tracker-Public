@@ -1,5 +1,5 @@
 // Nexus service worker — offline-first without stale application code.
-const CACHE='cert-tracker-assets-v4.31.2-template-one-exact3';
+const CACHE='cert-tracker-assets-v4.31.3-template-one-exact4';
 const CORE_ASSETS=[
   './assets/nexus-template-one-reference.jpg',
   './','./index.html','./styles.css','./professional.css','./professional-components.css','./learning-resources.css','./roadmap-map.css','./roadmap-zoom.css','./professional-overrides.css','./professional-depth.css','./professional-symbols.css','./professional-typography.css','./responsive-layout.css','./browser-compat.css','./mobile-navigation.css','./today-recommendations.css','./notification-center.css','./platform-alignment.css','./career-advisor.css','./career-mentor.css','./weekly-coach.css','./mobile-polish.css','./template-one.css','./nexus-template-one.css','./nexus-template-one-exact.css','./nexus-template-one-cleanup.css',
