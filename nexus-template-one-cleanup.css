@@ -1,0 +1,77 @@
+/* Nexus v4.29.1 — residual legacy-graphics purge.
+   Loaded and pinned by src/nexus-theme.js after every runtime style.
+   Credential/pathway progression emblems remain; generic legacy HUD artwork does not. */
+
+:root{--nx-icon-line:#3f626b;--nx-icon-hot:#22e5e5;--nx-icon-critical:#ff4438}
+
+/* Generic navigation icons become terminal index markers instead of old HUD PNGs. */
+.tab-glyph,.ct-mobile-nav-icon{
+  position:relative!important;display:grid!important;place-items:center!important;
+  width:25px!important;height:21px!important;min-width:25px!important;
+  border:1px solid var(--nx-icon-line)!important;border-radius:0!important;
+  background:none!important;background-image:none!important;
+  filter:none!important;opacity:1!important;color:#789097!important;
+  clip-path:polygon(4px 0,100% 0,calc(100% - 4px) 100%,0 100%)!important;
+  box-shadow:inset 2px 0 rgba(34,229,229,.13)!important;
+  font:800 8px/1 "Cascadia Code","Cascadia Mono",monospace!important;
+  letter-spacing:.04em!important;text-indent:0!important
+}
+.tab-glyph::before,.ct-mobile-nav-icon::before{display:block!important;background:none!important;filter:none!important}
+.tab[data-workspace-tab="dashboard"] .tab-glyph::before,.ct-mobile-navigation [data-mobile-tab="dashboard"] .ct-mobile-nav-icon::before{content:"01"!important}
+.tab[data-workspace-tab="learning"] .tab-glyph::before,.ct-mobile-navigation [data-mobile-tab="learning"] .ct-mobile-nav-icon::before{content:"02"!important}
+.tab[data-workspace-tab="roadmap"] .tab-glyph::before,.ct-mobile-navigation [data-mobile-tab="roadmap"] .ct-mobile-nav-icon::before{content:"03"!important}
+.tab[data-workspace-tab="certifications"] .tab-glyph::before,.ct-mobile-navigation [data-mobile-tab="certifications"] .ct-mobile-nav-icon::before{content:"04"!important}
+.tab[data-workspace-tab="strategy"] .tab-glyph::before{content:"05"!important}
+.tab[data-workspace-tab="customize"] .tab-glyph::before{content:"06"!important}
+.ct-mobile-navigation [data-mobile-more] .ct-mobile-nav-icon::before{content:"++"!important}
+.tab.active .tab-glyph,.ct-mobile-navigation button.active .ct-mobile-nav-icon{
+  border-color:var(--nx-icon-hot)!important;color:#d3ffff!important;
+  background:rgba(34,229,229,.055)!important;filter:none!important;
+  box-shadow:inset 2px 0 var(--nx-icon-hot),0 0 12px rgba(34,229,229,.14)!important
+}
+
+/* Old image-backed utility controls are replaced with simple technical marks. */
+.cert-search-icon{position:absolute!important;background:none!important;background-image:none!important;filter:none!important;opacity:1!important;width:20px!important;height:20px!important;border:2px solid #688087!important;border-radius:50%!important;box-sizing:border-box!important}
+.cert-search-icon::after{content:""!important;position:absolute!important;width:8px!important;height:2px!important;right:-6px!important;bottom:-3px!important;background:#688087!important;transform:rotate(45deg)!important;transform-origin:left center!important}
+.cert-filter-disclosure>summary{background-image:none!important;position:relative!important}
+.cert-filter-disclosure>summary::before{content:"FLTR"!important;position:absolute!important;left:17px!important;top:50%!important;transform:translateY(-50%)!important;color:var(--nx-icon-critical)!important;font:800 8px/1 "Cascadia Code","Cascadia Mono",monospace!important;letter-spacing:.08em!important}
+
+/* Floating actions must not inherit old medallion/mechanical artwork. */
+#ct3-launcher::before,#ct3-launcher::after,.ct-mobile-today-button::before,.ct-mobile-today-button::after{
+  content:none!important;display:none!important;background:none!important;background-image:none!important;filter:none!important
+}
+#ct3-launcher,.ct-mobile-today-button{gap:0!important;padding-left:20px!important;padding-right:20px!important}
+
+/* Generic pathway/filter glyphs use a low-noise Nexus terminal mark. */
+.ct-job-icon,.ct-map-scope .ct-job-icon{
+  display:inline-grid!important;place-items:center!important;width:24px!important;height:24px!important;
+  border:1px solid #37616b!important;border-radius:0!important;background:none!important;background-image:none!important;
+  filter:none!important;color:#8efafa!important;clip-path:polygon(4px 0,100% 0,calc(100% - 4px) 100%,0 100%)!important
+}
+.ct-job-icon::before{content:"N"!important;font:900 9px/1 "Cascadia Code","Cascadia Mono",monospace!important;letter-spacing:0!important}
+.ct-job-icon svg,.ct-job-icon img{display:none!important}
+
+/* Remaining phase/readiness blocks use the same clipped chassis, not soft pills. */
+.ct-map-phase-number,.phase-stage-tag,.career-pathway-stage,.career-pathway-step,.current-run-panel,.stat-pill{
+  border-radius:0!important
+}
+.ct-map-phase-number{
+  border:1px solid #3a6671!important;background:#071216!important;color:#caffff!important;
+  box-shadow:inset 3px 0 var(--nx-icon-hot)!important;clip-path:polygon(5px 0,100% 0,calc(100% - 5px) 100%,0 100%)!important
+}
+
+/* Neutralise decorative pseudo-image hooks from retired chassis layers. */
+.header-core::before,.header-core::after,.tools-bar::before,.tools-bar::after,.card-title::before,.card-title::after{
+  background-image:none!important;filter:none!important
+}
+
+/* Preserve credential/pathway emblems, but remove image glows that make them look like the retired HUD. */
+.ct-credential-mark,.cert-badge-medallion,.phase-num{
+  filter:drop-shadow(0 5px 5px rgba(0,0,0,.62))!important
+}
+
+@media(max-width:760px){
+  .tab-glyph,.ct-mobile-nav-icon{width:25px!important;height:20px!important;font-size:8px!important}
+  .ct-mobile-navigation button.active .ct-mobile-nav-icon{box-shadow:inset 0 -2px var(--nx-icon-hot)!important}
+  .ct-mobile-today-button{padding-left:17px!important;padding-right:17px!important}
+}
