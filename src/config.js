@@ -2,10 +2,11 @@
 (function initConfig(global) {
   'use strict';
 
+  // Internal namespace and ct4-* keys intentionally remain stable for state/sync compatibility.
   const CT = global.CertTrackerV3 = global.CertTrackerV3 || {};
 
   CT.version = Object.freeze({
-    app: '4.28.1',
+    app: '4.29.0',
     data: 71,
     storage: 12,
     backup: 11,
@@ -75,7 +76,7 @@
     },
     emit(name, detail) {
       (listeners.get(name) || []).forEach(handler => {
-        try { handler(detail); } catch (error) { console.error('[CertTracker event]', name, error); }
+        try { handler(detail); } catch (error) { console.error('[Nexus event]', name, error); }
       });
       try { global.dispatchEvent(new CustomEvent(`certtracker:${name}`, { detail })); } catch {}
     }
