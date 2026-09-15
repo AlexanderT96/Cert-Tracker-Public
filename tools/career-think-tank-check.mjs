@@ -25,7 +25,7 @@ const thinkTankSandbox={window:{CertTrackerV3:{}}};
 vm.createContext(thinkTankSandbox);
 vm.runInContext(fs.readFileSync('src/career-think-tank.js','utf8'),thinkTankSandbox,{filename:'src/career-think-tank.js'});
 const model=thinkTankSandbox.window.CertTrackerV3.careerThinkTank;
-assert.equal(model?.version,'14.0');
+assert.equal(model?.version,'14.1');
 assert.equal(model?.MY_PATH_POLICY?.target,'Security Convergence Architect');
 assert.equal(model?.MY_PATH_POLICY?.minimumConsensus,85);
 assert.equal(model?.MY_PATH_POLICY?.retainCatalogue,true);
@@ -35,6 +35,9 @@ assert.equal(Object.values(model?.WEIGHTS||{}).reduce((sum,value)=>sum+value,0),
 assert.equal(Array.from(model?.BRIDGE_LADDER||[]).at(-1)?.label,'Security Convergence Architect');
 assert.ok(Array.from(model?.SEARCH_QUERIES||[]).some(q=>/physical security technical consultant/i.test(q)));
 assert.ok(Array.from(model?.SEARCH_QUERIES||[]).some(q=>/security convergence architect/i.test(q)));
+assert.equal(model?.CAREER_SEATS?.WORK?.chair,true);
+assert.equal(model?.CAREER_SEATS?.CERT?.chair,true);
+assert.equal(model?.CAREER_SEATS?.ENTERTAINMENT?.conditional,true);
 
 const highFit=model.classify({currentCapability:80,gapCloseability:80,endgameLeverage:90,marketDemand:80,compensation:70,remoteFit:90,travelFit:90,workStyleFit:90,technicalDepth:80,evidenceOpportunity:70});
 assert.equal(highFit,'HIGH_FIT');
@@ -45,4 +48,39 @@ assert.equal(future,'FUTURE_SIGNAL');
 const constrained=model.classify({hardConstraint:true,currentCapability:95,endgameLeverage:95});
 assert.equal(constrained,'SKIP_CONSTRAINT');
 
-console.log(`Career think tank OK: ${model.BRIDGE_LADDER.length} bridge stages, ${model.SEARCH_QUERIES.length} role queries, target ${model.MY_PATH_POLICY.target}`);
+const approved=model.synthesiseCouncil({positions:[
+  {pillar:'WORK',stance:'SUPPORT',confidence:95,rationale:'Fits constraints and timing.'},
+  {pillar:'CERT',stance:'SUPPORT',confidence:95,rationale:'Strong market and roadmap evidence.'},
+  {pillar:'VENDOR',stance:'SUPPORT',confidence:90,rationale:'Technically valid convergence bridge.'},
+  {pillar:'TRAINING',stance:'SUPPORT',confidence:90,rationale:'Gaps are closeable without derailing foreground study.'},
+  {pillar:'ENTERTAINMENT',stance:'OPPOSE',confidence:99,material:false,rationale:'Non-material hobby preference.'}
+]});
+assert.equal(approved.status,'APPROVED');
+assert.ok(approved.consensus>=85);
+assert.ok(!approved.participants.includes('ENTERTAINMENT'),'conditional seat must abstain when not material');
+
+const blocked=model.synthesiseCouncil({positions:[
+  {pillar:'WORK',stance:'SUPPORT',confidence:95},
+  {pillar:'CERT',stance:'SUPPORT',confidence:95},
+  {pillar:'VENDOR',stance:'OPPOSE',confidence:90,rationale:'Role is installation-heavy and does not build architecture evidence.'},
+  {pillar:'TRAINING',stance:'SUPPORT',confidence:90}
+]});
+assert.equal(blocked.status,'BLOCKED');
+assert.ok(blocked.blockers.includes('VENDOR'));
+assert.ok(blocked.dissent.some(row=>row.pillar==='VENDOR'&&row.stance==='OPPOSE'));
+
+const missingChair=model.synthesiseCouncil({positions:[
+  {pillar:'CERT',stance:'SUPPORT',confidence:95},
+  {pillar:'VENDOR',stance:'SUPPORT',confidence:90},
+  {pillar:'TRAINING',stance:'SUPPORT',confidence:90}
+]});
+assert.equal(missingChair.status,'NEEDS_EVIDENCE');
+assert.ok(missingChair.missingChairs.includes('WORK'));
+
+const eligible=model.autoApplyEligibility({council:approved,guardrails:{currentMarketEvidence:true,reversibleDiff:true,changeReceipt:true,testsPassed:true,scopeAllowed:true,preservesProgress:true,preservesCatalogue:true}});
+assert.equal(eligible.eligible,true);
+const unsafe=model.autoApplyEligibility({council:approved,guardrails:{currentMarketEvidence:true,reversibleDiff:true,changeReceipt:true,testsPassed:false,scopeAllowed:true,preservesProgress:true,preservesCatalogue:true}});
+assert.equal(unsafe.eligible,false);
+assert.ok(unsafe.failed.includes('testsPassed'));
+
+console.log(`Career think tank OK: ${model.BRIDGE_LADDER.length} bridge stages, ${model.SEARCH_QUERIES.length} role queries, target ${model.MY_PATH_POLICY.target}, council ${approved.consensus}%`);
