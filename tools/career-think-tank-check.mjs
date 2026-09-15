@@ -39,6 +39,11 @@ assert.equal(model?.CAREER_SEATS?.WORK?.chair,true);
 assert.equal(model?.CAREER_SEATS?.CERT?.chair,true);
 assert.equal(model?.CAREER_SEATS?.ENTERTAINMENT?.conditional,true);
 
+const refreshSource=fs.readFileSync('tools/refresh-job-market.mjs','utf8');
+assert.match(refreshSource,/career-think-tank\.js/,'market refresher must consume the V14 think-tank query vocabulary');
+assert.match(refreshSource,/PRIORITY_QUERIES/,'market refresher must preserve a personalised priority pool');
+assert.match(refreshSource,/2 priority : 1 general/,'market refresher must allocate most provider budget to convergence roles while retaining discovery');
+
 const highFit=model.classify({currentCapability:80,gapCloseability:80,endgameLeverage:90,marketDemand:80,compensation:70,remoteFit:90,travelFit:90,workStyleFit:90,technicalDepth:80,evidenceOpportunity:70});
 assert.equal(highFit,'HIGH_FIT');
 const stretch=model.classify({currentCapability:55,gapCloseability:70,endgameLeverage:85,marketDemand:75,compensation:70,remoteFit:70,travelFit:70,workStyleFit:70,technicalDepth:80,evidenceOpportunity:70});
