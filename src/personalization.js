@@ -1,4 +1,4 @@
-// Cert Tracker — user-controlled visual and layout personalisation.
+// Nexus — user-controlled visual and layout personalisation.
 // Settings are browser-local state and participate in encrypted backup/sync.
 (function initPersonalization(global){
   'use strict';
@@ -13,7 +13,7 @@
   });
 
   const DEFAULTS=Object.freeze({
-    preset:'professional',appTitle:'Cert Tracker',fontScale:1,density:1,radius:10,cardRadius:14,controlRadius:9,contentWidth:1240,panelOpacity:.97,shadowStrength:.4,glowStrength:.15,borderWidth:1,
+    preset:'professional',appTitle:'Nexus',fontScale:1,density:1,radius:10,cardRadius:14,controlRadius:9,contentWidth:1240,panelOpacity:.97,shadowStrength:.4,glowStrength:.15,borderWidth:1,
     animations:true,glass:true,shadows:true,navStyle:'standard',badgeStyle:'standard',
     colors:{...PRESETS.professional.colors},
     phaseColors:{ph1:'#4ea8ff',ph2:'#47bdd4',ph3:'#3bd3a1',ph4:'#f0b957',ph5:'#e38b5a',ph6:'#8fa5b9'},
@@ -30,6 +30,13 @@
   function tabOrder(){const s=settings();const valid=['dashboard','learning','roadmap','certifications','strategy','customize'];return [...new Set((s.tabOrder||[]).filter(x=>valid.includes(x)).concat(valid))].filter(tab=>tab==='customize'||s.visibility?.[tab]!==false);}
   function tabLabel(tab){const label=String(settings().tabLabels?.[tab]||DEFAULTS.tabLabels[tab]||tab);return tab==='strategy'&&label==='Strategy'?'Career Options':label;}
   function title(){return String(settings().appTitle||DEFAULTS.appTitle).slice(0,40);}
+  function migrateLegacyBrand(){
+    const current=state.customization;
+    if(!current||typeof current!=='object')return false;
+    const appTitle=String(current.appTitle||'').trim();
+    if(appTitle&&appTitle!=='Cert Tracker'&&appTitle!=='CertTracker')return false;
+    current.appTitle='Nexus';save.customization?.();return true;
+  }
 
   function migrateLegacyProfessional(){
     const current=state.customization;
@@ -103,7 +110,7 @@
     const today=document.getElementById('ct3-launcher');if(today&&today.parentElement!==document.body)document.body.appendChild(today);
     if(!dock.hidden)dock.hidden=true;
   }
-  function init(){if(!state.customization||typeof state.customization!=='object')state.customization=clone(DEFAULTS);else migrateLegacyProfessional();apply();let queued=false;const refresh=()=>{if(queued)return;queued=true;requestAnimationFrame(()=>{queued=false;applyVisibility(settings().visibility||{});applyNavigation();organiseDock();});};new MutationObserver(refresh).observe(document.body,{childList:true,subtree:false});global.addEventListener('certtracker:workspace-rendered',refresh);}
-  CT.personalization=Object.freeze({PRESETS,DEFAULTS,settings,apply,update,preset,reset,tabOrder,tabLabel,title,applyNavigation,organiseDock,migrateLegacyProfessional});
+  function init(){if(!state.customization||typeof state.customization!=='object')state.customization=clone(DEFAULTS);else{migrateLegacyBrand();migrateLegacyProfessional();}apply();let queued=false;const refresh=()=>{if(queued)return;queued=true;requestAnimationFrame(()=>{queued=false;applyVisibility(settings().visibility||{});applyNavigation();organiseDock();});};new MutationObserver(refresh).observe(document.body,{childList:true,subtree:false});global.addEventListener('certtracker:workspace-rendered',refresh);}
+  CT.personalization=Object.freeze({PRESETS,DEFAULTS,settings,apply,update,preset,reset,tabOrder,tabLabel,title,applyNavigation,organiseDock,migrateLegacyBrand,migrateLegacyProfessional});
   if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',init,{once:true});else init();
 })(window);
