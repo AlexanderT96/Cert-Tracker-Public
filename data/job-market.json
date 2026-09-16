@@ -1,6 +1,6 @@
 {
   "schemaVersion": 4,
-  "lastAttemptAt": "2026-09-15T22:08:13.378Z",
+  "lastAttemptAt": "2026-09-16T01:20:41.775Z",
   "lastSuccessfulFetchAt": null,
   "fetchedAt": null,
   "status": "degraded",
@@ -10,8 +10,8 @@
   "location": "United Kingdom",
   "refreshTargetMinutes": 60,
   "requestBudget": {
-    "hour": "2026-09-15T22",
-    "day": "2026-09-15",
+    "hour": "2026-09-16T01",
+    "day": "2026-09-16",
     "month": "2026-09",
     "hourCount": 0,
     "dayCount": 0,
@@ -22,8 +22,8 @@
   "providerCoverage": {
     "successes": 0,
     "failures": 0,
-    "queries": 85,
-    "fullSweepHours": 29
+    "queries": 66,
+    "fullSweepHours": 22
   },
   "queries": [
     "it support engineer",
@@ -91,26 +91,7 @@
     "it service delivery manager",
     "engineering manager",
     "business continuity & resilience manager",
-    "cybersecurity due diligence consultant",
-    "security systems analyst",
-    "physical security systems analyst",
-    "physical security platform engineer",
-    "enterprise security systems engineer",
-    "physical security technical consultant",
-    "physical security solutions engineer",
-    "physical security solutions architect",
-    "physical security pre sales engineer",
-    "security technology consultant",
-    "electronic security solutions engineer",
-    "video surveillance solutions engineer",
-    "security systems technical architect",
-    "security convergence architect",
-    "physical cyber convergence architect",
-    "smart building security architect",
-    "OT security architect",
-    "VMS PACS engineer",
-    "infrastructure networking building solutions architect",
-    "converged security solutions architect"
+    "cybersecurity due diligence consultant"
   ],
   "lastBatch": [],
   "providerStatus": [
